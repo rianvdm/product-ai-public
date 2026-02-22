@@ -15,6 +15,7 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 
 * [`context/avoid-ai-patterns.md`](context/avoid-ai-patterns.md) -- To keep writing natural and human, avoid these telltale AI patterns:
 * [`context/product-philosophy.md`](context/product-philosophy.md) -- In this document I try to articulate something that can be notoriously hard to pin down: how I think about product work.
+* [`context/project-template.md`](context/project-template.md) -- Use this template to create a dedicated "project brain" folder for major initiatives.
 
 ### Prompts
 
