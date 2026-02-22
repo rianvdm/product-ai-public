@@ -1,0 +1,132 @@
+---
+description: Review generated files for accuracy, completeness, and style using multi-agent validation
+---
+
+# Review Generated File
+
+Review a file produced by another command (e.g., `/ask-se`, `/prd`, `/okr`) using parallel subagents with independent focus areas, followed by a validation pass that filters out false positives.
+
+## Input
+
+$ARGUMENTS
+
+The input should include a file path to review. Optionally, the user may append a `--focus` directive to add a custom lens (e.g., `--focus "verify all Jira links are real"`).
+
+**Parse the arguments:**
+* **File path** — everything before `--focus` (required)
+* **Custom focus** — everything after `--focus` (optional, passed to all three subagents as additional guidance)
+
+If no file path is provided, ask the user which file to review.
+
+## Pre-Flight
+
+1. **Read the target file** using the Read tool. If it doesn't exist, stop and tell the user.
+
+2. **Detect the source command** from the file's location to determine which format spec to check against:
+
+| File location | Source command | Format reference |
+|---------------|---------------|------------------|
+| `work/support/` | `/ask-se` | `.opencode/command/ask-se.md` (Summary → Structure → Sources → FAQ sections) |
+| `*/prds/` | `/prd` | `prompts/pm/review-prd.md` (Problem-first, POA, required sections) |
+| `*/okrs/` | `/okr` | `prompts/pm/review-okrs.md` (Problem → End State → Objective → Key Results) |
+| Other | Unknown | `context/writing-style-work.md` (general style check only) |
+
+3. **Read the format reference file** so the style/structure agent has the spec.
+
+4. **Read the writing style file** (`context/writing-style-work.md` for work files, `context/writing-style-personal.md` for personal files).
+
+## Phase 1: Parallel Review (Three Subagents)
+
+Launch THREE (3) subagents in parallel using the Task tool. Each receives:
+* The full content of the target file
+* The file path
+* The format reference content (from Pre-Flight step 2)
+* The custom `--focus` directive, if provided
+* Their specific focus area (below)
+
+### Subagent 1: Factual Accuracy
+
+> Focus: Are claims, explanations, and technical details correct?
+
+Prompt the subagent to:
+* Check every factual claim against available sources (documentation, internal wiki, issue tracker, code repositories)
+* Flag hallucinated URLs, product names, feature descriptions, or behaviors
+* Verify code examples and configuration snippets are syntactically valid
+* Confirm referenced tickets, pages, or docs actually exist (use available tools)
+* For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and evidence
+
+### Subagent 2: Completeness & Gaps
+
+> Focus: Does the document fully address its stated scope?
+
+Prompt the subagent to:
+* Identify questions the document claims to answer but doesn't
+* Flag missing sections required by the format spec
+* Check for logical gaps (conclusions without supporting arguments, recommendations without trade-offs)
+* Note where "TODO", placeholder text, or thin sections suggest unfinished work
+* Check that sources/references are actually cited, not just listed
+* For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and what's missing
+
+### Subagent 3: Style & Structure
+
+> Focus: Does the document follow the expected format and writing standards?
+
+Prompt the subagent to:
+* Compare section structure against the format reference from the source command
+* Check adherence to writing style guide (lead with outcomes, no hype language, etc.)
+* Flag anti-patterns per `context/avoid-ai-patterns.md`: overused words and phrases, banned sentence structures, structural patterns (uniform rhythm, faux balance, arguments that teleport), excessive em dashes, overwrought sincerity
+* Verify link format correctness (wikilinks for internal, standard markdown for external)
+* Check file naming conventions (kebab-case, date prefix where needed)
+* For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and the specific violation
+
+**Custom focus:** If a `--focus` directive was provided, append it to each subagent's prompt as additional guidance: "The reviewer also asks you to pay special attention to: [custom focus]"
+
+## Phase 2: Deduplication
+
+After all three subagents complete, compile their findings and deduplicate:
+
+* **Same issue reported by multiple agents:** Keep the version with better evidence (more specific `file:line`, clearer explanation)
+* **Severity disagreements:** Use the higher severity
+* **Drop findings without a `file:line` reference** — vague observations don't survive this step
+
+Produce a compiled findings list.
+
+## Phase 3: Validation (One Subagent)
+
+Launch ONE (1) final subagent using the Task tool. Pass it:
+* The compiled findings from Phase 2
+* The full content of the target file
+* The custom `--focus` directive, if provided
+* This instruction:
+
+> "For each finding, read the content at the referenced file:line. Classify as:
+> * **Confirmed** — provably real; the issue exists at the cited location
+> * **Disputed** — not supported by the actual content at that location
+> * **Acknowledged** — real but not worth fixing (stylistic nitpick, acceptable trade-off, or intentional choice)
+>
+> Return only Confirmed findings, preserving their severity and evidence."
+
+## Output
+
+Present only **Confirmed** findings to the user, grouped by severity:
+
+```
+## Review: [filename]
+
+**Source command:** /ask-se (detected) | **Findings:** N confirmed
+
+### Critical
+* `file:line` — [description with evidence]
+
+### Major
+* `file:line` — [description with evidence]
+
+### Minor
+* `file:line` — [description with evidence]
+```
+
+If nothing survived validation, say:
+
+> **Review complete.** All findings were either disputed or acknowledged. The document looks solid.
+
+**Do NOT write the review output to a file** — display it inline in the conversation. This is a transient review, not a permanent artifact.

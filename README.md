@@ -6,6 +6,10 @@ Curated prompts, commands, and agents for AI-assisted product management. A subs
 
 This is a curated subset of my personal AI-assisted product management toolkit. These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, Cursor, or any LLM-based coding/writing assistant.
 
+### OpenCode Commands & Agents
+
+* [`.opencode/command/doc-review.md`](.opencode/command/doc-review.md) -- Review generated files for accuracy, completeness, and style using multi-agent validation
+
 ### Context Files
 
 * [`context/avoid-ai-patterns.md`](context/avoid-ai-patterns.md) -- To keep writing natural and human, avoid these telltale AI patterns:
