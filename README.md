@@ -9,6 +9,7 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 ### OpenCode Commands & Agents
 
 * [`.opencode/command/doc-review.md`](.opencode/command/doc-review.md) -- Review generated files for accuracy, completeness, and style using multi-agent validation
+* [`.opencode/command/new-project.md`](.opencode/command/new-project.md) -- Scaffold a new project brain folder
 
 ### Context Files
 
@@ -17,8 +18,10 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 
 ### Prompts
 
+* [`prompts/dev/brainstorming-planning.md`](prompts/dev/brainstorming-planning.md) -- Build ideas from scratch through guided discovery, then produce developer-ready specs and implementation prompts.
 * [`prompts/meta/meeting-summary.md`](prompts/meta/meeting-summary.md) -- Transform a meeting transcript into structured, scannable meeting notes that surface what matters: themes, decisions,...
 * [`prompts/pm/debate-product-idea.md`](prompts/pm/debate-product-idea.md) -- You are a simulator for a high-stakes product strategy debate.
+* [`prompts/pm/review-spec.md`](prompts/pm/review-spec.md) -- Review engineering specification documents (SPECs/FSPECs) to ensure they faithfully translate product requirements in...
 
 ## How to use these
 
