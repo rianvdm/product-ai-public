@@ -17,8 +17,8 @@ Review engineering specification documents (SPECs/FSPECs) to ensure they faithfu
 
 | File | When to Load |
 |------|--------------|
-| `context/product-philosophy.md` | Always — grounds review in outcome-focused thinking |
-| `context/writing-style-work.md` | When drafting written feedback |
+| `01-context/product-philosophy.md` | Always — grounds review in outcome-focused thinking |
+| `01-context/writing-style-work.md` | When drafting written feedback |
 | The corresponding PRD | Always — this is your source of truth for requirements |
 | Project CONTEXT.md | If available — captures decisions, open questions, and constraints |
 

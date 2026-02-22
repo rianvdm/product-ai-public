@@ -27,13 +27,13 @@ If no file path is provided, ask the user which file to review.
 | File location | Source command | Format reference |
 |---------------|---------------|------------------|
 | `work/support/` | `/ask-se` | `.opencode/command/ask-se.md` (Summary → Structure → Sources → FAQ sections) |
-| `*/prds/` | `/prd` | `prompts/pm/review-prd.md` (Problem-first, POA, required sections) |
-| `*/okrs/` | `/okr` | `prompts/pm/review-okrs.md` (Problem → End State → Objective → Key Results) |
-| Other | Unknown | `context/writing-style-work.md` (general style check only) |
+| `*/prds/` | `/prd` | `02-prompts/pm/review-prd.md` (Problem-first, POA, required sections) |
+| `*/okrs/` | `/okr` | `02-prompts/pm/review-okrs.md` (Problem → End State → Objective → Key Results) |
+| Other | Unknown | `01-context/writing-style-work.md` (general style check only) |
 
 3. **Read the format reference file** so the style/structure agent has the spec.
 
-4. **Read the writing style file** (`context/writing-style-work.md` for work files, `context/writing-style-personal.md` for personal files).
+4. **Read the writing style file** (`01-context/writing-style-work.md` for work files, `01-context/writing-style-personal.md` for personal files).
 
 ## Phase 1: Parallel Review (Three Subagents)
 
@@ -74,7 +74,7 @@ Prompt the subagent to:
 Prompt the subagent to:
 * Compare section structure against the format reference from the source command
 * Check adherence to writing style guide (lead with outcomes, no hype language, etc.)
-* Flag anti-patterns per `context/avoid-ai-patterns.md`: overused words and phrases, banned sentence structures, structural patterns (uniform rhythm, faux balance, arguments that teleport), excessive em dashes, overwrought sincerity
+* Flag anti-patterns per `01-context/avoid-ai-patterns.md`: overused words and phrases, banned sentence structures, structural patterns (uniform rhythm, faux balance, arguments that teleport), excessive em dashes, overwrought sincerity
 * Verify link format correctness (wikilinks for internal, standard markdown for external)
 * Check file naming conventions (kebab-case, date prefix where needed)
 * For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and the specific violation

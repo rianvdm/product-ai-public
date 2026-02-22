@@ -13,30 +13,30 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 
 ### Context Files
 
-* [`context/avoid-ai-patterns.md`](context/avoid-ai-patterns.md) -- To keep writing natural and human, avoid these telltale AI patterns:
-* [`context/product-philosophy.md`](context/product-philosophy.md) -- In this document I try to articulate something that can be notoriously hard to pin down: how I think about product work.
-* [`context/project-template.md`](context/project-template.md) -- Use this template to create a dedicated "project brain" folder for major initiatives.
+* [`01-context/avoid-ai-patterns.md`](01-context/avoid-ai-patterns.md) -- To keep writing natural and human, avoid these telltale AI patterns:
+* [`01-context/product-philosophy.md`](01-context/product-philosophy.md) -- In this document I try to articulate something that can be notoriously hard to pin down: how I think about product work.
+* [`01-context/project-template.md`](01-context/project-template.md) -- Use this template to create a dedicated "project brain" folder for major initiatives.
 
 ### Prompts
 
-* [`prompts/dev/brainstorming-planning.md`](prompts/dev/brainstorming-planning.md) -- Build ideas from scratch through guided discovery, then produce developer-ready specs and implementation prompts.
-* [`prompts/meta/meeting-summary.md`](prompts/meta/meeting-summary.md) -- Transform a meeting transcript into structured, scannable meeting notes that surface what matters: themes, decisions,...
-* [`prompts/pm/debate-product-idea.md`](prompts/pm/debate-product-idea.md) -- You are a simulator for a high-stakes product strategy debate.
-* [`prompts/pm/review-spec.md`](prompts/pm/review-spec.md) -- Review engineering specification documents (SPECs/FSPECs) to ensure they faithfully translate product requirements in...
+* [`02-prompts/dev/brainstorming-planning.md`](02-prompts/dev/brainstorming-planning.md) -- Build ideas from scratch through guided discovery, then produce developer-ready specs and implementation prompts.
+* [`02-prompts/meta/meeting-summary.md`](02-prompts/meta/meeting-summary.md) -- Transform a meeting transcript into structured, scannable meeting notes that surface what matters: themes, decisions,...
+* [`02-prompts/pm/debate-product-idea.md`](02-prompts/pm/debate-product-idea.md) -- You are a simulator for a high-stakes product strategy debate.
+* [`02-prompts/pm/review-spec.md`](02-prompts/pm/review-spec.md) -- Review engineering specification documents (SPECs/FSPECs) to ensure they faithfully translate product requirements in...
 
 ## How to use these
 
 Most of these files are **system prompts** or **prompt templates** you can paste into any LLM conversation. Some are designed for specific tools:
 
-* **`context/`** files work well as persistent context (system prompts, custom instructions, or project knowledge files)
-* **`prompts/`** files are task-specific prompts you paste when needed
+* **`01-context/`** files work well as persistent context (system prompts, custom instructions, or project knowledge files)
+* **`02-prompts/`** files are task-specific prompts you paste when needed
 * **`.opencode/command/`** files are [OpenCode](https://opencode.ai) slash commands (but the prompt content works anywhere)
 
 ## Adapting to your context
 
 These prompts reference a few personal conventions you'll want to adapt:
 
-* References to `context/*.md` files point to personal context documents (writing style, philosophy, etc.). Create your own equivalents.
+* References to `01-context/*.md` files point to personal context documents (writing style, philosophy, etc.). Create your own equivalents.
 * Some prompts mention MCP servers or tool integrations. Replace with whatever tools you use.
 * The writing style and product philosophy reflect my preferences. Adjust to match yours.
 
@@ -44,7 +44,7 @@ These prompts reference a few personal conventions you'll want to adapt:
 
 I'm [Rian van der Merwe](https://elezea.com), a product manager who uses AI tools extensively in my daily work. This repo contains the prompts and context files I've found most useful, published so others can adapt them.
 
-For more on my approach to product management and AI, see [`context/product-philosophy.md`](context/product-philosophy.md).
+For more on my approach to product management and AI, see [`01-context/product-philosophy.md`](01-context/product-philosophy.md).
 
 ## License
 

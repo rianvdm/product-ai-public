@@ -1,6 +1,6 @@
 # My Product Philosophy
 
-In this document I try to articulate something that can be notoriously hard to pin down: how I think about product work. This isn't a methodology or a framework to be adopted wholesale—it's a reflection of what I've learned over the years about what works, what doesn't, and why. Your mileage may vary, and that's okay.
+In this document I try to articulate something that can be notoriously hard to pin down: how I think about product work. This isn't a methodology or a framework to be adopted wholesale—it's a reflection of what I've learned over the years about what works, what doesn't, and why.
 
 ---
 
@@ -44,9 +44,9 @@ And then I trust teams to figure out the *how*. This doesn't mean I disappear—
 
 ## Collaboration Over Consensus
 
-I want diverse input and perspectives when making decisions. The best ideas often come from unexpected places—an engineer noticing a pattern in support tickets, a designer who's been watching user sessions, a customer success rep who keeps hearing the same complaint.
+I want diverse input and perspectives when making decisions. The best ideas often come from unexpected places. An engineer noticing a pattern in support tickets, a designer who's been watching user sessions, a customer success rep who keeps hearing the same complaint.
 
-But collaboration doesn't mean consensus. "Nothing is what happens when everyone has to agree," as Seth Godin puts it. At some point, someone needs to make a call. I believe that call should be made by the people closest to the problem and the data—not by the most senior person in the room or the loudest voice.
+But collaboration doesn't mean consensus. "Nothing is what happens when everyone has to agree," as Seth Godin puts it. At some point, someone needs to make a call. I believe that call should be made by the people closest to the problem and the data, not by the most senior person in the room or the loudest voice.
 
 This is why I like frameworks like [DACI](https://github.com/rianvdm/pm-resources/blob/main/processes/daci.md). Clear decision rights mean faster decisions and less second-guessing.
 
@@ -118,7 +118,7 @@ The common thread is that all of these prioritize understanding over action, col
 
 I'm a big fan of "working in the open." When we document our decisions—not just the outcomes, but the context and reasoning behind them—we build organizational memory. A year from now, when someone asks "why did we decide to do that?", we have an answer.
 
-This is especially important for strategy work. Strategies change often in some organizations precisely because no one remembers why the last one was chosen. If the context and journey are documented, the next person to come along has what they need to make an informed decision about whether to stay the course or change direction.
+This is especially important for strategy work. Strategies change often in some organizations precisely because no one remembers why the last one was chosen. If the context and reasoning are documented, the next person to come along has what they need to make an informed decision about whether to stay the course or change direction.
 
 Documentation isn't bureaucracy. It's a gift to your future self and your teammates.
 
@@ -146,7 +146,7 @@ This doesn't mean shipping half-baked work. Each release should deliver standalo
 
 ## The Person Comes First
 
-At the end of the day, products are made by people. And people do their best work when they're happy, healthy, and feel supported.
+Products are made by people. And people do their best work when they're happy, healthy, and feel supported.
 
 I believe the person will always be more important than the project. If someone is struggling—whether with the work, with something at home, or with their own wellbeing—that takes priority. We can adjust timelines. We can redistribute work. What we can't do is burn people out and expect great products to emerge.
 

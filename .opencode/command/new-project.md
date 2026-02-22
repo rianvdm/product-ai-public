@@ -5,8 +5,8 @@ description: Scaffold a new project brain folder
 # New Project Scaffolding
 
 Read these files before proceeding:
-- `context/project-template.md` - **REQUIRED: Project brain structure and templates**
-- `context/product-philosophy.md` - My product beliefs
+- `01-context/project-template.md` - **REQUIRED: Project brain structure and templates**
+- `01-context/product-philosophy.md` - My product beliefs
 
 ## Project Description
 
@@ -14,7 +14,7 @@ $ARGUMENTS
 
 ## Instructions
 
-Create a new project brain folder based on the template in `context/project-template.md`.
+Create a new project brain folder based on the template in `01-context/project-template.md`.
 
 ### Steps
 
@@ -32,7 +32,7 @@ Create a new project brain folder based on the template in `context/project-temp
    └── meetings/
    ```
 
-3. **Generate CONTEXT.md** using the template from `context/project-template.md`:
+3. **Generate CONTEXT.md** using the template from `01-context/project-template.md`:
    - Fill in the project name
    - Set Status to "Discovery"
    - Set PM to "[Author]"
