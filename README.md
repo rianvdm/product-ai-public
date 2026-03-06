@@ -10,6 +10,8 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 
 * [`.opencode/command/doc-review.md`](.opencode/command/doc-review.md) -- Review generated files for accuracy, completeness, and style using multi-agent validation
 * [`.opencode/command/new-project.md`](.opencode/command/new-project.md) -- Scaffold a new project brain folder
+* [`.opencode/command/session-end.md`](.opencode/command/session-end.md) -- Write a session handoff note before ending a substantive work session
+* [`.opencode/command/session-start.md`](.opencode/command/session-start.md) -- Load recent session context and corrections at the start of a work session
 
 ### Context Files
 
@@ -20,9 +22,13 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 ### Prompts
 
 * [`02-prompts/dev/brainstorming-planning.md`](02-prompts/dev/brainstorming-planning.md) -- Build ideas from scratch through guided discovery, then produce developer-ready specs and implementation prompts.
-* [`02-prompts/meta/meeting-summary.md`](02-prompts/meta/meeting-summary.md) -- Transform a meeting transcript into structured, scannable meeting notes that surface what matters: themes, decisions,...
+* [`02-prompts/meta/meeting-summary.md`](02-prompts/meta/meeting-summary.md)
 * [`02-prompts/pm/debate-product-idea.md`](02-prompts/pm/debate-product-idea.md) -- You are a simulator for a high-stakes product strategy debate.
 * [`02-prompts/pm/review-spec.md`](02-prompts/pm/review-spec.md) -- Review engineering specification documents (SPECs/FSPECs) to ensure they faithfully translate product requirements in...
+
+### 04-Docs
+
+* [`04-docs/2026-03-06-cross-session-memory.md`](04-docs/2026-03-06-cross-session-memory.md) -- This system gives the agent continuity between sessions without requiring automated extraction tools, vector database...
 
 ## How to use these
 

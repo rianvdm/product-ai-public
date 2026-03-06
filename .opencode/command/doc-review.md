@@ -27,7 +27,7 @@ If no file path is provided, ask the user which file to review.
 | File location | Source command | Format reference |
 |---------------|---------------|------------------|
 | `work/support/` | `/ask-se` | `.opencode/command/ask-se.md` (Summary → Structure → Sources → FAQ sections) |
-| `*/prds/` | `/prd` | `02-prompts/pm/review-prd.md` (Problem-first, POA, required sections) |
+| `*/prds/` | `/prd` | `02-prompts/pm/draft-review-prd.md` (Problem-first, POA, required sections) |
 | `*/okrs/` | `/okr` | `02-prompts/pm/review-okrs.md` (Problem → End State → Objective → Key Results) |
 | Other | Unknown | `01-context/writing-style-work.md` (general style check only) |
 
@@ -37,39 +37,58 @@ If no file path is provided, ask the user which file to review.
 
 ## Phase 1: Parallel Review (Three Subagents)
 
-Launch THREE (3) subagents in parallel using the Task tool. Each receives:
+Launch THREE (3) subagents in parallel using the Task tool. Use `@research` agents for Subagents 1 and 2 (they need MCP access to verify facts and check coverage), and a `general` agent for Subagent 3 (style checking only needs local files).
+
+Each subagent receives:
 * The full content of the target file
 * The file path
 * The format reference content (from Pre-Flight step 2)
 * The custom `--focus` directive, if provided
 * Their specific focus area (below)
 
-### Subagent 1: Factual Accuracy
+### Subagent 1: Factual Accuracy (`@research`)
 
 > Focus: Are claims, explanations, and technical details correct?
 
+**Agent type:** `research` — needs MCP access for verification.
+
+**Primary sources:** Cloudflare docs (for official product behavior) and GitLab (for code references and implementation details). Use wiki and Jira as secondary sources when docs/GitLab don't have the answer.
+
+**Read-only constraint:** Only use MCP tools for reading and searching. Do NOT create comments, notes, MRs, update tickets, or modify any resources.
+
 Prompt the subagent to:
-* Check every factual claim against available sources (documentation, internal wiki, issue tracker, code repositories)
+* Check every factual claim against Cloudflare docs first, then GitLab for implementation-level claims
 * Flag hallucinated URLs, product names, feature descriptions, or behaviors
 * Verify code examples and configuration snippets are syntactically valid
-* Confirm referenced tickets, pages, or docs actually exist (use available tools)
+* Confirm referenced tickets, pages, or docs actually exist (use MCP tools to fetch them directly)
+* Use `webfetch` to verify external URLs resolve when practical
 * For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and evidence
 
-### Subagent 2: Completeness & Gaps
+### Subagent 2: Completeness & Gaps (`@research`)
 
 > Focus: Does the document fully address its stated scope?
+
+**Agent type:** `research` — needs MCP access to check what's missing against internal knowledge.
+
+**Primary sources:** Wiki (for tribal knowledge, edge cases, historical decisions) and Jira (for known issues, roadmap items, related work the doc should reference). Use Cloudflare docs and GitLab as secondary sources when needed.
+
+**Read-only constraint:** Only use MCP tools for reading and searching. Do NOT create comments, notes, MRs, update tickets, or modify any resources.
 
 Prompt the subagent to:
 * Identify questions the document claims to answer but doesn't
 * Flag missing sections required by the format spec
+* Search wiki for related context the document should reference but doesn't (known issues, gotchas, prior decisions)
+* Search Jira for open bugs or planned work that affect the document's topic
 * Check for logical gaps (conclusions without supporting arguments, recommendations without trade-offs)
 * Note where "TODO", placeholder text, or thin sections suggest unfinished work
 * Check that sources/references are actually cited, not just listed
 * For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and what's missing
 
-### Subagent 3: Style & Structure
+### Subagent 3: Style & Structure (`general`)
 
 > Focus: Does the document follow the expected format and writing standards?
+
+**Agent type:** `general` — no MCP access needed; works entirely against local style guides and format specs.
 
 Prompt the subagent to:
 * Compare section structure against the format reference from the source command
@@ -91,9 +110,9 @@ After all three subagents complete, compile their findings and deduplicate:
 
 Produce a compiled findings list.
 
-## Phase 3: Validation (One Subagent)
+## Phase 3: Validation (One `general` Subagent)
 
-Launch ONE (1) final subagent using the Task tool. Pass it:
+Launch ONE (1) final `general` subagent using the Task tool. Pass it:
 * The compiled findings from Phase 2
 * The full content of the target file
 * The custom `--focus` directive, if provided

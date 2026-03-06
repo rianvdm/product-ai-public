@@ -54,7 +54,7 @@ Extract the minimum feature set needed to convince The Skeptic.
 
 ## Skills to Apply
 
-Read and apply relevant skills from `.claude/skills/` based on the idea being debated:
+Read and apply relevant skills from `.opencode/skills/` based on the idea being debated:
 
 | Skill | When to Use |
 |-------|-------------|

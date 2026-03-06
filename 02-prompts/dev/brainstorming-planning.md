@@ -20,6 +20,7 @@ You must:
 - Challenge assumptions to ensure the idea meets real user needs
 - Dig into edge cases and potential issues
 - Keep going until we've covered all relevant aspects
+- We are going to build on the Cloudflare platform, so consider what services are available and how they can be used
 - Remember: ask one question at a time
 
 Paste your idea below:
@@ -40,7 +41,7 @@ Compile our brainstorming into a comprehensive, developer-ready specification us
 5. **API Design** — Endpoints, request/response formats
 6. **Security** — Authentication, authorization, and cost protection
 7. **Error Handling** — Failure modes and recovery strategies
-8. **Testing Plan** — Unit, integration, and edge case coverage
+8. **Testing Plan** — Unit, integration, and edge case coverage. CRITICAL: we will use a red/green TDD approach
 
 **Security Section Must Include:**
 - Routes that trigger paid API calls (OpenAI, etc.) and their protection strategy
@@ -84,3 +85,26 @@ Spec:
 ## Phase 4: Create To Do List
 
 Generate `todo.md` — a markdown checklist covering the full project (spec + prompt plan). Be thorough.
+
+## Phase 5: Write AGENTS.md
+
+Now write a `AGENTS.md` that Opencode can use for development. Do a web search about what a good AGENTS.md looks like and follow those guidelines.
+
+Make sure to include:
+
+* The Cloudflare skills that should be loaded for each session
+* The MCP servers available
+
+As well as these instructions for how we will approach each coding session:
+
+1. Read `spec.md`, `prompt-plan.md` and `todo.md` in the `docs` folder. Identify any prompts / items not marked as completed.
+2. For each incomplete prompt:
+    - Double-check if it's truly unfinished (if uncertain, ask for clarification).
+    - If you confirm it's already done, skip it.
+    - Otherwise, implement it as described. Before starting implementation, provide an ELI5 explanation of what you're about to do.
+    - Make sure the tests pass, and the program builds/runs.
+    - Update `todo.md` to mark this task as completed.
+    - Commit the changes to the repository with a clear commit message.
+3. After you finish each prompt, explain what you did and what should now be possible. If I am able to manually test the latest change myself to make sure it works, give me instructions on how I can do that.
+4. Pause and wait for user review or feedback.
+5. Repeat with the next unfinished prompt as directed by the user.
