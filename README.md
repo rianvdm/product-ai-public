@@ -8,10 +8,16 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 
 ### OpenCode Commands & Agents
 
+* [`.opencode/agent/blind-validator.md`](.opencode/agent/blind-validator.md) -- Independently re-fetches all sources cited in a draft (Jira tickets, GitLab files, wiki pages, doc URLs, MRs) and verifies that each exists and supports the claims made. Returns a structured verification report. Use as a validation step in any command that produces source-backed analysis.
+* [`.opencode/agent/code-review.md`](.opencode/agent/code-review.md) -- Reviews code for bugs, security, and maintainability with tool-assisted validation
+* [`.opencode/command/code-review.md`](.opencode/command/code-review.md) -- Review changes with parallel @code-review subagents
 * [`.opencode/command/doc-review.md`](.opencode/command/doc-review.md) -- Review generated files for accuracy, completeness, and style using multi-agent validation
 * [`.opencode/command/new-project.md`](.opencode/command/new-project.md) -- Scaffold a new project brain folder
 * [`.opencode/command/session-end.md`](.opencode/command/session-end.md) -- Write a session handoff note before ending a substantive work session
 * [`.opencode/command/session-start.md`](.opencode/command/session-start.md) -- Load recent session context and corrections at the start of a work session
+* [`.opencode/skills/interactive-explainer/SKILL.md`](.opencode/skills/interactive-explainer/SKILL.md) -- Builds a self-contained interactive HTML visualisation that makes a process, algorithm, decision logic, or system visually and experientially understandable. Primary input is a linear walkthrough, but works directly from code, documents, or concept descriptions too — and can invoke the linear-walkthrough skill as an intermediate step if the source material lacks sufficient clarity or structure. Use when the user wants to "see how this works", wants an interactive version of a walkthrough, wants to explain a process visually to an audience, or asks to "visualise", "animate", or "build an interactive explanation" of anything. Richer and more interactive is always preferred, as long as it makes the logic clearer rather than decorating it.
+* [`.opencode/skills/linear-walkthrough/SKILL.md`](.opencode/skills/linear-walkthrough/SKILL.md) -- Generates a linear, narrative walkthrough of source material — code, documents, architecture diagrams, meeting notes, Jira tickets, or any combination. Produces a step-by-step guide that explains logic, purpose, and connections between components in a readable sequence. Use when the user wants to understand how something works, wants to explain a system to others, asks to "walk through" or "explain" code or docs, or needs to document a system's logic for learning or onboarding. Also trigger when the user provides files or code and asks "how does this work?" or "take me through this.
+* [`.opencode/skills/pm-thinking/SKILL.md`](.opencode/skills/pm-thinking/SKILL.md) -- Apply Rian's product management philosophy to all product-related tasks.
 
 ### Context Files
 
@@ -24,11 +30,13 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 * [`02-prompts/dev/brainstorming-planning.md`](02-prompts/dev/brainstorming-planning.md) -- Build ideas from scratch through guided discovery, then produce developer-ready specs and implementation prompts.
 * [`02-prompts/meta/meeting-summary.md`](02-prompts/meta/meeting-summary.md)
 * [`02-prompts/pm/debate-product-idea.md`](02-prompts/pm/debate-product-idea.md) -- You are a simulator for a high-stakes product strategy debate.
+* [`02-prompts/pm/draft-review-prd.md`](02-prompts/pm/draft-review-prd.md) -- These instructions enable LLMs to help users create clear, outcome-focused Product Requirements Documents (PRDs) for ...
+* [`02-prompts/pm/review-okrs.md`](02-prompts/pm/review-okrs.md) -- These instructions enable LLMs to help users create clear, outcome-focused OKRs for product and platform teams (DevTo...
 * [`02-prompts/pm/review-spec.md`](02-prompts/pm/review-spec.md) -- Review engineering specification documents (SPECs/FSPECs) to ensure they faithfully translate product requirements in...
 
 ### 04-Docs
 
-* [`04-docs/2026-03-06-cross-session-memory.md`](04-docs/2026-03-06-cross-session-memory.md) -- This system gives the agent continuity between sessions without requiring automated extraction tools, vector database...
+* [`04-docs/2026-03-06-cross-session-memory.md`](04-docs/2026-03-06-cross-session-memory.md)
 
 ## How to use these
 

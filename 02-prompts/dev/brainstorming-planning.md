@@ -50,6 +50,7 @@ Compile our brainstorming into a comprehensive, developer-ready specification us
 - Rate limiting strategy to prevent abuse
 - Any debug/development routes and their production disposition
 
+Write this to a .md file in the /05-personal/plans folder
 
 ---
 

@@ -20,7 +20,7 @@ If the session wasn't substantive enough for a handoff note, say so and end.
 
 ### 2. Draft the Entry
 
-Write a new H2 entry to append to `01-context/session-log.md`. Use this exact format:
+Write a new H2 entry to prepend to `01-context/session-log.md` (newest first). Use this exact format:
 
 ```markdown
 ## YYYY-MM-DD — [Brief topic description]
@@ -34,20 +34,47 @@ Write a new H2 entry to append to `01-context/session-log.md`. Use this exact fo
 **Open threads:** [What's unfinished or needs follow-up. If nothing, omit this field.]
 ```
 
-### 3. Check for Promotable Learnings
+### 3. Promote Learnings to Infrastructure
 
-Before writing, check if any learnings from this session should be promoted to a more durable location:
+This is the most important step. Session logs capture *what happened*, but institutional knowledge only persists if it gets baked into the files the agent actually loads. Review the session and check whether any learnings, workflow improvements, or behavioral fixes should be promoted to infrastructure files.
 
-* **Repeated correction?** → Add to `01-context/corrections.md`
-* **Cross-cutting decision?** → Add to `decisions.md`
-* **Project-specific update?** → Update the relevant project's context file
-* **Skill gap?** → Note it in the session log for future skill updates
+**Promotion targets (check each one):**
 
-If you identify promotable learnings, write them to the appropriate files AND include them in the session log entry.
+| Target | When to promote | File(s) |
+|--------|----------------|---------|
+| **Command** | A command workflow was improved, a missing step was discovered, or a default should change | `.opencode/command/*.md` |
+| **Skill** | Domain knowledge was gained, a decision tree needs a new branch, or a lookup table needs updating | `.opencode/skills/*/SKILL.md` |
+| **Agent** | An agent needs new instructions, a better prompt, or a new agent would be useful | `.opencode/agent/*.md` |
+| **AGENTS.md** | A system-level convention changed, a new trigger was identified, or structural changes are needed | `AGENTS.md` |
+| **Project CONTEXT** | Project-specific status, decisions, or context changed | `work/projects/*/CONTEXT.md` |
+| **Decisions** | A cross-cutting decision was made that should be recorded for future reference | `decisions.md` |
+| **Corrections** | A behavioral fix has no better home yet — use as a staging area, not a permanent destination | `01-context/corrections.md` |
+
+**How to promote:**
+
+1. For each learning, identify the best target. Prefer infrastructure files (commands, skills, agents, AGENTS.md) over corrections. Corrections is the staging area for things that don't fit anywhere else *yet*.
+2. Read the target file first to understand its current state.
+3. Draft the specific edit — what to add or change, and where in the file.
+4. Present **all** proposed edits to the user in a single summary before writing anything. Format:
+   ```
+   **Proposed infrastructure updates:**
+   * `[file path]` — [what would change and why]
+   * `[file path]` — [what would change and why]
+   ```
+5. Wait for the user to approve, reject, or modify before writing.
+6. If a learning is being promoted from `01-context/corrections.md` into an infrastructure file, **remove it from corrections** — it's been baked in and no longer needs the staging area.
+
+**If no infrastructure updates are needed**, say so explicitly: "No infrastructure updates needed from this session." Don't silently skip this step.
 
 ### 4. Write the Entry
 
-Read `01-context/session-log.md`, then append the new entry at the end of the file (after the last existing entry). Do not modify existing entries.
+Read `01-context/session-log.md`, then **prepend** the new entry after the file header (after the pruning rule paragraph, before the first existing H2 entry). The file is in reverse chronological order — newest entries first. Do not modify existing entries.
+
+Include a **Promoted:** field in the session log entry if any infrastructure files were updated:
+
+```markdown
+**Promoted:** [List of files updated and what changed, e.g., "Updated `.opencode/command/meeting.md` to include project context check step."]
+```
 
 ### 5. Check File Size
 
@@ -55,4 +82,7 @@ After writing, count the number of H2 entries in the file. If there are more tha
 
 ### 6. Confirm
 
-Report what you wrote and where. Mention any promotable learnings that were written to other files.
+Report:
+* What was written to the session log
+* Which infrastructure files were updated (if any)
+* Whether any corrections were retired (removed because they were baked into infrastructure)

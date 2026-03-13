@@ -59,7 +59,7 @@ Read and apply relevant skills from `.opencode/skills/` based on the idea being 
 | Skill | When to Use |
 |-------|-------------|
 | `pm-thinking` | **Always** — grounds the debate in problem-first thinking and outcomes over outputs |
-| `cloudflare-context` | When debating Cloudflare product ideas — ensures arguments are grounded in real product context |
-| `data-team-context` | When debating Data team product ideas (Logs, Analytics, data infrastructure) |
+| `company-context` | When debating product ideas — ensures arguments are grounded in real product context |
+| `team-context` | When debating Data team product ideas (Logs, Analytics, data infrastructure) |
 
 **Apply skills proactively** — load relevant context before starting the debate to ensure both sides argue from informed positions.
