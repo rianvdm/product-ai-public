@@ -39,7 +39,7 @@ If the user provided arguments (e.g., "resuming Town Lake work"), also load the 
 
 ### 4. Offer Context Loading
 
-If the recent sessions suggest a particular area of work (e.g., multiple CUSTESC sessions, ongoing project work), offer to load the relevant skill or project context:
+If the recent sessions suggest a particular area of work (e.g., multiple escalation sessions, ongoing project work), offer to load the relevant skill or project context:
 
 > "Your recent sessions have been focused on [topic]. Want me to load [skill/project context]?"
 

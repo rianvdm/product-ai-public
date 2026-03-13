@@ -12,6 +12,7 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 * [`.opencode/agent/code-review.md`](.opencode/agent/code-review.md) -- Reviews code for bugs, security, and maintainability with tool-assisted validation
 * [`.opencode/command/code-review.md`](.opencode/command/code-review.md) -- Review changes with parallel @code-review subagents
 * [`.opencode/command/doc-review.md`](.opencode/command/doc-review.md) -- Review generated files for accuracy, completeness, and style using multi-agent validation
+* [`.opencode/command/meeting.md`](.opencode/command/meeting.md) -- Transform a meeting transcript into structured, scannable meeting notes
 * [`.opencode/command/new-project.md`](.opencode/command/new-project.md) -- Scaffold a new project brain folder
 * [`.opencode/command/session-end.md`](.opencode/command/session-end.md) -- Write a session handoff note before ending a substantive work session
 * [`.opencode/command/session-start.md`](.opencode/command/session-start.md) -- Load recent session context and corrections at the start of a work session

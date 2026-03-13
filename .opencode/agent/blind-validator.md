@@ -27,7 +27,6 @@ Read the draft carefully and build a list of every source it cites. Sources incl
 
 | Source Type | What to Look For |
 |-------------|-----------------|
-| **Jira tickets** | Ticket IDs like `PROJ-123`, `ENG-456`, `OPS-789`, or full Jira URLs |
 | **GitLab files** | File paths like `src/delivery/retry.go:L42`, repo paths like `org/team/service`, or full GitLab URLs |
 | **GitLab MRs** | MR references like `!1234`, MR URLs, or descriptions like "a recent MR in org/team/service" |
 | **Wiki pages** | Wiki URLs or page titles with space references |

@@ -20,7 +20,7 @@ You must:
 - Challenge assumptions to ensure the idea meets real user needs
 - Dig into edge cases and potential issues
 - Keep going until we've covered all relevant aspects
-- We are going to build on the Cloudflare platform, so consider what services are available and how they can be used
+- We are going to build on the Amazon platform, so consider what services are available and how they can be used
 - Remember: ask one question at a time
 
 Paste your idea below:
@@ -93,7 +93,7 @@ Now write a `AGENTS.md` that Opencode can use for development. Do a web search a
 
 Make sure to include:
 
-* The Cloudflare skills that should be loaded for each session
+* The Amazon skills that should be loaded for each session
 * The MCP servers available
 
 As well as these instructions for how we will approach each coding session:
