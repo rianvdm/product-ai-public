@@ -28,7 +28,6 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 ### Prompts
 
 * [`02-prompts/dev/brainstorming-planning.md`](02-prompts/dev/brainstorming-planning.md) -- Build ideas from scratch through guided discovery, then produce developer-ready specs and implementation prompts.
-* [`02-prompts/meta/meeting-summary.md`](02-prompts/meta/meeting-summary.md)
 * [`02-prompts/pm/debate-product-idea.md`](02-prompts/pm/debate-product-idea.md) -- You are a simulator for a high-stakes product strategy debate.
 * [`02-prompts/pm/draft-review-prd.md`](02-prompts/pm/draft-review-prd.md) -- These instructions enable LLMs to help users create clear, outcome-focused Product Requirements Documents (PRDs) for ...
 * [`02-prompts/pm/review-okrs.md`](02-prompts/pm/review-okrs.md) -- These instructions enable LLMs to help users create clear, outcome-focused OKRs for product and platform teams (DevTo...
@@ -36,7 +35,7 @@ This is a curated subset of my personal AI-assisted product management toolkit. 
 
 ### 04-Docs
 
-* [`04-docs/2026-03-06-cross-session-memory.md`](04-docs/2026-03-06-cross-session-memory.md)
+* [`04-docs/cross-session-memory.md`](04-docs/cross-session-memory.md) -- This system gives the agent continuity between sessions without requiring automated extraction tools, vector database...
 
 ## How to use these
 
