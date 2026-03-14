@@ -48,7 +48,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 
 ### Docs
 
-* [`cross-session-memory.md`](04-docs/cross-session-memory.md) -- A three-layer memory system that gives AI agents continuity between sessions
+* [`cross-session-memory.md`](04-docs/cross-session-memory.md) -- A four-layer memory system that gives AI agents continuity between sessions
 * [`multi-agent-investigation.md`](04-docs/multi-agent-investigation.md) -- Architecture for multi-agent customer escalation investigations with parallel dispatch and blind validation
 
 ## How to use these
