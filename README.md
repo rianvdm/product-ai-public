@@ -1,6 +1,6 @@
 # Product AI Public
 
-Curated prompts, commands, skills, and agents for AI-assisted product management. A subset of my personal "second brain" repo, published for others to adapt.
+Curated prompts, commands, skills, and agents for AI-assisted product management. A subset of my personal "second brain" repo, published for others to adapt. See [How I AI](https://elezea.com/how-i-ai/) for a full series of posts on how this system works in practice.
 
 ## What's here
 
