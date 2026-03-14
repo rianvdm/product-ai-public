@@ -98,6 +98,6 @@ The orchestration command dispatches the agents using the Task tool with `subage
 
 ## Related Files
 
-* [`/session-end`](.opencode/command/session-end.md) — The promote-to-infrastructure step means investigation insights get baked into domain skills for future investigations
-* [`blind-validator`](.opencode/agent/blind-validator.md) — The source verification agent used in Phase 4
+* [`/session-end`](../.opencode/command/session-end.md) — The promote-to-infrastructure step means investigation insights get baked into domain skills for future investigations
+* [`blind-validator`](../.opencode/agent/blind-validator.md) — The source verification agent used in Phase 4
 * [`cross-session-memory.md`](cross-session-memory.md) — How the system maintains context between investigation sessions
