@@ -1,6 +1,6 @@
 # Avoid AI-Sounding Language
 
-*Last updated: 2026-03-01*
+*Last updated: 2026-03-14*
 
 To keep writing natural and human, avoid these telltale AI patterns:
 
@@ -27,7 +27,7 @@ To keep writing natural and human, avoid these telltale AI patterns:
 
 ## Sentence structures to avoid
 
-* **"It's not X -- it's Y"** -- the classic AI rhetorical move
+* **"It's not X -- it's Y"** -- the classic AI rhetorical move. Also catches the two-sentence variant: "It isn't X. It's Y." Same pattern, just split across a period
 * **"No X. No Y. Just Z."** -- literary tricolon variant
 * **Excessive rule of threes** -- triplets in every paragraph (e.g., "No family. No calls. Just silence.")
 * **Mid-sentence rhetorical questions:** "And honestly? That's amazing."
@@ -39,6 +39,8 @@ To keep writing natural and human, avoid these telltale AI patterns:
 * **Soft announcing:** "Here's something I've been thinking about:" / "I think about it like this:" / "My advice is this:" / "The idea is simple:" -- quieter variants of announcing the punchline. Just say the thing
 * **Coaching/therapy mode:** "You're not imagining it." "You're not alone." "You're not broken." "Do you want to sit with that for a while?" -- unsolicited validation that nobody asked for
 * **Safe truths that teach nothing:** "Consistency is important." "Building relationships takes time." -- accurate, non-controversial, impossible to disagree with, zero information
+* **Narrating the effort:** "Building X takes time." "Each one required reading through Y and Z to extract the patterns." -- describing how hard something was to build instead of just showing the result. Skip the labor and get to the payoff
+* **Vague evolution openers:** "The system keeps evolving." "Things continue to develop." "The landscape is shifting." -- detached, impersonal throat-clearing. Be specific about what changed, or use first person ("I'm sure this will look different in six months")
 
 ## Structural patterns
 

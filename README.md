@@ -11,6 +11,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 * [`product-philosophy.md`](01-context/product-philosophy.md) -- How I think about product work: problem-first, outcomes over outputs, empowered teams
 * [`avoid-ai-patterns.md`](01-context/avoid-ai-patterns.md) -- Words, phrases, and structural patterns that make AI writing obvious
 * [`project-template.md`](01-context/project-template.md) -- Template for creating a dedicated "project brain" folder for major initiatives
+* [`stable-facts-template.md`](01-context/stable-facts-template.md) -- Template for the stable facts file used by cross-session memory
 
 ### Prompts
 
@@ -48,6 +49,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 ### Docs
 
 * [`cross-session-memory.md`](04-docs/cross-session-memory.md) -- A three-layer memory system that gives AI agents continuity between sessions
+* [`multi-agent-investigation.md`](04-docs/multi-agent-investigation.md) -- Architecture for multi-agent customer escalation investigations with parallel dispatch and blind validation
 
 ## How to use these
 
