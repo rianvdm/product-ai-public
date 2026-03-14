@@ -18,6 +18,13 @@ Review what happened in this conversation. Only write a handoff note if the sess
 
 If the session wasn't substantive enough for a handoff note, say so and end.
 
+**Admission quality check:** For each piece of information you'd include in the handoff note, ask:
+* **Novel?** Does this extend or contradict something already in the system (skills, commands, stable-facts)? If it's already baked in, don't re-store it.
+* **Actionable?** Can a future session use this? Debugging dead-ends and one-off lookups usually aren't worth recording.
+* **Durable?** Will this matter in 2 weeks? Open threads and decisions yes; transient investigation details usually no.
+
+Use judgment — these are quality filters, not hard gates. The goal is to keep the session log high-signal.
+
 ### 2. Draft the Entry
 
 Write a new H2 entry to prepend to `01-context/session-log.md` (newest first). Use this exact format:
@@ -66,7 +73,22 @@ This is the most important step. Session logs capture *what happened*, but insti
 
 **If no infrastructure updates are needed**, say so explicitly: "No infrastructure updates needed from this session." Don't silently skip this step.
 
-### 4. Write the Entry
+### 4. Update Stable Facts
+
+Read `01-context/stable-facts.md` and update it based on this session:
+
+* **Add/update** any active work items that changed status or direction
+* **Add** recent decisions worth tracking (remove older ones that are no longer relevant)
+* **Add/remove** blockers
+* **Update** environment facts if tools, access, or setup changed
+* **Remove** entries that are no longer true (project completed, blocker resolved, etc.)
+* **Update** the "Last updated" date
+
+Keep the file compact (<60 lines). If Active Work grows beyond ~12 items, evaluate whether older items should be removed or archived.
+
+Include stable-facts changes in the "Proposed infrastructure updates" summary shown to the user for approval (same as Step 3 promotions).
+
+### 5. Write the Entry
 
 Read `01-context/session-log.md`, then **prepend** the new entry after the file header (after the pruning rule paragraph, before the first existing H2 entry). The file is in reverse chronological order — newest entries first. Do not modify existing entries.
 
@@ -76,11 +98,11 @@ Include a **Promoted:** field in the session log entry if any infrastructure fil
 **Promoted:** [List of files updated and what changed, e.g., "Updated `.opencode/command/meeting.md` to include project context check step."]
 ```
 
-### 5. Check File Size
+### 6. Check File Size
 
 After writing, count the number of H2 entries in the file. If there are more than 50, warn the user that it's time to archive older entries.
 
-### 6. Confirm
+### 7. Confirm
 
 Report:
 * What was written to the session log

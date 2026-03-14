@@ -16,28 +16,36 @@ $ARGUMENTS
 
 Read `01-context/corrections.md` in full. Apply these corrections for the rest of the conversation. Do not summarize them back to the user unless asked — just internalize them.
 
-### 2. Load Recent Session Log
+### 2. Load Stable Facts
+
+Read `01-context/stable-facts.md` in full. This gives you the current state of all active work, recent decisions, blockers, and environment constraints. Use this as your primary orientation — it's more current and compact than the session log.
+
+### 3. Load Recent Session Log
 
 Read `01-context/session-log.md`. Find the **last 3 entries** (H2 sections). These represent the most recent substantive work sessions.
 
-### 3. Check for Open Threads
+When reviewing open threads from the session log, cross-reference against stable-facts. Don't list items that are already captured as active work or blockers — only surface threads that stable-facts doesn't cover.
 
-From the recent entries, identify any **open threads** that might be relevant to today's work. Present them briefly:
+### 4. Check for Open Threads
+
+From the recent entries and stable-facts, identify what might be relevant to today's work. Present briefly:
 
 ```
+**Current state** (from stable-facts):
+* [2-3 most relevant active work items based on recency or user's arguments]
+
 **Recent sessions:**
 * [Date] — [Topic]: [One-line summary]
 * [Date] — [Topic]: [One-line summary]
 * [Date] — [Topic]: [One-line summary]
 
-**Open threads:**
-* [Thread from entry, if any]
-* [Thread from entry, if any]
+**Open threads not in stable-facts:**
+* [Thread from session log entry, if any that aren't already tracked]
 ```
 
 If the user provided arguments (e.g., "resuming Town Lake work"), also load the relevant project CONTEXT.md for that topic.
 
-### 4. Offer Context Loading
+### 5. Offer Context Loading
 
 If the recent sessions suggest a particular area of work (e.g., multiple escalation sessions, ongoing project work), offer to load the relevant skill or project context:
 
@@ -45,6 +53,6 @@ If the recent sessions suggest a particular area of work (e.g., multiple escalat
 
 Only offer this if there's a clear pattern. Don't offer if sessions were varied.
 
-### 5. Ready Check
+### 6. Ready Check
 
 End with a brief confirmation that context is loaded and you're ready to work. Keep it to one line — don't repeat everything you just loaded.
