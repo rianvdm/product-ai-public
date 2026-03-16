@@ -26,6 +26,10 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 
 * [`brainstorming-planning.md`](02-prompts/dev/brainstorming-planning.md) -- Build ideas through guided discovery, then produce developer-ready specs
 
+**Meta**
+
+* [`generate-writing-style.md`](02-prompts/meta/generate-writing-style.md) -- Analyze writing samples and produce a reusable system prompt for style emulation
+
 ### Skills
 
 * [`pm-thinking`](.opencode/skills/pm-thinking/SKILL.md) -- Apply problem-first, outcome-focused product thinking to any product task
