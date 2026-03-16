@@ -81,6 +81,17 @@ For every source you checked, assign one of these classifications:
 | **Mischaracterized** | The source exists but does NOT support the claim | Source fetched successfully, but what it actually says/shows contradicts or doesn't match what the draft claims. Describe the discrepancy. |
 | **Not found** | The source could not be located or accessed | File path doesn't exist, Jira ticket not found, wiki page missing, MCP tool returned an error. Note whether this is likely a hallucination or an access issue. |
 
+## Step 4: Self-Audit Your Report
+
+Before returning your verification report, re-read every entry:
+
+* For each **Verified** source: Does your Evidence column contain specific data from the source (a quote, a status value, a code snippet), or did you write a vague confirmation? If vague, go back and fetch the specific evidence.
+* For each **Mischaracterized** source: Did you state both what the draft claims AND what the source actually says, with specifics? If either side is vague, fix it.
+* For each **Not found** source: Did you distinguish tool failure from genuine absence? Did you note whether the repo/project exists even if the specific file/ticket doesn't?
+* **Completeness check:** Does every source you extracted in Step 1 have an entry in your output tables? No orphaned sources.
+
+If any entry fails this audit, fix it before returning the report.
+
 ## Output Format
 
 Return your findings in this exact structure:
@@ -97,9 +108,9 @@ Return your findings in this exact structure:
 
 ### Verified Sources
 
-| Source | Claim in Draft | Verification |
-|--------|---------------|-------------|
-| [source reference] | [what the draft claims] | Confirmed: [brief note on what you found] |
+| Source | Claim in Draft | Evidence |
+|--------|---------------|----------|
+| [source reference] | [what the draft claims] | [Cite the specific evidence: quote the ticket summary, paste the code snippet, cite the exact text from the wiki/doc. "Confirmed" alone is not evidence.] |
 
 ### Mischaracterized Sources
 
@@ -122,7 +133,25 @@ If all sources are verified, the Mischaracterized and Not Found sections should 
 * **Read, don't just fetch.** Confirming a file exists is not verification. You must confirm the content supports the specific claim.
 * **Be precise about mischaracterizations.** Don't just say "doesn't match" — say what the draft claims and what the source actually shows. The calling command needs this to fix the draft.
 * **Distinguish access issues from hallucinations.** If a GitLab file returns a 404, note whether the repo exists (access issue on the file) or the repo itself wasn't found (likely hallucinated path). If a Jira ticket returns an error, note whether it's a permissions issue or the ticket genuinely doesn't exist.
+* **Cite specific evidence, not conclusions.** For each verified source, include the actual data: the ticket summary text, the function signature, the wiki paragraph, the doc sentence. "Confirmed: matches" is not verification — it's a claim about verification.
+* **Read the relevant parts fully.** If the draft claims a Jira comment says X, find and read that specific comment — don't stop at the ticket summary. If the draft cites a wiki page for a specific fact, find the section containing that fact — don't verify based on the page title or introduction. If the draft cites line 42 of a file, read the code around line 42 — don't verify based on the file existing.
+* **Do not rationalize verification.** These thoughts mean you haven't actually verified:
+  - "This looks right" — read the actual content and compare to the claim.
+  - "The ticket exists and is about the right topic" — does it say what the draft specifically claims?
+  - "The file is there and the function name matches" — does the logic do what the draft claims?
+  - "Close enough" — close is not verified. Either the source supports the specific claim or it doesn't.
+  - "I already checked a similar source" — each source gets its own independent check.
 * **Stay in scope.** You verify sources. You do not challenge the draft's conclusions, suggest alternatives, or assess confidence. The calling command handles that separately.
+
+## Red Flags — Pause and Re-Check
+
+If you catch yourself doing any of these, stop and re-verify:
+
+* Writing "Confirmed" without a specific quote, value, or snippet from the source
+* Marking a source Verified after reading only the title or summary, not the content relevant to the claim
+* Skipping a source because it's "obviously" correct or you "already know" what it says
+* Fetching a source, getting a large response, and classifying it without reading the parts relevant to the claim
+* Assuming a tool error means "Not found" without checking if the path or ID is malformed
 
 ## Error Handling
 
