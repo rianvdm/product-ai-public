@@ -110,20 +110,27 @@ After all three subagents complete, compile their findings and deduplicate:
 
 Produce a compiled findings list.
 
-## Phase 3: Validation (One `general` Subagent)
+## Phase 3: Validation (`@blind-validator`)
 
-Launch ONE (1) final `general` subagent using the Task tool. Pass it:
-* The compiled findings from Phase 2
-* The full content of the target file
+Launch ONE (1) `blind-validator` subagent using the Task tool. Pass it:
+* The full content of the target file (this is the "draft" the validator expects)
+* The compiled findings from Phase 2, framed as claims to verify — each finding is a claim about what exists at a specific `file:line` location
 * The custom `--focus` directive, if provided
 * This instruction:
 
-> "For each finding, read the content at the referenced file:line. Classify as:
-> * **Confirmed** — provably real; the issue exists at the cited location
-> * **Disputed** — not supported by the actual content at that location
-> * **Acknowledged** — real but not worth fixing (stylistic nitpick, acceptable trade-off, or intentional choice)
+> "You are validating review findings against a document. Each finding is a claim that a specific issue exists at a specific location in the draft. Treat each finding as a source-backed claim and verify it independently:
 >
-> Return only Confirmed findings, preserving their severity and evidence."
+> * **Read the content at the cited `file:line`** for every finding. Do not skip any.
+> * **Classify each finding** using your standard framework:
+>   - **Verified** → the issue provably exists at the cited location (maps to **Confirmed**)
+>   - **Mischaracterized** → the cited content does not actually have the claimed issue (maps to **Disputed**)
+>   - **Not found** → the cited location doesn't exist or can't be read (maps to **Disputed**)
+>
+> For findings that cite external sources (URLs, Jira tickets, wiki pages, GitLab files), use your full MCP-backed verification: re-fetch the source and confirm it supports the finding's claim.
+>
+> For findings that are purely about style or structure (no external source to verify), read the cited `file:line` and confirm the pattern the finding describes is actually present.
+>
+> Return your standard verification report. The calling command will use Verified findings as Confirmed and discard the rest."
 
 ## Output
 
