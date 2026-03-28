@@ -106,11 +106,7 @@ The implementation brief must be **self-contained** — a PM and LLM coding agen
 
 ### Phase 4: Validate and Challenge
 
-This phase has two sequential steps. Complete Step 1 before starting Step 2.
-
-#### Step 1: Blind Source Verification
-
-Dispatch the `@blind-validator` agent with the draft. Do NOT pass it the raw research findings — the blind validator works independently. This is especially important for code references: the blind validator will re-read each cited file and confirm the code actually does what the draft claims.
+Dispatch `@blind-validator` and `@challenger` in **parallel** — they review independent aspects of the draft (sources vs. reasoning) and neither needs the other's output.
 
 ```
 Task(
@@ -124,71 +120,37 @@ Here is the full draft:
 
 [Paste full draft from Phase 3]"
 )
-```
 
-Wait for the blind validator to respond before proceeding to Step 2.
-
-#### Step 2: Verdict Challenge
-
-Dispatch ONE `general` subagent. Pass it the draft, the blind validator's verification report, and the original research findings. The blind validator handles source checking — this agent focuses on challenging the verdict and reviewing the implementation brief.
-
-```
 Task(
-  subagent_type="general",
+  subagent_type="challenger",
   description="Challenge fix assessment for [TICKET-ID]",
-  prompt="You are an adversarial challenger for a fix feasibility assessment. The blind validator has already independently verified all cited sources — use its report as ground truth for code reference accuracy. Your job is to challenge the verdict and review the brief. You have three tasks:
+  prompt="Review this fix feasibility assessment for reasoning quality. Scope: thorough.
 
-**1. Challenge the verdict.** If the verdict is GO, look for reasons it should be MAYBE or NO-GO. If NO-GO, look for reasons it might actually be feasible. Factor in any sources the blind validator flagged as Mischaracterized or Not found. Specifically:
-* Are there hidden dependencies the assessor missed?
-* Does the implementation brief miss edge cases visible in the code?
-* Is the scope estimate accurate, or did the assessor undercount files that need to change?
-* Are there concurrency, error handling, or backwards-compatibility concerns?
-* Did the blind validator find that any cited code doesn't do what the draft claims? How does that affect the verdict?
+Focus on:
+1. **Verdict logic.** If the verdict is GO, look for reasons it should be MAYBE or NO-GO. If NO-GO, look for reasons it might actually be feasible. Are there hidden dependencies, edge cases, concurrency concerns, or backwards-compatibility risks the assessor missed?
+2. **Scope accuracy.** Did the assessor undercount files that need to change? Does the change surface map look complete?
+3. **Implementation brief consistency (if present).** Are the steps in the right order? Are code changes consistent with each other (e.g., struct changes match usage changes)? Does the test strategy cover the changes? Is the 'What NOT to Change' section complete?
+4. **Unsupported claims.** Are feasibility ratings backed by specific evidence, or are they vibes?
 
-**2. Check the implementation brief (if present).** Walk through each step and verify:
-* The steps are in the right order
-* The code changes described are consistent with each other (e.g., struct changes match usage changes)
-* The test strategy actually covers the changes
-* The 'What NOT to Change' section is complete — are there other files the LLM might be tempted to modify?
+Do not check sources (the blind validator handles that). Do not rewrite the draft.
 
-**3. Produce a confidence assessment.** Factor in the blind validator's results:
-* **High confidence** — all code references verified by blind validator, verdict well-supported, implementation brief is complete and consistent
-* **Medium confidence** — mostly solid but some references couldn't be verified or were mischaracterized, or the brief has minor gaps
-* **Low confidence** — significant code references are wrong or missing, verdict is uncertain, or the brief has material omissions
+Here is the draft:
 
-Format your response as:
-
-## Verdict Challenge
-[Your challenge and the evidence for/against, incorporating blind validator findings]
-
-## Implementation Brief Review
-[Issues found, or 'Brief is complete and consistent']
-
-## Confidence Assessment
-[High / Medium / Low with reasoning]
-
-Do not rewrite the draft.
-
----
-
-## Blind Validator Report
-[Paste full blind validator output from Step 1]
-
-## Draft
-[Paste full draft from Phase 3]
-
-## Research Findings
-[Paste key findings from Phase 2 — both tracks]"
+[Paste full draft from Phase 3]"
 )
 ```
 
-After both validation steps complete, apply fixes to the draft:
+**CRITICAL:** Send both Task calls in a **single message**. Do NOT begin writing the file until both agents have responded.
 
-* **Mischaracterized code references:** Fix file paths, line numbers, function names, and code descriptions to match what the blind validator actually found. If a key implementation step is based on wrong code, rewrite the step.
-* **Sources not found:** Remove the reference. If the implementation brief depends on a file that doesn't exist, flag this as a critical issue and reconsider the verdict.
-* **Verdict challenge:** If the challenger found credible reasons to change the verdict, change it. If the verdict holds, note the challenge and why you maintained it.
-* **Brief review:** Fix any issues the challenger identified in the implementation steps.
-* **Confidence:** Include the confidence assessment in the final output.
+After both agents complete, apply fixes and produce the confidence assessment:
+
+* **Mischaracterized code references (from blind validator):** Fix file paths, line numbers, function names, and code descriptions to match what the blind validator actually found. If a key implementation step is based on wrong code, rewrite the step.
+* **Sources not found (from blind validator):** Remove the reference. If the implementation brief depends on a file that doesn't exist, flag this as a critical issue and reconsider the verdict.
+* **Reasoning issues (from challenger):** If the challenger found credible reasons to change the verdict, change it. If the verdict holds, note the challenge and why you maintained it. Fix any issues the challenger identified in the implementation steps.
+* **Confidence assessment (your synthesis of both reports):** Produce a confidence rating factoring in both the blind validator's source accuracy findings and the challenger's reasoning review:
+  * **High confidence** — all code references verified, verdict well-supported, implementation brief is complete and consistent, no critical or high challenger issues
+  * **Medium confidence** — mostly solid but some references couldn't be verified or were mischaracterized, or the challenger found high-severity reasoning gaps
+  * **Low confidence** — significant code references are wrong or missing, verdict is uncertain, or the challenger found critical reasoning errors
 
 ## Output Structure
 
@@ -332,7 +294,8 @@ If the ticket involves a domain not listed here, check the full skill triggers t
 * **Ignoring the ticket comments** — Comments often contain crucial context: disagreements about approach, clarifications from the filing team, decisions that aren't in the description.
 * **Producing a brief for a NO-GO** — If the verdict is No-Go, don't write an implementation brief. Explain what a human should do instead.
 * **Assuming the LLM has context** — The implementation brief must be self-contained. Don't say "as described in the ticket" — include the relevant details inline.
-* **Skipping Phase 4** — Always validate. The confidence assessment is required in the output.
+* **Skipping Phase 4** — Always run both `@blind-validator` and `@challenger` before writing the file; the challenger catches reasoning errors the validator can't.
+* **Starting synthesis before both agents return** — If you dispatched two agents, wait for both before writing the answer.
 
 ## Output
 
