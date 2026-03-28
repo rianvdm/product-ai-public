@@ -42,9 +42,11 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 
 * [`code-review`](.opencode/agent/code-review.md) -- Evidence-based code review with tool-assisted validation and provability classification
 * [`blind-validator`](.opencode/agent/blind-validator.md) -- Independently re-fetch and verify every source cited in a draft document
+* [`fix-assessor`](.opencode/agent/fix-assessor.md) -- Read code, map change surface area, check CI/tests, and score feasibility criteria for a proposed fix
 
 ### Commands
 
+* [`/assess-fix`](.opencode/command/assess-fix.md) -- Assess whether a Jira ticket's fix can be implemented by a technical PM and LLM coding agent, with a Go/No-Go verdict and implementation brief
 * [`/code-review`](.opencode/command/code-review.md) -- Review changes using three parallel code-review agents, then validate with a fourth
 * [`/meeting`](.opencode/command/meeting.md) -- Transform a meeting transcript into structured notes with decisions and action items
 * [`/doc-review`](.opencode/command/doc-review.md) -- Review generated files for accuracy, completeness, and style
