@@ -1,6 +1,6 @@
 # My Product Philosophy
 
-In this document I try to articulate something that can be notoriously hard to pin down: how I think about product work. This isn't a methodology or a framework to be adopted wholesale—it's a reflection of what I've learned over the years about what works, what doesn't, and why.
+In this document I try to articulate how I think about product work. This isn't a methodology or a framework to be adopted wholesale. It's a reflection of what I've learned over the years about what works and what doesn't.
 
 ---
 
@@ -13,7 +13,7 @@ Before jumping into what to build, I always try to answer:
 - Who is experiencing it, and how often?
 - What happens if we do nothing?
 
-This sounds obvious, but it's remarkably hard to maintain discipline around. We're wired to solve things. Someone says "we need better monitoring" and our brains immediately start sketching architectures. But the best specs start with pain, not features. Every time. And if you can't clearly articulate the problem, you're probably not ready to build the solution.
+This sounds obvious, but it's hard to maintain discipline around. We're wired to solve things. Someone says "we need better monitoring" and our brains immediately start sketching architectures. But the best specs start with pain, not features. Every time. And if you can't clearly articulate the problem, you're probably not ready to build the solution.
 
 ---
 
@@ -38,7 +38,7 @@ My role as a product leader is to provide:
 - **Clear goals** — what outcomes we're trying to achieve
 - **Guardrails** — constraints, dependencies, and things that are off the table
 
-And then I trust teams to figure out the *how*. This doesn't mean I disappear—I stay close to the details, ask questions, offer suggestions, and help remove obstacles. But the decisions should be made by those closest to the data.
+And then I trust teams to figure out the *how*. This doesn't mean I disappear. I stay close to the details, ask questions, offer suggestions, and help remove obstacles. But the decisions should be made by those closest to the data.
 
 ---
 
@@ -56,7 +56,7 @@ This is why I like frameworks like [DACI](https://github.com/rianvdm/pm-resource
 
 I think about planning through the lens of [The Fog of War](https://elezea.com/2023/03/product-management-and-the-fog-of-war/). In strategy games, the fog of war hides parts of the map you haven't explored yet. You can't see what's there until you move toward it.
 
-Product planning is the same. We can't predict the future—we can only make the best decisions with the information we have right now. Customers will surprise us, technology will shift, and the market will change in ways we didn't anticipate.
+Product planning is the same. We can't predict the future. We can only make the best decisions with the information we have right now. Customers will surprise us and the market will change in ways we didn't anticipate.
 
 So I treat planning documents as "a road sign into the fog." We make sure the direction and first few steps are known, and then we add and edit as the fog starts to lift. This is why I prefer [Now/Next/Later roadmaps](https://elezea.com/2024/02/why-using-a-now-next-later-roadmap-might-be-right-for-you/) over deadline-driven quarterly roadmaps:
 
@@ -64,23 +64,23 @@ So I treat planning documents as "a road sign into the fog." We make sure the di
 - **Next** — what's coming in the next few weeks, fully spec'd and ready to go
 - **Later** — what we believe is important, but may shift as we learn more
 
-The further out you go, the more likely things will change. That's not a bug—it's an honest reflection of reality.
+The further out you go, the more likely things will change. That's not a bug. It's an honest reflection of reality.
 
 ---
 
 ## Deadline-Driven Development Is Fraught
 
-Speaking of roadmaps: I've become deeply skeptical of arbitrary deadlines. Not because dates don't matter—they do, especially when there are external commitments or dependencies. But because too often, deadlines are set without input from the teams who have to do the work.
+Speaking of roadmaps: I've become deeply skeptical of arbitrary deadlines. Not because dates don't matter. They do, especially when there are external commitments or dependencies. But because too often, deadlines are set without input from the teams who have to do the work.
 
 When that happens, teams are forced to make quality tradeoffs to hit the date. Technical debt accumulates. Corners get cut. And the thing you ship is worse than what you could have shipped if you'd taken the time to do it right.
 
-I prefer working with [high-integrity commitments](https://www.svpg.com/managing-commitments-in-an-agile-team/)—dates that teams commit to *after* they've had a chance to scope the work properly. Teams are accountable to these dates because they were involved in setting them. And if something changes, we talk about it openly rather than pretending we can still hit an impossible target.
+I prefer working with [high-integrity commitments](https://www.svpg.com/managing-commitments-in-an-agile-team/): dates that teams commit to *after* they've had a chance to scope the work properly. Teams are accountable to these dates because they were involved in setting them. And if something changes, we talk about it openly rather than pretending we can still hit an impossible target.
 
 ---
 
 ## Teams Make Better Products in Calm Environments
 
-Every time I travel, I remind myself: [no running in airports](https://elezea.com/2024/02/no-running-in-airports/). Running means something went wrong—a delay, a miscalculation, a missed detail. The goal is to be prepared enough that running isn't necessary.
+Every time I travel, I remind myself: [no running in airports](https://elezea.com/2024/02/no-running-in-airports/). Running means something went wrong. A delay, a missed detail. The goal is to be prepared enough that running isn't necessary.
 
 I think about product work the same way. Urgency is sometimes unavoidable, but chronic urgency is a sign that something is broken. When teams are constantly in crisis mode, they can't do their best work. They make mistakes, burn out, and eventually leave.
 
@@ -90,9 +90,9 @@ I believe in quality over speed. Taking the time to understand the problem. Givi
 
 ## Choose Your Battles Wisely
 
-Product managers tend to gravitate toward [wicked problems](https://elezea.com/2023/05/product-life-force/)—complex, ambiguous challenges with no clear solution. It's what makes us good at our jobs. But it can also be self-defeating if we're not careful about where we spend our energy.
+Product managers tend to gravitate toward [wicked problems](https://elezea.com/2023/05/product-life-force/), the complex and ambiguous challenges with no clear solution. It's what makes us good at our jobs. But it can also be self-defeating if we're not careful about where we spend our energy.
 
-I think about this as "life force"—the finite amount of energy and willpower we have available. Some battles are worth fighting: hard problems where we have real influence and can make a meaningful difference. Others are not: hard problems where organizational dynamics or lack of buy-in mean we're unlikely to succeed no matter how hard we try.
+I think about this as "life force": the finite amount of energy and willpower we have available. Some battles are worth fighting: hard problems where we have real influence and can make a meaningful difference. Others are not: hard problems where organizational dynamics or lack of buy-in mean we're unlikely to succeed no matter how hard we try.
 
 The goal isn't to avoid hard problems. It's to pick the *right* hard problems—the ones where the effort will actually pay off.
 
@@ -100,7 +100,7 @@ The goal isn't to avoid hard problems. It's to pick the *right* hard problems—
 
 ## Process Should Serve the Team, Not the Other Way Around
 
-I'm not dogmatic about specific frameworks or ways of doing things. OKRs, Scrum, Kanban, Shape Up—they're all tools. What matters is whether they help your team do good work in your specific context.
+I'm not dogmatic about specific frameworks or ways of doing things. OKRs, Scrum, Kanban, Shape Up. They're all tools. What matters is whether they help your team do good work in your specific context.
 
 That said, here are some approaches I've found useful:
 
@@ -110,17 +110,17 @@ That said, here are some approaches I've found useful:
 
 - **[Product Discovery](https://alistapart.com/article/usable-yet-useless-why-every-business-needs-product-discovery/)** — a structured process for understanding problems before jumping to solutions, including problem framing, solution exploration, and prioritization.
 
-The common thread is that all of these prioritize understanding over action, collaboration over hierarchy, and flexibility over rigidity.
+The common thread is that all of these prioritize understanding over action and collaboration over hierarchy.
 
 ---
 
 ## Learn to Love Documentation
 
-I'm a big fan of "working in the open." When we document our decisions—not just the outcomes, but the context and reasoning behind them—we build organizational memory. A year from now, when someone asks "why did we decide to do that?", we have an answer.
+I'm a big fan of "working in the open." When we document our decisions, including the context and reasoning behind them, we build organizational memory. A year from now, when someone asks "why did we decide to do that?", we have an answer.
 
 This is especially important for strategy work. Strategies change often in some organizations precisely because no one remembers why the last one was chosen. If the context and reasoning are documented, the next person to come along has what they need to make an informed decision about whether to stay the course or change direction.
 
-Documentation isn't bureaucracy. It's a gift to your future self and your teammates.
+Documentation is a gift to your future self and your teammates.
 
 ---
 
@@ -128,7 +128,7 @@ Documentation isn't bureaucracy. It's a gift to your future self and your teamma
 
 Product strategy isn't something that should happen in a room with three executives and a whiteboard. The people closest to customers and the technology often have the best insights about what's possible and what's needed.
 
-When I've done [collaborative product strategy work](https://elezea.com/2023/01/product-strategy-framework-process/), we've involved the whole team—engineers, designers, customer success, marketing, everyone. It takes longer, and it's messier, but the outcomes are better because we're drawing on everyone's knowledge. And the team buys in because they helped shape it.
+When I've done [collaborative product strategy work](https://elezea.com/2023/01/product-strategy-framework-process/), we've involved the whole team: engineers, designers, customer success, marketing, everyone. It takes longer, and it's messier, but the outcomes are better because we're drawing on everyone's knowledge. And the team buys in because they helped shape it.
 
 This is the philosophy behind W Planning too: leadership sets the direction, but teams propose the path. It's a partnership, not a mandate.
 
@@ -150,21 +150,9 @@ Products are made by people. And people do their best work when they're happy, h
 
 I believe the person will always be more important than the project. If someone is struggling—whether with the work, with something at home, or with their own wellbeing—that takes priority. We can adjust timelines. We can redistribute work. What we can't do is burn people out and expect great products to emerge.
 
-This isn't just altruism. Happy teams make better products. It's that simple.
+This isn't just altruism. Happy teams make better products.
 
 ---
-
-## Contributing Factors, Not Root Causes
-
-When things go wrong—whether it's a production incident or a planning miss—I don't believe in "root causes." Complex systems fail for multiple reasons, and hunting for a single root cause usually leads to blame rather than learning.
-
-Instead, I focus on **contributing factors**: the conditions, decisions, and circumstances that allowed the problem to occur. This framing keeps the focus on fixing the system rather than pointing fingers at individuals. It also acknowledges that most failures have multiple causes, and addressing just one won't prevent recurrence.
-
-When writing retrospectives, incident reports, or any analysis of what went wrong, always use "contributing factors" rather than "root cause."
-
----
-
-## In Summary
 
 If I had to boil all of this down, it would be:
 
@@ -176,4 +164,4 @@ If I had to boil all of this down, it would be:
 6. **Document and collaborate.** Work in the open. Bring people along.
 7. **Adapt to your context.** Frameworks are tools, not religions.
 
-None of this is original. I've learned from countless people, books, and experiences along the way. What I've tried to do here is synthesize what's worked for me into something coherent. I hope some of it is useful—take what resonates, adapt it to your situation, and leave the rest.
+None of this is original. I've learned from countless people, books, and experiences along the way. What I've tried to do here is synthesize what's worked for me into something coherent. I hope some of it is useful. Take what resonates, adapt it to your situation, and leave the rest.

@@ -51,21 +51,22 @@ For explainers that will be shared with colleagues, maintained over time, and de
 
 **When to use:** The user wants a deployed internal site, mentions "deploy", wants something colleagues can bookmark, or the subject is complex enough to warrant multiple guided modes.
 
-**Implementation reference:** Read `reference/deployed-worker-framework.md` in this skill's directory for the complete guide covering:
-- Repo scaffolding and naming
+**Deployment:** Follows the standard `internal-workers-deployment` skill (Data Lab account, `cf-*` naming, wildcard Access).
+
+**Implementation reference:** Read `reference/deployed-worker-framework.md` in this skill's directory for the explainer-specific guide covering:
 - Shared CSS/JS framework (copied verbatim from existing sites)
 - `window.pageConfig` data model
 - Page-specific CSS patterns (domain colors, highlights, dark mode)
 - Diagram HTML components (nodes, arrows, forks)
 - Mobile responsive breakpoints
-- Access control setup
-- Deployment and freshness checks
+- Freshness checks
 - Common mistakes to avoid
 
 **Existing sites using this framework:**
 
 | Site | Repo | URL | Shared JS? | Pages |
 |------|------|-----|------------|-------|
+
 
 
 ### Mode B: Single-file HTML (for quick explorations)

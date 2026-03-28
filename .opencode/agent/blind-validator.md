@@ -27,10 +27,12 @@ Read the draft carefully and build a list of every source it cites. Sources incl
 
 | Source Type | What to Look For |
 |-------------|-----------------|
-| **GitLab files** | File paths like `src/delivery/retry.go:L42`, repo paths like `org/team/service`, or full GitLab URLs |
-| **GitLab MRs** | MR references like `!1234`, MR URLs, or descriptions like "a recent MR in org/team/service" |
-| **Wiki pages** | Wiki URLs or page titles with space references |
-| **Product docs** | URLs like `https://docs.example.com/logs/...` or references to specific doc pages |
+| **Jira tickets** | Ticket IDs like `PROJ-123`, `ENG-456`, `DEVTOOLS-1234`, or full Jira URLs |
+| **GitLab files** | File paths like `src/handler.go:L42`, repo paths like `org/infra/deploy-service`, or full GitLab URLs |
+| **GitLab MRs** | MR references like `!1234`, MR URLs, or descriptions like "a recent MR in cloudflare/..." |
+| **GitLab CI jobs** | Job URLs, job IDs, or claims about job logs (error messages, status, metadata) |
+| **Product docs** | URLs like `https://docs.example.com/...` or references to specific doc pages |
+| **Backstage entities** | Backstage URLs, entity references like `component:default/my-service`, or ownership claims |
 
 For each source, also note the **claim** the draft makes about it — what the draft says the source contains, shows, or proves.
 
@@ -59,6 +61,13 @@ Use `gitlab_get_mr` to fetch the MR. Check:
 * Does the title/description match the draft's characterization?
 * Are the dates consistent with the draft's timeline?
 * If the draft claims the MR changed specific behavior, check `gitlab_get_mr_diffs` to confirm.
+
+### GitLab CI Job Logs
+Use the GitLab MCP tools to fetch the job trace. Check:
+* Does the error message quoted in the draft actually appear in the log?
+* Are there additional errors the draft omits that change the picture? (e.g., failures across 6 resource types when the draft only quotes one)
+* Does the job metadata (status, branch, runner, pipeline ID) match the draft's claims?
+* If the draft claims a prior job "succeeded", fetch that job's log too — confirm it actually ran vs. skipped.
 
 ### Wiki Pages
 Use `wiki_fetch_page` to read the page. Check:
