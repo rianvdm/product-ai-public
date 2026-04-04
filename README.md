@@ -37,6 +37,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 * [`interactive-explainer`](.opencode/skills/interactive-explainer/SKILL.md) -- Build self-contained interactive HTML visualizations of processes, algorithms, or systems
 * [`linear-walkthrough`](.opencode/skills/linear-walkthrough/SKILL.md) -- Generate narrative walkthroughs of code, documents, or systems for learning and onboarding
 * [`discord-bot`](.opencode/skills/discord-bot/SKILL.md) -- Discord bot development guide: Developer Portal setup, Gateway vs Interactions architecture, Cloudflare Workers integration, common gotchas, and verification checklist
+* [`check-skill`](.opencode/skills/check-skill/SKILL.md) -- Audit any SKILL.md against best practices: 5 skill killers, anatomy completeness, scoping, and context binding
 
 ### Agents
 
