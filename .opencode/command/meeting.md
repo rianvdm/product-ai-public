@@ -8,7 +8,7 @@ Transform a meeting transcript into structured, scannable meeting notes that sur
 
 ## Arguments
 
-* `$INPUT` — The transcript text (pasted directly), or a link/path to the source (Google Doc URL, file path, Otter link)
+* `$INPUT` — The transcript text (pasted directly), or a link/path to the source (Google Doc URL, file path)
 
 ## Instructions
 
@@ -38,6 +38,36 @@ If a related project exists:
 
 If no related project is found, proceed normally.
 
+### Update stakeholder memory
+
+After writing the meeting notes (and any project CONTEXT.md updates), update `stakeholders.json` if you can identify who was in the meeting. Identification sources (in priority order):
+
+1. Calendar event attendee list (if the user provided a calendar link or the transcript names participants)
+2. Speaker labels in the transcript (e.g., "Rian:", "Tom:")
+3. Names mentioned as present in the meeting
+
+For each identified participant (excluding Rian):
+
+1. **Read `stakeholders.json`** and find their entry by name (case-insensitive partial match) or email
+2. **If found:** Append a new interaction entry:
+   ```json
+   {
+     "date": "<meeting-date>",
+     "type": "meeting",
+     "summary": "<1-sentence summary of what was discussed>",
+     "source": "<meeting title or descriptive name>"
+   }
+   ```
+   Also update:
+   - `whatTheyCareAbout` — add any new topics they clearly advocated for or raised
+   - `commitments` — add any new commitments surfaced in the Action Items section (set `owner` to `"me"` or `"them"` as appropriate, `status: "open"`)
+   - `lastUpdated` to the current ISO 8601 timestamp
+3. **If not found:** Skip silently — do not create new entries from meeting notes alone (too little context for a useful profile). Mention at the end that N participants were not in the stakeholder memory, in case the user wants to add them.
+
+**Do not duplicate:** If an interaction with the same date and source already exists, skip it.
+
+**When to skip entirely:** If you cannot confidently identify any participants (e.g., transcript has no speaker labels and no attendee list), skip this step and note that stakeholder memory was not updated because participants couldn't be identified.
+
 ### Processing
 
 You are a professional meeting notes editor. Your primary job is **extracting structure and meaning** from the transcript, not cleaning up text. AI transcription tools handle filler words and grammar. Focus on making the content useful.
@@ -47,7 +77,6 @@ You are a professional meeting notes editor. Your primary job is **extracting st
 * Fix misheard proper nouns, product names, and technical terms (e.g., "Amaz On" → "Amazon")
 * **Correct known name misspellings from AI transcription.** Common ones:
   * [Your name] — add common AI transcription misspellings, e.g. often transcribed as "Ryan", "Rihanna"
-  * Cathy (engineer, Analytics/Pipeline) — often transcribed as "Kathy", "Cappy"
   * If a name seems off but isn't in this list, grep the vault to find the correct spelling before writing notes
 * Remove any remaining filler words or obvious repetitions
 * Do not rewrite sentences for style or grammar unless they are genuinely unclear
@@ -74,7 +103,7 @@ Write the output to a `meetings/` folder using the naming convention `YYYY-MM-DD
 ```markdown
 # [Meeting type] with [Person] - [YYYY-MM-DD]
 
-> **Source:** [Link to original transcript if available (Google Doc, Otter link, etc.)]
+> **Source:** [Link to original transcript if available (Google Doc URL, etc.)]
 
 ## Summary
 

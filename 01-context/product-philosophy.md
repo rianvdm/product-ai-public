@@ -64,7 +64,7 @@ So I treat planning documents as "a road sign into the fog." We make sure the di
 - **Next** — what's coming in the next few weeks, fully spec'd and ready to go
 - **Later** — what we believe is important, but may shift as we learn more
 
-The further out you go, the more likely things will change. That's not a bug. It's an honest reflection of reality.
+The further out you go, the more likely things will change. That's not a bug, it's an honest reflection of reality.
 
 ---
 
@@ -94,7 +94,7 @@ Product managers tend to gravitate toward [wicked problems](https://elezea.com/2
 
 I think about this as "life force": the finite amount of energy and willpower we have available. Some battles are worth fighting: hard problems where we have real influence and can make a meaningful difference. Others are not: hard problems where organizational dynamics or lack of buy-in mean we're unlikely to succeed no matter how hard we try.
 
-The goal isn't to avoid hard problems. It's to pick the *right* hard problems—the ones where the effort will actually pay off.
+The goal is to pick the *right* hard problems—the ones where the effort will actually pay off.
 
 ---
 
@@ -150,18 +150,8 @@ Products are made by people. And people do their best work when they're happy, h
 
 I believe the person will always be more important than the project. If someone is struggling—whether with the work, with something at home, or with their own wellbeing—that takes priority. We can adjust timelines. We can redistribute work. What we can't do is burn people out and expect great products to emerge.
 
-This isn't just altruism. Happy teams make better products.
+Happy teams make better products.
 
 ---
 
-If I had to boil all of this down, it would be:
-
-1. **Understand before you build.** Start with the problem, not the solution.
-2. **Trust your teams.** Give them context and goals, then get out of the way.
-3. **Stay honest about uncertainty.** Roadmaps are guesses, and that's okay.
-4. **Prioritize outcomes over outputs.** Shipping isn't the goal; impact is.
-5. **Choose calm over chaos.** Sustainable pace beats heroics every time.
-6. **Document and collaborate.** Work in the open. Bring people along.
-7. **Adapt to your context.** Frameworks are tools, not religions.
-
-None of this is original. I've learned from countless people, books, and experiences along the way. What I've tried to do here is synthesize what's worked for me into something coherent. I hope some of it is useful. Take what resonates, adapt it to your situation, and leave the rest.
+None of this is original. I've learned from countless people, books, and experiences along the way. What I've tried to do here is synthesize what's worked for me into something coherent. Take what resonates, adapt it to your situation, and leave the rest.

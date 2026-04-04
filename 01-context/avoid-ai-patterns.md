@@ -71,7 +71,6 @@ To keep writing natural and human, avoid these telltale AI patterns. Any single 
 * **Overuse of em dashes** -- especially multiple per paragraph. A human writer might use 2-3 per piece; AI will use 20+
 * **Overuse of horizontal rules** -- don't break up sections with horizontal rules
 * **Overuse of colons** -- using colons to introduce lists or explanations where a period would do
-* **Bold-first bullets** -- every bullet point starts with a bolded keyword. Almost nobody formats lists this way by hand. A telltale sign of AI-generated documentation and blog posts
 * **Unicode decoration** -- smart arrows (→), curly quotes, and other special characters that can't be easily typed on a standard keyboard. Real writers typing in a text editor produce straight quotes and -> or =>
 
 ## Tonal pitfalls
