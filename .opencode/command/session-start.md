@@ -20,9 +20,15 @@ Read `01-context/corrections.md` in full. Apply these corrections for the rest o
 
 Read `01-context/stable-facts.md` in full. This gives you the current state of all active work, recent decisions, blockers, and environment constraints. Use this as your primary orientation — it's more current and compact than the session log.
 
-### 3. Load Recent Session Log
+### 3. Load Recent Session Logs
 
-Read `01-context/session-log.md`. Find the **last 3 entries** (H2 sections). These represent the most recent substantive work sessions.
+Two session logs exist:
+- `01-context/session-log-work.md` — Amazon work
+- `01-context/session-log-personal.md` — Personal/side projects (Discrobble, discogs-mcp, ListenToMore, tldl)
+
+**If the user's arguments indicate a topic area** (e.g., "continue with Exponent" → work, "Discrobble work" → personal), read only the relevant log. **Otherwise**, read both.
+
+Find the **last 3 entries** (H2 sections) from whichever log(s) you loaded. These represent the most recent substantive work sessions.
 
 When reviewing open threads from the session log, cross-reference against stable-facts. Don't list items that are already captured as active work or blockers — only surface threads that stable-facts doesn't cover.
 

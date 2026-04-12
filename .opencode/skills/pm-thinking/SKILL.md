@@ -1,3 +1,8 @@
+---
+name: pm-thinking
+description: Apply the product management philosophy to PRDs, OKRs, strategy docs, roadmaps, product decisions, prioritization, and feature evaluation. Problem-first thinking, outcomes over outputs, empowered teams.
+---
+
 # PM Thinking Skill
 
 Apply the product management philosophy to all product-related tasks.

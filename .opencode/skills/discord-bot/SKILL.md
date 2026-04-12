@@ -1,3 +1,8 @@
+---
+name: discord-bot
+description: Discord bot development on Cloudflare Workers — Discord API, Developer Portal, slash commands, Gateway WebSocket, Interactions Endpoint, bot permissions, intents, and Ed25519 verification.
+---
+
 # Discord Bot Development
 
 Use this skill when working on Discord bots, Discord API integration, bot setup/configuration, or slash command registration. Triggered by mentions of Discord bots, Discord Developer Portal, Discord API, slash commands, Gateway, or Interactions Endpoint.

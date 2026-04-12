@@ -23,6 +23,25 @@ Transform a meeting transcript into structured, scannable meeting notes that sur
   If the MCP tool fails, ask the user to paste the transcript content directly.
 * If the user provides a file path, read that file
 
+### Handling long / truncated transcripts
+
+Google Meet Gemini transcripts often exceed 50KB. The `docs_get` tool returns JSON with the content in a single `content` field, which frequently gets truncated by output limits. When this happens:
+
+1. The tool output will say "truncated" and provide a path to the full saved file (e.g., `/Users/rian/.local/share/opencode/tool-output/tool_...`)
+2. **Extract the content from JSON to a temp file** using Python so you can read it with proper line breaks:
+   ```
+   python3 -c "
+   import json
+   with open('<saved-tool-output-path>', 'r') as f:
+       data = json.load(f)
+   with open('/tmp/meeting-transcript.md', 'w') as f:
+       f.write(data['content'])
+   "
+   ```
+3. **Read `/tmp/meeting-transcript.md`** using the Read tool. If still too long, read in chunks using `offset` and `limit`.
+
+Do NOT attempt to process the transcript from the truncated output — you will miss significant portions of the meeting. Always ensure you have the complete transcript before writing notes.
+
 ### Check for related project context
 
 Before processing the transcript, determine whether this meeting relates to an existing project brain in `work/projects/`. Look for clues in:

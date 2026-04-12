@@ -37,7 +37,7 @@ If no file path is provided, ask the user which file to review.
 
 ## Phase 1: Parallel Review (Three Subagents)
 
-Launch THREE (3) subagents in parallel using the Task tool. Use `@research` agents for Subagents 1 and 2 (they need MCP access to verify facts and check coverage), and a `general` agent for Subagent 3 (style checking only needs local files).
+Launch THREE (3) subagents in parallel using the Task tool. Use `@research` agents for Subagents 1 and 2 (they need MCP access to verify facts and check coverage), and the `@editor` agent for Subagent 3 (dedicated style and AI-pattern editor).
 
 Each subagent receives:
 * The full content of the target file
@@ -84,19 +84,20 @@ Prompt the subagent to:
 * Check that sources/references are actually cited, not just listed
 * For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and what's missing
 
-### Subagent 3: Style & Structure (`general`)
+### Subagent 3: Style & AI-Pattern Editor (`@editor`)
 
-> Focus: Does the document follow the expected format and writing standards?
+> Focus: Does the document follow the expected writing style, and is it free of AI tells?
 
-**Agent type:** `general` — no MCP access needed; works entirely against local style guides and format specs.
+**Agent type:** `editor` — dedicated ruthless style-and-AI-pattern editor. Runs ten scoped passes over the document including a mandatory second run of Pass 5 (banned sentence structures) and a final cold read. Auto-detects work-vs-personal context from the file path and loads the matching style guide. Read-only.
 
-Prompt the subagent to:
-* Compare section structure against the format reference from the source command
-* Check adherence to writing style guide (lead with outcomes, no hype language, etc.)
-* Flag anti-patterns per `01-context/avoid-ai-patterns.md`: overused words and phrases, banned sentence structures, structural patterns (uniform rhythm, faux balance, arguments that teleport), excessive em dashes, overwrought sincerity
-* Verify link format correctness (wikilinks for internal, standard markdown for external)
-* Check file naming conventions (kebab-case, date prefix where needed)
-* For each finding, include `file_path:line_number`, severity (Critical/Major/Minor), and the specific violation
+Pass the editor:
+* The target file path (the editor will read it and detect context)
+* The format reference content from Pre-Flight step 2, if one was loaded — the editor will check structure against it during Pass 9
+* The custom `--focus` directive, if provided
+
+The editor returns findings in the shared format: `file_path:line_number`, severity (Critical/Major/Minor), pattern name, quoted text, and a concrete suggested rewrite. These feed directly into Phase 2 deduplication alongside findings from Subagents 1 and 2.
+
+The editor also returns explicit counts (em dashes, "not X, it's Y" variants, overused words) and a confidence statement. Preserve these in the compiled output if the downstream Validation pass has questions about the editor's thoroughness, but do not show the counts to the user unless a finding references them.
 
 **Custom focus:** If a `--focus` directive was provided, append it to each subagent's prompt as additional guidance: "The reviewer also asks you to pay special attention to: [custom focus]"
 

@@ -4,6 +4,21 @@
 
 To keep writing natural and human, avoid these telltale AI patterns. Any single instance might be fine. The problem is when multiple patterns appear together or when one is used repeatedly.
 
+## Fabricated metrics [CRITICAL]
+
+NEVER quote a specific number as fact unless it comes from verifiable data. Time savings, cost savings, productivity gains, and percentages must be either (a) measured or (b) explicitly framed as estimates.
+
+| Fabricated precision | Honest framing |
+|---|---|
+| "Reduced triage time from 60 minutes to 5 minutes" | "Triage takes a fraction of the time it used to" |
+| "Saved 80% of revision time" | "Each revision cycle got noticeably shorter" |
+| "10x faster than manual process" | "Meaningfully faster -- the difference is obvious" |
+| "Producing pages in minutes that previously took hours" | "What used to take most of an afternoon now takes one session" |
+
+If a number is an estimate, say so: "roughly half the time", "a fraction of what it took before", "cut the cycle from hours to minutes." Vague-but-honest beats precise-but-fabricated. "Significantly faster" is better than "12x faster" when you have not measured it.
+
+This applies to all output: docs, emails, blog posts, summaries. The temptation is strongest when describing productivity gains from tools or process changes.
+
 ## Overused words
 
 * **Verbs:** delve, underscore, highlight, showcase, leverage, utilize, facilitate, foster, navigate, garner, craft, harness, boast, surpass
