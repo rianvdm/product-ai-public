@@ -45,115 +45,68 @@ Do not skip this step. Do not work from memory of prior sessions — the style g
 
 Run TEN separate passes over the document. Each pass targets one family of problems. Do NOT combine passes — a single sweep is never thorough enough. Between passes, reset your attention and re-scan from the top.
 
+Each pass below maps to a section in `avoid-ai-patterns.md`. Load that file at Step 2 and treat it as the authoritative list — do not work from memory or from prior versions of this agent. If the source file adds, removes, or renames an item, the source wins.
+
 ### Pass 1 — Fabricated metrics [CRITICAL]
 
-Look for specific numbers (percentages, durations, multipliers, counts) that can't be verified from source data: "Reduced time by 80%", "10x faster", "from 60 minutes to 5 minutes", "saved 4 hours per week". Flag every one unless the number is clearly sourced. Suggested replacements should be vague-but-honest: "noticeably faster", "a fraction of the time it used to take", "cut the cycle from hours to minutes".
+Source: **Fabricated metrics** section of `avoid-ai-patterns.md`.
+
+Look for specific numbers (percentages, durations, multipliers, counts) that can't be verified from source data. Flag every one unless the number is clearly sourced. Suggested replacements should be vague-but-honest, following the examples in the source file's conversion table.
 
 ### Pass 2 — Overused words
 
-Grep or carefully read for every word on the avoid-ai-patterns overused list:
+Source: **Overused words** section of `avoid-ai-patterns.md`.
 
-- **Verbs:** delve, underscore, highlight, showcase, leverage, utilize, facilitate, foster, navigate, garner, craft, harness, boast, surpass
-- **Adjectives:** intricate, meticulous, swift, adept, liminal, spectral, crucial, pivotal, robust, seamless, transformative, groundbreaking, cutting-edge, nuanced, multifaceted
-- **Nouns:** tapestry, journey, echo, whisper, shadow, ghost(s), landscape (as catch-all), realm, paradigm, ecosystem, synergy
-- **Atmosphere words:** quiet (especially common), hum/humming, woven/weave, deeply, fundamentally
-- **Filler adverbs:** remarkably, genuinely, truly, incredibly, arguably
-
-Each hit is a finding. Suggest a concrete replacement, not a generic "use a simpler word" note.
+Scan the document for every word in that section (verbs, adjectives, nouns, atmosphere words, filler adverbs). Each hit is a finding. Suggest a concrete replacement, not a generic "use a simpler word" note. Pay special attention to the words the source file flags as especially common (e.g., "quiet").
 
 ### Pass 3 — Overused phrases
 
-Flag every instance:
+Source: **Overused phrases** section of `avoid-ai-patterns.md`.
 
-- "It's worth noting that" / "It bears mentioning" / "Notably" / "Interestingly" / "Importantly"
-- "In today's [fast-paced / ever-evolving / digital] [world / landscape / age]"
-- "Cannot be overstated"
-- "A testament to"
-- "Paving the way"
-- "Unlock the potential of"
-- "As mentioned above/earlier"
-- "At the end of the day"
-- "What stood out to me" / "jumped out at me" / "caught my attention" / "I keep coming back to" / "I keep thinking about"
-- "In conclusion" / "To sum up" / "In summary"
+Flag every instance of every phrase listed there. Match variants and near-variants, not only verbatim hits.
 
 ### Pass 4 — Word-level substitution tics
 
-- **"Serves as" dodge:** "serves as", "stands as", "marks", "represents" when used as fancy copulas. Replace with plain "is".
-- **Superficial "-ing" analysis:** "highlighting its importance", "reflecting broader trends", "underscoring its role as a dynamic hub" — present participles tacked on to inject hollow significance.
-- **Invented concept labels:** abstract problem-nouns like "supervision paradox", "acceleration trap", "workload creep" — names that dodge the argument.
-- **Vague attributions:** "experts argue", "industry reports suggest", "observers have cited". If you can't name the source, don't invoke one.
+Source: **Word-level substitution tics** section of `avoid-ai-patterns.md`.
+
+Check for each tic listed there: the "serves as" dodge, superficial "-ing" analysis, invented concept labels, vague attributions. For "serves as" style copula dodges, the suggested rewrite is almost always plain "is".
 
 ### Pass 5 — Banned sentence structures [CRITICAL — RUN THIS PASS TWICE]
 
-This is the highest-risk pattern family. Run the pass, then run it again before moving on. The "not X, it's Y" family in particular hides in variants the first scan misses.
+Source: **Sentence structures to avoid** section of `avoid-ai-patterns.md`.
 
-**"It's not X — it's Y"** and ALL its variants:
+This is the highest-risk pattern family. Run the pass, then run it again before moving on. The "not X, it's Y" family in particular hides in variants the first scan misses — when you re-run, explicitly hunt for:
 
-- Two-sentence: "It isn't X. It's Y." / "X wasn't Y. It was Z." / "The important thing isn't X. It's Y."
+- Two-sentence: "It isn't X. It's Y." / "X wasn't Y. It was Z."
 - Causal: "not because X, but because Y"
 - Em-dash dismissal: "X — not Y"
 - Compressed: "X, not Y"
 - Comparative flip: "less about X and more about Y" / "more about X than Y"
 
-**Other banned structures:**
-
-- **"No X. No Y. Just Z."** — dramatic countdown building false tension before a reveal
-- **"The X? A Y."** — self-posed rhetorical question answered immediately ("The result? Devastating.")
-- **Excessive rule of threes** — triplets appearing in multiple consecutive paragraphs
-- **Anaphora abuse** — "They could expose... They could offer... They could provide..."
-- **"Honestly?" as punctuation** — mid-sentence or as an opener
-- **Dismissive formula:** "an X with Y and Z" (e.g., "a Reddit troll with Wi-Fi and billions")
-- **Synesthesia abuse** — "grief that tastes of metal", "ideas that smell of"
-- **False ranges** — "from X to Y" where X and Y aren't on a real scale
-- **Announcing the punchline:** "Here's the kicker", "But here's the thing", "The best part?"
-- **Setup without delivery:** "I'm going to state this as clearly as possible", "Here's the part most people miss"
-- **Soft announcing:** "Here's something I've been thinking about:", "I think about it like this:", "My advice is this:", "The idea is simple:", "The rule is simple:" — including colon-introduced setup lines that promise a reveal
-- **Coaching / therapy mode:** "You're not imagining it", "You're not alone", "Do you want to sit with that?"
-- **Safe truths that teach nothing:** "Consistency is important", "Building relationships takes time"
-- **Narrating the effort:** "Building X takes time", "Each one required reading through Y"
-- **Vague evolution openers:** "The system keeps evolving", "The landscape is shifting", "Things continue to develop"
-
-For every hit, quote the exact text and propose a concrete rewrite that eliminates the formula — not just "soften this" or "try a different construction".
+All other banned structures come from the source file — check every item listed there, not just the ones called out above. For every hit, quote the exact text and propose a concrete rewrite that eliminates the formula — not just "soften this" or "try a different construction".
 
 ### Pass 6 — Structural patterns
 
-- **Uniform sentence rhythm** — every sentence the same length and cadence
-- **Short punchy fragments as standalone paragraphs** — one deliberate fragment is fine, multiple is the pattern
-- **Faux balance** — "Despite its challenges..." acknowledging problems only to dismiss them
-- **Too-tidy internal references** — perfect callback loops where the close weaves back into the opening
-- **Arguments that teleport** — conclusions appearing without showing the reasoning
-- **Missing emotional spikes** — neutral temperature when the topic demands a stance
-- **Metaphors that almost land** — comparisons that sound clever but don't map; single metaphors beaten into the ground
-- **Excessive coherence** — every detail too neatly serving the argument
-- **Listicle in a trench coat** — "The first takeaway... The second takeaway..." disguised as prose
-- **One-point dilution** — one argument restated many ways across many words
-- **Fractal summaries** — every subsection summarized, every section summarized, the document itself summarized at the end
-- **Historical analogy stacking** — "Apple didn't build Uber. Facebook didn't build Spotify. Stripe didn't build Shopify."
+Source: **Structural patterns** section of `avoid-ai-patterns.md`.
+
+Check every item in that section. Structural patterns are the hardest to spot on a single read — you often need to look at paragraph-to-paragraph relationships, not individual sentences.
 
 ### Pass 7 — Punctuation and formatting
+
+Source: **Punctuation and formatting** section of `avoid-ai-patterns.md`, plus the thresholds below (which are editor-specific and not in the source file).
+
+Check every item in the source section (em dashes, horizontal rules, colons, unicode decoration, bold-first bullets if listed). Then apply these editor-specific thresholds:
 
 - **Em-dash count:** count every em dash in the document (use Grep if needed). Thresholds:
   - Personal blog posts: up to ~5 for a long-form piece; flag if more.
   - Work docs: one or two per section maximum.
   - Report the total count and list the line numbers. If over threshold, flag as a finding.
-- **Horizontal rules:** flag any `---` dividers except at a final footer separator
-- **Colon overuse:** flag colons introducing lists or explanations where a period would do, especially when the colon sets up an announced payoff ("The rule is simple: ...", "I want to name the design choice at the center of this: ...")
-- **Unicode decoration:** smart arrows (→, ←, ⇒), curly quotes (" " ' '), special characters that aren't typed naturally on a plain keyboard. Flag each.
 
 ### Pass 8 — Tonal pitfalls
 
-- **Overwrought sincerity** — "woven into your daily rhythm", manufactured warmth
-- **Overeager enthusiasm** — wide-eyed excitement about things that don't warrant it
-- **Gesturing at depth** — piled metaphors that collapse into nonsense
-- **Atmosphere cosplay** — "ghostly", "echoing", "quiet" applied to subjects that don't call for it
-- **Corporate-inspirational filler** — "revolutionize the way", "will define the next era"
-- **Performative empathy** — unsolicited validation
-- **Patronizing analogy** — "Think of it as...", "Think of it like a highway system for data"
-- **Futurism invitation** — "Imagine a world where..."
-- **Pedagogical hand-holding** — "Let's break this down", "Let's unpack this", "Let's explore"
-- **Asserting clarity instead of demonstrating it** — "The truth is simple", "The reality is straightforward", "History is unambiguous on this point"
-- **False vulnerability** — polished, risk-free simulated self-awareness
-- **Stakes inflation** — small topics treated as civilizational
+Source: **Tonal pitfalls** section of `avoid-ai-patterns.md`.
+
+Check every item in that section.
 
 ### Pass 9 — Style guide adherence
 

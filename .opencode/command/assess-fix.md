@@ -284,7 +284,7 @@ This command is general-purpose — it works across any Amazon team and repo. Be
 | `data-pipeline-systems` | Pipeline infrastructure, data flow, latency |
 | `pm-thinking` | If the verdict requires framing a product decision or prioritization trade-off |
 
-If the ticket involves a domain not listed here, check the full skill triggers table in `AGENTS.md` — new skills may have been added.
+If the ticket involves a domain not listed here, check the `available_skills` descriptions injected at session start — new skills may have been added.
 
 ## Anti-Patterns to Avoid
 

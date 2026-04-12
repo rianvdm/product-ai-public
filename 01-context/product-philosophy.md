@@ -1,6 +1,6 @@
 # My Product Philosophy
 
-In this document I try to articulate how I think about product work. This isn't a methodology or a framework to be adopted wholesale. It's a reflection of what I've learned over the years about what works and what doesn't.
+In this document I try to articulate how I think about product work. It's not a methodology, and I wouldn't adopt it wholesale. It's what I've picked up over the years about what works and what doesn't.
 
 ---
 
@@ -70,7 +70,7 @@ The further out you go, the more likely things will change. That's not a bug, it
 
 ## Deadline-Driven Development Is Fraught
 
-Speaking of roadmaps: I've become deeply skeptical of arbitrary deadlines. Not because dates don't matter. They do, especially when there are external commitments or dependencies. But because too often, deadlines are set without input from the teams who have to do the work.
+Speaking of roadmaps: I've become deeply skeptical of arbitrary deadlines. Dates matter when there are real external commitments or dependencies. The problem is that deadlines often get set without any input from the teams that have to do the work.
 
 When that happens, teams are forced to make quality tradeoffs to hit the date. Technical debt accumulates. Corners get cut. And the thing you ship is worse than what you could have shipped if you'd taken the time to do it right.
 
