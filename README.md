@@ -45,6 +45,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 * [`blind-validator`](.opencode/agent/blind-validator.md) -- Independently re-fetch and verify every source cited in a draft document
 * [`challenger`](.opencode/agent/challenger.md) -- Adversarial reasoning reviewer that finds logic errors, weak explanations, unsupported claims, and gaps that mechanical checklists miss
 * [`fix-assessor`](.opencode/agent/fix-assessor.md) -- Read code, map change surface area, check CI/tests, and score feasibility criteria for a proposed fix
+* [`editor`](.opencode/agent/editor.md) -- Ruthless style editor that runs ten scoped passes over a document to catch AI patterns, overused words, banned sentence structures, and style-guide violations
 
 ### Commands
 
