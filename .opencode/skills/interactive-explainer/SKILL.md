@@ -229,7 +229,7 @@ Deploy with `npx wrangler deploy` from the repo. See `reference/deployed-worker-
 Save to:
 
 ```
-/Users/rian/Documents/GitHub/product-ai/output/<name>.html
+/Users/rian/git/product-ai/output/<name>.html
 ```
 
 Name it after the source walkthrough or subject matter — e.g. `Interactive - Data Pipeline Systems.html`.
@@ -237,7 +237,7 @@ Name it after the source walkthrough or subject matter — e.g. `Interactive - D
 After saving, you MUST open it in the default browser immediately — do not ask the user to do this:
 
 ```bash
-open "/Users/rian/Documents/GitHub/product-ai/output/<name>.html"
+open "/Users/rian/git/product-ai/output/<name>.html"
 ```
 
 Run this command yourself before finishing. Then tell the user where the file was saved and confirm it's open.

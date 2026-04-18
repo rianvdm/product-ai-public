@@ -2,7 +2,7 @@
 name: blind-validator
 description: Independently re-fetches all sources cited in a draft (Jira tickets, GitLab files, wiki pages, doc URLs, MRs) and verifies that each exists and supports the claims made. Returns a structured verification report. Use as a validation step in any command that produces source-backed analysis.
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: anthropic/claude-opus-4-7
 temperature: 0.2
 tools:
   write: false

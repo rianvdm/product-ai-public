@@ -2,7 +2,7 @@
 name: fix-assessor
 description: Assesses whether a Jira ticket's fix can be implemented by a technical PM and an LLM coding agent. Reads GitLab code, maps change surface area, scores feasibility criteria. Returns structured evidence for the orchestrator to make a Go/No-Go verdict.
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: anthropic/claude-opus-4-7
 temperature: 0.2
 tools:
   write: false

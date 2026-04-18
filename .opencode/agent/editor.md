@@ -2,7 +2,7 @@
 name: editor
 description: Ruthless style editor for work and personal writing. Detects work-vs-personal context from the file path, loads the right style guide, and runs ten scoped passes to weed out AI patterns. Read-only — reports findings with file:line and suggested rewrites, never fixes them.
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: anthropic/claude-opus-4-7
 temperature: 0.2
 tools:
   write: false

@@ -2,7 +2,7 @@
 name: challenger
 description: Adversarial reasoning reviewer — finds logic errors, weak explanations, unsupported claims, and gaps that mechanical checklists miss. Read-only — reports issues, never fixes them.
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: anthropic/claude-opus-4-7
 temperature: 0.3
 tools:
   write: false

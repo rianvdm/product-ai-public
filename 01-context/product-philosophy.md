@@ -64,7 +64,7 @@ So I treat planning documents as "a road sign into the fog." We make sure the di
 - **Next** — what's coming in the next few weeks, fully spec'd and ready to go
 - **Later** — what we believe is important, but may shift as we learn more
 
-The further out you go, the more likely things will change. That's not a bug, it's an honest reflection of reality.
+The further out you go, the more likely things will change. That's honest, not sloppy — the less you can actually see, the less you should pretend to plan.
 
 ---
 
@@ -84,7 +84,7 @@ Every time I travel, I remind myself: [no running in airports](https://elezea.co
 
 I think about product work the same way. Urgency is sometimes unavoidable, but chronic urgency is a sign that something is broken. When teams are constantly in crisis mode, they can't do their best work. They make mistakes, burn out, and eventually leave.
 
-I believe in quality over speed. Taking the time to understand the problem. Giving teams space to do focused, deep work. Building things right the first time instead of accumulating technical debt. It's slower in the short term, but faster in the long term—and much better for the humans involved.
+I believe in quality over speed. I'd rather spend the time to understand the problem, give teams room for focused work, and get things right the first time than let technical debt pile up. It's slower in the short term and faster in the long term—and much better for the humans involved.
 
 ---
 

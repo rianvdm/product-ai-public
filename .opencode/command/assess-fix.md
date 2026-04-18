@@ -106,6 +106,10 @@ The implementation brief must be **self-contained** — a PM and LLM coding agen
 
 ### Phase 4: Validate and Challenge
 
+Phase 4 has up to three tracks: sources (blind validator), reasoning (challenger), and — when warranted — mechanism verification (debugging track). The mechanism track is conditional; run it only if the fix rests on a behavioural hypothesis that hasn't been verified against the actual code paths it depends on.
+
+#### Phase 4a: Blind validator + challenger (parallel, always)
+
 Dispatch `@blind-validator` and `@challenger` in **parallel** — they review independent aspects of the draft (sources vs. reasoning) and neither needs the other's output.
 
 ```
@@ -131,6 +135,7 @@ Focus on:
 2. **Scope accuracy.** Did the assessor undercount files that need to change? Does the change surface map look complete?
 3. **Implementation brief consistency (if present).** Are the steps in the right order? Are code changes consistent with each other (e.g., struct changes match usage changes)? Does the test strategy cover the changes? Is the 'What NOT to Change' section complete?
 4. **Unsupported claims.** Are feasibility ratings backed by specific evidence, or are they vibes?
+5. **Causal story gaps.** If the draft proposes a fix based on a behavioural hypothesis (e.g., 'the bug happens because X causes Y'), is that hypothesis verified against the actual code, or is it reasoning from the ticket summary? Flag any load-bearing causal claims the assessor has NOT verified by reading the relevant code paths end-to-end.
 
 Do not check sources (the blind validator handles that). Do not rewrite the draft.
 
@@ -140,17 +145,70 @@ Here is the draft:
 )
 ```
 
-**CRITICAL:** Send both Task calls in a **single message**. Do NOT begin writing the file until both agents have responded.
+**CRITICAL:** Send both Task calls in a **single message**. Do NOT begin writing the file or proceeding to Phase 4b until both agents have responded.
 
-After both agents complete, apply fixes and produce the confidence assessment:
+#### Phase 4b: Mechanism verification (conditional)
 
-* **Mischaracterized code references (from blind validator):** Fix file paths, line numbers, function names, and code descriptions to match what the blind validator actually found. If a key implementation step is based on wrong code, rewrite the step.
-* **Sources not found (from blind validator):** Remove the reference. If the implementation brief depends on a file that doesn't exist, flag this as a critical issue and reconsider the verdict.
-* **Reasoning issues (from challenger):** If the challenger found credible reasons to change the verdict, change it. If the verdict holds, note the challenge and why you maintained it. Fix any issues the challenger identified in the implementation steps.
-* **Confidence assessment (your synthesis of both reports):** Produce a confidence rating factoring in both the blind validator's source accuracy findings and the challenger's reasoning review:
-  * **High confidence** — all code references verified, verdict well-supported, implementation brief is complete and consistent, no critical or high challenger issues
-  * **Medium confidence** — mostly solid but some references couldn't be verified or were mischaracterized, or the challenger found high-severity reasoning gaps
-  * **Low confidence** — significant code references are wrong or missing, verdict is uncertain, or the challenger found critical reasoning errors
+Run this track when ANY of the following is true:
+
+* The fix addresses a bug (as opposed to a pure refactor or cookie-cutter migration).
+* The challenger flagged causal-story gaps, concurrency concerns, or load-bearing unverified claims.
+* The assessment's confidence is trending Medium for reasons other than contribution-pattern / testability (i.e., the uncertainty is about *whether the fix actually fixes the bug*).
+
+Skip this track for pure mechanical changes where the "why" is obvious (endpoint renames, config edits, documented API migrations with prior art).
+
+When warranted, dispatch a debugging-oriented subagent that loads the `systematic-debugging` skill and reads the specific code paths the challenger flagged:
+
+```
+Task(
+  subagent_type="general",
+  description="Verify fix mechanism for [TICKET-ID]",
+  prompt="Load and follow the systematic-debugging skill (use the Skill tool: skill({ name: 'systematic-debugging' })). This is Phase 1 root-cause investigation — evidence before assertions, no fixes, no proposals.
+
+I have a fix feasibility draft for [TICKET-ID]. The challenger flagged the following causal-story gaps / load-bearing unverified claims:
+
+[Paste the specific challenger findings that require mechanism verification]
+
+The draft's proposed fix assumes the following causal story:
+
+[Paste the draft's causal hypothesis — e.g., 'X happens because Y, so fixing Z closes the bug window']
+
+Your job is to READ the actual code at the specific spots that could falsify or confirm this story. You cannot run a live reproduction — convert reasoning into evidence by reading source.
+
+Specifically:
+1. Locate and read the cited code paths end-to-end. Follow dependencies 1-2 hops out (e.g., if the draft cites a Redux action, read the action creator, the reducer, and the selector; if it cites a function call, read both caller and callee).
+2. For each load-bearing claim in the causal story, quote the code that supports or refutes it. Be explicit: 'Claim X is supported by [file:line]' or 'Claim X is contradicted by [file:line] which does Y instead'.
+3. If you find the causal story is wrong, identify the most likely real mechanism based on what the code actually does. Quote evidence.
+4. If you find the causal story is right, note any residual failure modes the fix would NOT close.
+5. If you can't determine something from the code alone (e.g., runtime timing, server-side behaviour, caching layers outside the repo), say so clearly.
+
+Repo: [repo path from Phase 2]. Local clone: [check for local clone per AGENTS.md repo conventions].
+
+Return findings as a structured report. Do not write any files. Do not propose fixes.
+
+The goal is to answer: does the draft's proposed fix address the bug's actual mechanism, or does it address a phantom mechanism that doesn't match the code?"
+)
+```
+
+Wait for the debugging track to return before synthesising.
+
+#### Synthesis
+
+Apply findings in this order:
+
+* **Mischaracterized code references (from blind validator):** Fix file paths, line numbers, function names, and code descriptions. If a key implementation step is based on wrong code, rewrite the step.
+* **Sources not found (from blind validator):** Remove the reference. If the implementation brief depends on a file that doesn't exist, flag as a critical issue and reconsider the verdict.
+* **Causal-story errors (from mechanism verification):** This is the highest-stakes category. If the debugging track found the draft's hypothesis doesn't match the code, the verdict almost certainly needs to change. Common outcomes:
+  * Causal story partially wrong → downgrade to MAYBE, reframe the implementation brief around the real mechanism, add a prerequisite for a live reproduction before opening the MR.
+  * Causal story materially wrong (proposed fix addresses a phantom mechanism) → downgrade to NO-GO or MAYBE with a redirected brief for a different fix.
+  * Causal story confirmed → upgrade confidence from Medium to High.
+* **Reasoning issues (from challenger):** Apply remaining challenger fixes. If the challenger found reasons to change the verdict, change it. If the verdict holds, note the challenge and why you maintained it.
+* **Confidence assessment (your synthesis of all completed tracks):**
+  * **High** — all code references verified, causal story confirmed by mechanism verification (if run) or not needed, no critical challenger issues.
+  * **Medium** — mostly solid but some references couldn't be verified, mechanism verification surfaced residual failure modes, or the challenger found high-severity reasoning gaps.
+  * **Low** — significant code references wrong, causal story doesn't match the code, or the challenger found critical reasoning errors.
+
+If the mechanism verification materially changed the verdict or the implementation brief's scope, document the change in the Investigation Log → Validation Notes section. Do not silently rewrite. The reader should see what the initial draft said, what the debugging track found, and why the final output is different.
 
 ## Output Structure
 
@@ -294,8 +352,9 @@ If the ticket involves a domain not listed here, check the `available_skills` de
 * **Ignoring the ticket comments** — Comments often contain crucial context: disagreements about approach, clarifications from the filing team, decisions that aren't in the description.
 * **Producing a brief for a NO-GO** — If the verdict is No-Go, don't write an implementation brief. Explain what a human should do instead.
 * **Assuming the LLM has context** — The implementation brief must be self-contained. Don't say "as described in the ticket" — include the relevant details inline.
-* **Skipping Phase 4** — Always run both `@blind-validator` and `@challenger` before writing the file; the challenger catches reasoning errors the validator can't.
-* **Starting synthesis before both agents return** — If you dispatched two agents, wait for both before writing the answer.
+* **Skipping Phase 4** — Always run both `@blind-validator` and `@challenger` before writing the file; the challenger catches reasoning errors the validator can't. Also run Phase 4b (mechanism verification) when the fix rests on a behavioural hypothesis — reasoning review alone cannot falsify causal claims, only code can.
+* **Starting synthesis before all dispatched agents return** — If you dispatched multiple agents, wait for all before writing the answer.
+* **Trusting the source investigation's causal story** — When a wiki page or escalation writeup proposes a mechanism, treat it as a hypothesis to verify, not a fact. Causal stories based on reasoning from the ticket can be wrong even when the symptom capture is right. Phase 4b exists to catch this.
 
 ## Output
 
