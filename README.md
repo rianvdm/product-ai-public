@@ -63,6 +63,11 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 * [`cross-session-memory.md`](04-docs/cross-session-memory.md) -- A four-layer memory system that gives AI agents continuity between sessions
 * [`multi-agent-investigation.md`](04-docs/multi-agent-investigation.md) -- Architecture for multi-agent customer escalation investigations with parallel dispatch and blind validation
 
+### Personal
+
+* [`books/CLAUDE.md`](05-personal/books/CLAUDE.md) -- Agent instructions for a per-book reading-notes folder: progress-aware, spoiler-safe, web-search-first for factual claims
+* [`books/the-will-of-the-many.md`](05-personal/books/the-will-of-the-many.md) -- Example book notes file following the pattern (characters, magic system, worldbuilding, plot threads)
+
 ## How to use these
 
 Most of these files are **system prompts** or **prompt templates** you can paste into any LLM conversation. Some are designed for specific tools:
