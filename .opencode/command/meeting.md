@@ -25,22 +25,29 @@ Transform a meeting transcript into structured, scannable meeting notes that sur
 
 ### Handling long / truncated transcripts
 
-Google Meet Gemini transcripts often exceed 50KB. The `docs_get` tool returns JSON with the content in a single `content` field, which frequently gets truncated by output limits. When this happens:
+Google Meet Gemini transcripts often exceed 50KB and get truncated in the tool output. When this happens, the tool output will say "truncated" and provide a path to the full saved file (e.g., `/Users/rian/.local/share/opencode/tool-output/tool_...`).
 
-1. The tool output will say "truncated" and provide a path to the full saved file (e.g., `/Users/rian/.local/share/opencode/tool-output/tool_...`)
-2. **Extract the content from JSON to a temp file** using Python so you can read it with proper line breaks:
-   ```
-   python3 -c "
-   import json
-   with open('<saved-tool-output-path>', 'r') as f:
-       data = json.load(f)
-   with open('/tmp/meeting-transcript.md', 'w') as f:
-       f.write(data['content'])
-   "
-   ```
-3. **Read `/tmp/meeting-transcript.md`** using the Read tool. If still too long, read in chunks using `offset` and `limit`.
+**Step 1: Check the saved file format.** Run `head -c 500 <saved-tool-output-path>` to see if it's plain markdown or JSON-wrapped. Recent observation (2026-04-20): the saved output is often already plain markdown with no JSON envelope.
 
-Do NOT attempt to process the transcript from the truncated output — you will miss significant portions of the meeting. Always ensure you have the complete transcript before writing notes.
+**Step 2a (plain markdown):** Copy directly to a temp file:
+```
+cp <saved-tool-output-path> /tmp/meeting-transcript.md
+```
+
+**Step 2b (JSON-wrapped):** Extract the content field using Python:
+```
+python3 -c "
+import json
+with open('<saved-tool-output-path>', 'r') as f:
+    data = json.load(f)
+with open('/tmp/meeting-transcript.md', 'w') as f:
+    f.write(data['content'])
+"
+```
+
+**Step 3: Read `/tmp/meeting-transcript.md`** using the Read tool. If still too long, read in chunks using `offset` and `limit`.
+
+Do NOT attempt to process the transcript from the truncated tool output — you will miss significant portions of the meeting. Always ensure you have the complete transcript before writing notes.
 
 ### Check for related project context
 

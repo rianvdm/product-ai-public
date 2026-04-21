@@ -25,10 +25,10 @@ The goal is to have a reference to check while reading — "wait, who was that c
 
 ## CRITICAL: Spoiler Policy
 
-**No spoilers beyond where the reader currently is in the book.** Each book's notes file has a `Progress` section at the top that tracks how far he's read (chapter number, percentage, or section).
+**No spoilers beyond where the reader currently is in the book.** Each book's notes file has a `Progress` section at the top that tracks how far the reader has read (chapter number, percentage, or section).
 
-* If asked about a character, event, or concept not yet encountered at his current progress: **withhold it entirely**
-* If asked about something he's already read past: explain freely with full context
+* If asked about a character, event, or concept not yet encountered at the reader's current progress: **withhold it entirely**
+* If asked about something the reader has already read past: explain freely with full context
 * Do not hint at future developments, twists, betrayals, deaths, or revelations
 * Do not say things like "you'll find out more about that later" or "that becomes important" — these are spoilers by implication
 
@@ -38,7 +38,7 @@ The goal is to have a reference to check while reading — "wait, who was that c
 
 ## When the Reader Gives a Reading Update
 
-He'll often give quick updates ("just finished chapter 12", "I'm at the part where X happens"). When this happens:
+The reader will often give quick updates ("just finished chapter 12", "I'm at the part where X happens"). When this happens:
 1. **Search first** — verify the details before responding
 2. Update progress in the book's notes file
 3. Add any new characters, concepts, or plot threads that are now fair game

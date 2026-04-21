@@ -69,15 +69,15 @@ This is the most important step. Session logs capture *what happened*, but insti
 
 1. For each learning, identify the best target. Prefer infrastructure files (commands, skills, agents, AGENTS.md) over corrections. Corrections is the staging area for things that don't fit anywhere else *yet*.
 2. Read the target file first to understand its current state.
-3. Draft the specific edit — what to add or change, and where in the file.
-4. Present **all** proposed edits to the user in a single summary before writing anything. Format:
-   ```
-   **Proposed infrastructure updates:**
-   * `[file path]` — [what would change and why]
-   * `[file path]` — [what would change and why]
-   ```
-5. Wait for the user to approve, reject, or modify before writing.
-6. If a learning is being promoted from `01-context/corrections.md` into an infrastructure file, **remove it from corrections** — it's been baked in and no longer needs the staging area.
+3. Apply the edit directly — no pre-approval step.
+4. If a learning is being promoted from `01-context/corrections.md` into an infrastructure file, **remove it from corrections** — it's been baked in and no longer needs the staging area.
+
+**Judgment gate — ask before writing when:**
+- The change touches a **skill, command, agent, or AGENTS.md** AND you're uncertain whether it belongs there (these files load into every future session, so a bad edit propagates). For clear-fit edits to those files — a new case in a lookup table, an obvious missing step in a command — apply directly.
+- You're tempted to add a correction that might be general CSS/domain knowledge rather than an agent-specific behavioral fix.
+- A change would restructure a file rather than amend it.
+
+For stable-facts, session logs, project CONTEXTs, decisions.md, and corrections.md: always apply directly. These are low-blast-radius and easily reverted.
 
 **If no infrastructure updates are needed**, say so explicitly: "No infrastructure updates needed from this session." Don't silently skip this step.
 
@@ -111,7 +111,7 @@ Read `01-context/stable-facts.md` and update it based on this session.
 
 Keep the file compact (<60 lines). If Active Work grows beyond ~12 items, that's a signal that pruning isn't aggressive enough — force-rank and cut.
 
-Present all proposed removals and updates together in the "Proposed infrastructure updates" summary shown to the user for approval (same as Step 3 promotions). Group them as **Removals** and **Updates** so the user can see what's being cut.
+Apply prunes and updates directly. The final Confirm step lists what changed; user can spot-check or revert via git.
 
 ### 5. Write the Entry
 
@@ -129,7 +129,12 @@ After writing, count the number of H2 entries in the file. If there are more tha
 
 ### 7. Confirm
 
-Report:
-* What was written to the session log
-* Which infrastructure files were updated (if any)
-* Whether any corrections were retired (removed because they were baked into infrastructure)
+Report in this order so a bad change is easy to catch:
+
+* **High-blast edits (flag prominently if present):** any edits to `.opencode/skills/`, `.opencode/command/`, `.opencode/agent/`, or `AGENTS.md`. These load into every future session — if the user disagrees, they'll want to revert immediately.
+* **Stable-facts changes:** removed entries, updated entries, "Last updated" bump.
+* **Corrections:** entries added, entries retired (baked in elsewhere).
+* **Project CONTEXT / decisions.md:** what was changed.
+* **Session log:** which file got the entry, plus current H2 count (warn if >50).
+
+Format the report so the user can scan it in <10 seconds and spot anything that looks wrong. Revert path: `git diff` + `git checkout -- <file>` for any single change.
