@@ -83,7 +83,11 @@ For stable-facts, session logs, project CONTEXTs, decisions.md, and corrections.
 
 ### 4. Update Stable Facts
 
-Read `01-context/stable-facts.md` and update it based on this session.
+Based on whether this session was work or personal, read and update the matching file:
+- Work session → `01-context/stable-facts-work.md`
+- Personal session → `01-context/stable-facts-personal.md`
+
+If the session crossed both domains, update both.
 
 **Prune first, then update.** Before adding anything new, review every existing entry against these questions:
 

@@ -66,6 +66,9 @@ For explainers that will be shared with colleagues, maintained over time, and de
 
 | Site | Repo | URL | Shared JS? | Pages |
 |------|------|-----|------------|-------|
+| Worker → Logpush Fields | `cf-workers-logpush-api` | `cf-workers-logpush-api.datalab.cfdata.org` | No (single-page) | `/` (PRD companion comparing 4 options) |
+
+**Linking from `cfrian` home page:** When deploying a new explainer, also add a `<ToolCard>` to `/Users/rian/Documents/GitHub/cfrian/src/pages/Home.tsx` (the "All Tools" hub at `cf-rian.datalab.cfdata.org`). Each new explainer's nav header should link back with `← All Tools` pointing at `cf-rian.datalab.cfdata.org`. Build with `pnpm build` and deploy with `npx wrangler deploy` after editing.
 
 
 

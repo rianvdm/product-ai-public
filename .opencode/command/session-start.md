@@ -18,7 +18,13 @@ Read `01-context/corrections.md` in full. Apply these corrections for the rest o
 
 ### 2. Load Stable Facts
 
-Read `01-context/stable-facts.md` in full. This gives you the current state of all active work, recent decisions, blockers, and environment constraints. Use this as your primary orientation — it's more current and compact than the session log.
+Two stable-facts files exist:
+- `01-context/stable-facts-work.md` — Amazon work state, blockers, environment
+- `01-context/stable-facts-personal.md` — Personal/side-project state, decisions, environment
+
+**If the user's arguments indicate a topic area** (e.g., "continue with Exponent" → work, "Discrobble work" → personal), read only the relevant file. **Otherwise**, read both.
+
+This gives you the current state of all active work, recent decisions, blockers, and environment constraints. Use this as your primary orientation — it's more current and compact than the session log.
 
 ### 3. Load Recent Session Logs
 

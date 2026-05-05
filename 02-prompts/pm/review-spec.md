@@ -60,6 +60,7 @@ Compare the SPEC against the PRD on these dimensions:
 | **Scope boundaries** | Are PRD non-goals respected? Any scope creep? |
 | **Decisions** | Are prior decisions (from PRD or CONTEXT) honored? Any undocumented pivots? |
 | **Open questions** | Does the SPEC resolve open questions from the PRD, or acknowledge them? |
+| **Parallel tracks** | If the SPEC shares a SHIP/Epic with another SPEC or RFC, is the composition story documented *in this SPEC*, or only elsewhere? A reader who lands on this SPEC alone should understand where it fits in the program. |
 
 ### Step 3: Evaluate Technical Design
 

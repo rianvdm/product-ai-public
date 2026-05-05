@@ -44,23 +44,13 @@ Announce your scope: "Running **thorough** review." or "Running **light** review
 
 ### Domain-specific checks (Data Platform)
 
-When reviewing escalation analyses, data investigations, or data pipeline work:
+When reviewing escalation analyses, data investigations, or pipeline-related work:
 
 * **Timestamp verification.** Are epoch-to-UTC conversions verified programmatically, or estimated by reading dashboards? (See `analysis-accuracy-policy.md` — visual estimation caused a 20-minute error across 7 files in a real investigation.)
 * **ABR sampling awareness.** If ClickHouse tables with `_sample_interval` are queried, does the analysis use `sum(_sample_interval)` instead of `count()`? Are sampling caveats noted when presenting numbers?
 * **Customer-reported times.** Does the analysis dismiss customer-reported timestamps as "dashboard observation delays" without evidence? Customer times should be treated as primary sources.
 * **Current state vs. incident state.** Are API calls or dashboard checks run *after the fact* being used to prove something about the incident window? They shouldn't be.
 * **Data retention.** If querying historical data, does the time range fall within the table's retention window?
-
-### Domain-specific checks (DevTools / CI/CD)
-
-When reviewing CI/CD investigations, pipeline failures, or infrastructure support answers:
-
-* **"Has this ever worked?" not answered.** If a job is failing, was it ever successful? A "success" that actually skipped (exit 0 without deploying) is not a prior success.
-* **Circular "why" explanations.** "It works in other repos because those repos have the right config" restates the diagnosis, it doesn't explain the difference. The user wants to know what's different about their setup.
-* **Component version not checked.** If `@~latest` is used, was the resolved version checked? Could a recent release have changed behavior?
-* **Partial pipeline analysis.** If some jobs in the same pipeline succeeded and others failed, was the difference investigated? Partial failures are strong diagnostic signals.
-* **Vague fixes.** "Check with your platform team" when the config repo or owner could have been looked up. "Search your infra repo" when Sourcegraph or Backstage could find it.
 
 ## Output format
 
