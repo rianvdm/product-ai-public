@@ -39,6 +39,8 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 * [`discord-bot`](.opencode/skills/discord-bot/SKILL.md) -- Discord bot development guide: Developer Portal setup, Gateway vs Interactions architecture, Cloudflare Workers integration, common gotchas, and verification checklist
 * [`check-skill`](.opencode/skills/check-skill/SKILL.md) -- Audit any SKILL.md against best practices: 5 skill killers, anatomy completeness, scoping, and context binding
 * [`diagnosing-mac-performance`](.opencode/skills/diagnosing-mac-performance/SKILL.md) -- Triage a slow Mac: snapshot CPU/memory/swap, identify runaway processes and memory pressure, and recommend fixes ordered by disruption
+* [`workers-vitest-pool`](.opencode/skills/workers-vitest-pool/SKILL.md) -- Set up or upgrade vitest tests for Cloudflare Workers: known-good stack (vitest 4 + pool-workers 0.15 + Node 22) and the v2-to-v4 migration recipe that fixes the `.sqlite-shm` isolation bug
+* [`system-file-guardrails`](.opencode/skills/system-file-guardrails/SKILL.md) -- Safety checks for editing AI system files (skills, commands, agents): pre-edit reference checks, post-edit validation, post-session coherence
 
 ### Agents
 
