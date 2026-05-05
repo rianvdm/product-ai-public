@@ -29,7 +29,6 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 **Meta**
 
 * [`generate-writing-style.md`](02-prompts/meta/generate-writing-style.md) -- Analyze writing samples and produce a reusable system prompt for style emulation
-* [`therapy-session-summary.md`](02-prompts/meta/therapy-session-summary.md) -- Summarize therapy session transcripts into structured notes with IFS (Internal Family Systems) support
 
 ### Skills
 
@@ -69,6 +68,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 
 * [`books/CLAUDE.md`](05-personal/books/CLAUDE.md) -- Agent instructions for a per-book reading-notes folder: progress-aware, spoiler-safe, web-search-first for factual claims
 * [`books/the-will-of-the-many.md`](05-personal/books/the-will-of-the-many.md) -- Example book notes file following the pattern (characters, magic system, worldbuilding, plot threads)
+* [`therapy-session-summary.md`](02-prompts/meta/therapy-session-summary.md) -- Summarize therapy session transcripts into structured notes with IFS (Internal Family Systems) support
 
 ## How to use these
 
