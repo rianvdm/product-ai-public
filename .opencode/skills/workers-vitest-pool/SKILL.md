@@ -99,6 +99,17 @@ jobs:
       - run: npm test
 ```
 
+## Per-test storage isolation: don't rely on it
+
+With the known-good `cloudflareTest` config above, D1 / KV / R2 state is **NOT reset between `it()` blocks** — it persists across every test in a file (storage behaves as per-file, not per-test). The package's "isolated storage" reliably covers only Durable Objects; relational / KV / R2 writes accumulate.
+
+So tests must not depend on a clean slate. Either:
+
+- **Use unique identifiers per test** — emails, display names, codes, any natural key randomised per `it()` (e.g. `t-${Math.random()}@x.test`). A test that signs up a fixed `t-fixed@x.test` makes every later test in the file that reuses it fail with an unexpected `409`.
+- **Or add a `beforeEach` reset** when tests genuinely need an empty DB — truncate the D1 tables in FK-safe (child→parent) order, then drain the KV namespace and R2 bucket by paginating `list()` + `delete()`.
+
+Symptom when this bites: the *first* test in a `describe` passes and every later one fails — typically a `409`/`401` where a `2xx`/`403` was expected, because a fixed-identity signup now collides with a row a prior test left behind. Discovered 2026-05-19 on the Therapy Space backend: a 22-test security-sweep file with fixed identifiers had 12 failures until a `beforeEach` reset was added.
+
 ## Migration recipe (vitest 2 + pool-workers 0.5 → vitest 4 + pool-workers 0.15)
 
 Apply these in one branch. Order matters — config first, then types, then test casts, then latent bugs.

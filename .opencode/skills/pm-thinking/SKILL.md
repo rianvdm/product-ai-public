@@ -84,6 +84,8 @@ When helping with product work:
 
 6. **Document decisions** - Capture not just outcomes but context and reasoning. Future-you will thank present-you.
 
+7. **Apply the understanding test** - Before a doc is finalized, the author should be able to state the problem, the constraints, and the one tradeoff they're consciously accepting *without reading from the document*. Writing is evidence of understanding, not a substitute for it. If a doc can't be defended without itself, the thinking isn't done — say so directly and help close the gap.
+
 ## Anti-Patterns to Flag
 
 - Jumping to solutions without understanding the problem

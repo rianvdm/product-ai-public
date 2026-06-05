@@ -1,6 +1,6 @@
 # Avoid AI-Sounding Language
 
-*Last updated: 2026-03-22*
+*Last updated: 2026-06-05*
 
 To keep writing natural and human, avoid these telltale AI patterns. Any single instance might be fine. The problem is when multiple patterns appear together or when one is used repeatedly.
 
@@ -22,7 +22,7 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 ## Overused words
 
 * **Verbs:** delve, underscore, highlight, showcase, leverage, utilize, facilitate, foster, navigate, garner, craft, harness, boast, surpass
-* **Adjectives:** intricate, meticulous, swift, adept, liminal, spectral, crucial, pivotal, robust, seamless, transformative, groundbreaking, cutting-edge, nuanced, multifaceted, sharp (as in "a sharp piece," "a sharp essay" -- AI's go-to flattering adjective for someone else's writing)
+* **Adjectives:** intricate, meticulous, swift, adept, liminal, spectral, crucial, pivotal, robust, seamless, transformative, groundbreaking, cutting-edge, nuanced, multifaceted, sharp (as in "a sharp piece," "a sharp essay" -- AI's go-to flattering adjective for someone else's writing), load-bearing (any use -- "the load-bearing question," "the load-bearing assumption," "this detail is load-bearing," "the load-bearing part of the argument." A go-to AI move for dressing up any claim as structurally critical. Avoid the word entirely; say what actually depends on what)
 * **Nouns:** tapestry, journey, echo, whisper, shadow, ghost(s), landscape (as catch-all: "competitive landscape," "digital landscape," etc.), realm, paradigm, ecosystem, synergy
 * **Atmosphere words:** quiet, hum/humming, woven/weave -- note: "quiet" is an especially common AI crutch (quiet confidence, quiet rebellion, quietly growing). Also: "deeply," "fundamentally"
 * **Filler adverbs:** remarkably, genuinely, truly, incredibly, arguably -- these pose as intensifiers but weaken the claim. "The output was useful" is stronger than "The output was genuinely useful"
@@ -42,7 +42,8 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 
 ## Word-level substitution tics
 
-* **The "serves as" dodge:** replacing "is" with "serves as," "stands as," "marks," or "represents." AI avoids simple copulas because its repetition penalty pushes it toward fancier constructions ("The building serves as a reminder" instead of "The building is a reminder")
+* **The "serves as" dodge:** replacing "is" with "serves as," "stands as," "marks," or "represents." AI avoids simple copulas because its repetition penalty pushes it toward fancier constructions ("The building serves as a reminder" instead of "The building is a reminder"). Corollary: "boasts," "features," and "offers" as substitutes for "has" ("The gallery boasts 3,000 square feet" instead of "The gallery has 3,000 square feet")
+* **Synonym cycling (elegant variation):** swapping synonyms for the same noun across consecutive sentences to avoid repetition -- "The protagonist faces challenges. The main character must overcome obstacles. The central figure eventually triumphs." Just use the same word. Real writers repeat nouns; AI cycles through alternatives
 * **Superficial "-ing" analysis:** tacking a present participle phrase onto a sentence to inject hollow significance -- "highlighting its importance," "reflecting broader trends," "underscoring its role as a dynamic hub"
 * **Invented concept labels:** compounding abstract problem-nouns that sound analytical without being grounded -- "supervision paradox," "acceleration trap," "workload creep." These function as rhetorical shorthand: name a thing, skip the argument
 * **Vague attributions:** "Experts argue..." / "Industry reports suggest..." / "Observers have cited..." -- invoking unnamed authorities instead of being specific. If you can't name the source, you don't have one
@@ -59,9 +60,11 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 * **Synesthesia abuse:** giving abstract concepts sensory qualities (grief that "tastes of metal," ideas that "smell of")
 * **False ranges:** "from X to Y" where X and Y aren't on any real scale ("from innovation to cultural transformation" -- what's in between? Nothing)
 * **Announcing the punchline:** "Here's the kicker." "But here's the thing." "The best part?" -- promises a payoff that rarely arrives
+* **"Here's the move":** "Here's the move." "The move is X." "The play here is..." "The smart move is..." -- packaging a recommendation as a slick reveal instead of just stating it. Say what to do and why
 * **Setup without delivery:** "I'm going to state this as clearly as possible" / "Here's the part most people miss" -- real directness doesn't announce itself
 * **Soft announcing:** "Here's something I've been thinking about:" / "I think about it like this:" / "My advice is this:" / "The idea is simple:" -- quieter variants of announcing the punchline. Just say the thing
-* **Coaching/therapy mode:** "You're not imagining it." "You're not alone." "You're not broken." "Do you want to sit with that for a while?" -- unsolicited validation that nobody asked for
+* **Coaching/therapy mode:** "You're not imagining it." "You're not alone." "You're not broken." -- unsolicited validation that nobody asked for
+* **"Sit with it":** "Something to sit with." "That's worth sitting with." "Let that sit." "Do you want to sit with that for a while?" -- false-profundity framing that asks the reader to dwell on a point instead of earning the weight. Just make the point
 * **Safe truths that teach nothing:** "Consistency is important." "Building relationships takes time." -- accurate, non-controversial, impossible to disagree with, zero information
 * **Narrating the effort:** "Building X takes time." "Each one required reading through Y and Z to extract the patterns." -- describing how hard something was to build instead of just showing the result. Skip the labor and get to the payoff
 * **Vague evolution openers:** "The system keeps evolving." "Things continue to develop." "The landscape is shifting." -- detached, impersonal throat-clearing. Be specific about what changed, or use first person
@@ -77,6 +80,9 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 * **Metaphors that almost land** -- comparisons that sound clever but don't actually map to the subject. Also: latching onto a single metaphor and beating it into the ground across an entire piece instead of using it once and moving on
 * **Excessive coherence** -- every detail serves the argument, every example fits perfectly. Real writing has loose ends, throwaway details, oddly specific but unimportant facts
 * **Listicle in a trench coat** -- numbered points disguised as continuous prose ("The first takeaway is... The second takeaway is... The third takeaway is..."). Still a list, just wearing a paragraph costume
+* **Inline-header bullet lists** -- bullet points where each item starts with a bolded label followed by a colon, then a sentence restating the label. "**Speed:** Output is fast. **Quality:** Results are high quality." Flatten into prose or drop the redundant headers
+* **Fragmented headers** -- a heading followed by a one-sentence paragraph that just restates the heading before the real content begins. "## Performance\n\nSpeed matters.\n\nWhen users hit a slow page..." Cut the throat-clearing sentence and start with the actual point
+* **Diff-anchored writing** -- describing something as a change ("This function was added to replace the previous approach...") when the document should describe the current state. Unless it's a changelog or migration guide, write about what the thing *is*, not what it replaced
 * **One-point dilution** -- making a single argument and restating it 10 different ways across thousands of words. An 800-word argument becomes 4000 words of circular repetition
 * **Fractal summaries** -- summarizing at every level of the document. Every subsection gets a summary, every section gets a summary, the document itself gets a summary. Also: "And so we return to where we began"
 * **Historical analogy stacking** -- rapid-fire listing of companies or tech revolutions to build false authority ("Apple didn't build Uber. Facebook didn't build Spotify. Stripe didn't build Shopify.")
