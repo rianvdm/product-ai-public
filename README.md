@@ -40,6 +40,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 * [`diagnosing-mac-performance`](.opencode/skills/diagnosing-mac-performance/SKILL.md) -- Triage a slow Mac: snapshot CPU/memory/swap, identify runaway processes and memory pressure, and recommend fixes ordered by disruption
 * [`workers-vitest-pool`](.opencode/skills/workers-vitest-pool/SKILL.md) -- Set up or upgrade vitest tests for Cloudflare Workers: known-good stack (vitest 4 + pool-workers 0.15 + Node 22) and the v2-to-v4 migration recipe that fixes the `.sqlite-shm` isolation bug
 * [`system-file-guardrails`](.opencode/skills/system-file-guardrails/SKILL.md) -- Safety checks for editing AI system files (skills, commands, agents): pre-edit reference checks, post-edit validation, post-session coherence
+* [`finding-original-cds`](.opencode/skills/finding-original-cds/SKILL.md) -- Pick the best original (non-remaster) CD pressing on Discogs; a personal-hobby example of working around MCP tool gaps by hitting the public API directly
 
 ### Agents
 
