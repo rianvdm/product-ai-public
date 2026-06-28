@@ -7,7 +7,7 @@ description: Write a session handoff note before ending a substantive work sessi
 Write a handoff note to the appropriate session log so the next session can pick up where this one left off.
 
 **Two session logs exist:**
-- `01-context/session-log-work.md` — Cloudflare work (Data Platform, DevTools, escalations, Exponent, internal tools)
+- `01-context/session-log-work.md` — Amazon work (Data Platform, DevTools, escalations, Exponent, internal tools)
 - `01-context/session-log-personal.md` — Personal/side projects (Discrobble, discogs-mcp, ListenToMore, tldl, blog posts, gaming)
 
 ## Your Task

@@ -35,7 +35,7 @@ Create a new project brain folder based on the template in `01-context/project-t
 3. **Generate CONTEXT.md** using the template from `01-context/project-template.md`:
    - Fill in the project name
    - Set Status to "Discovery"
-   - Set PM to "[Author]"
+   - Set PM to the project's actual line owner if the description or source material names one (e.g. a specific team PM); otherwise default to "[Author]". When the director/portfolio lead is not the line PM, record the line owner as **Project Owner** and note the portfolio lead separately.
    - Draft a problem statement based on the description provided
    - Leave other fields as placeholders for the user to fill in
    - Add any obvious open questions based on the description

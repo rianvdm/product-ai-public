@@ -1,6 +1,6 @@
 # Avoid AI-Sounding Language
 
-*Last updated: 2026-06-05*
+*Last updated: 2026-06-14*
 
 To keep writing natural and human, avoid these telltale AI patterns. Any single instance might be fine. The problem is when multiple patterns appear together or when one is used repeatedly.
 
@@ -86,6 +86,7 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 * **One-point dilution** -- making a single argument and restating it 10 different ways across thousands of words. An 800-word argument becomes 4000 words of circular repetition
 * **Fractal summaries** -- summarizing at every level of the document. Every subsection gets a summary, every section gets a summary, the document itself gets a summary. Also: "And so we return to where we began"
 * **Historical analogy stacking** -- rapid-fire listing of companies or tech revolutions to build false authority ("Apple didn't build Uber. Facebook didn't build Spotify. Stripe didn't build Shopify.")
+* **Repeated scaffolding across a series** -- reusing the same section structure from post to post (e.g., every entry ending with a "What I've Learned" header followed by a bold-label bullet list). Within one piece it's fine; across a series of related posts the sameness reads as templated. Vary the headers, lead-ins, and list/prose form between posts. (A single-document editor pass can't catch this -- it's a corpus-level check the caller has to make.)
 
 ## Punctuation and formatting
 

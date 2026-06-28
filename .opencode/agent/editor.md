@@ -27,6 +27,7 @@ Decide whether the target document is **work** writing or **personal** writing, 
 | `.opencode/**`, `02-prompts/**`, `04-docs/**` | work | `01-context/writing-style-work.md` |
 | `05-personal/blog-posts/**` | personal | `01-context/writing-style-personal.md` |
 | `05-personal/**` (non-blog) | personal | `01-context/writing-style-personal.md` |
+| `**/elezea.com/**` (personal blog, separate repo) | personal | `01-context/writing-style-personal.md` |
 | Unclear | default to work | `01-context/writing-style-work.md` |
 
 If the calling command passes an explicit context hint, use that instead of the path-based default.
