@@ -1,0 +1,29 @@
+.opencode/skills/interactive-explainer/SKILL.md
+  s_e233bfda097d01::t_28eff9627c7974 70,72
+01-context/avoid-ai-patterns.md
+  s_e233bfda097d01::t_b038a5d9e9f96f 3,26
+05-personal/antiphon/CONTEXT.md
+  s_e233bfda097d01::t_83a766831e74bd 1-130
+05-personal/antiphon/templates/dislikes.md
+  s_e233bfda097d01::t_db6f24617e353e 1-28
+05-personal/antiphon/templates/moods.md
+  s_e233bfda097d01::t_9f9418432e2cc5 1-43
+05-personal/antiphon/templates/user.md
+  s_e233bfda097d01::t_98631a449cf824 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bd138cba6fed0940feed8d8db5b5f92528bfbaab",
+  "prompts": {},
+  "sessions": {
+    "s_e233bfda097d01": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a875fe9e-595e-4621-8708-5a5d6f948df2",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Rian van der Merwe <rianvdm@gmail.com>"
+    }
+  }
+}
