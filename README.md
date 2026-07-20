@@ -69,6 +69,8 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 
 * [`books/CLAUDE.md`](05-personal/books/CLAUDE.md) -- Agent instructions for a per-book reading-notes folder: progress-aware, spoiler-safe, web-search-first for factual claims
 * [`books/the-will-of-the-many.md`](05-personal/books/the-will-of-the-many.md) -- Example book notes file following the pattern (characters, magic system, worldbuilding, plot threads)
+* [`antiphon/CONTEXT.md`](05-personal/antiphon/CONTEXT.md) -- Operating instructions for a personal Last.fm music recommender: live listening data via MCP, Spotify search links, mood buckets, and signal-cited picks
+* [`antiphon/templates/`](05-personal/antiphon/templates/) -- Empty starter files for the recommender pattern: user config, the three-state mood library, and an anti-rec list
 * [`therapy-session-summary.md`](02-prompts/meta/therapy-session-summary.md) -- Summarize therapy session transcripts into structured notes with IFS (Internal Family Systems) support
 
 ## How to use these
