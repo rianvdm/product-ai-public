@@ -1,6 +1,6 @@
 # Avoid AI-Sounding Language
 
-*Last updated: 2026-06-14*
+*Last updated: 2026-07-16*
 
 To keep writing natural and human, avoid these telltale AI patterns. Any single instance might be fine. The problem is when multiple patterns appear together or when one is used repeatedly.
 
@@ -23,7 +23,7 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 
 * **Verbs:** delve, underscore, highlight, showcase, leverage, utilize, facilitate, foster, navigate, garner, craft, harness, boast, surpass
 * **Adjectives:** intricate, meticulous, swift, adept, liminal, spectral, crucial, pivotal, robust, seamless, transformative, groundbreaking, cutting-edge, nuanced, multifaceted, sharp (as in "a sharp piece," "a sharp essay" -- AI's go-to flattering adjective for someone else's writing), load-bearing (any use -- "the load-bearing question," "the load-bearing assumption," "this detail is load-bearing," "the load-bearing part of the argument." A go-to AI move for dressing up any claim as structurally critical. Avoid the word entirely; say what actually depends on what)
-* **Nouns:** tapestry, journey, echo, whisper, shadow, ghost(s), landscape (as catch-all: "competitive landscape," "digital landscape," etc.), realm, paradigm, ecosystem, synergy
+* **Nouns:** tapestry, journey, echo, whisper, shadow, ghost(s), landscape (as catch-all: "competitive landscape," "digital landscape," etc.), realm, paradigm, ecosystem, synergy, seam(s) (metaphor for the gaps between systems or teams -- name the actual gap instead), throughline (as in "the throughline is," "the real throughline" -- AI's go-to word for naming a connecting thread; say what actually connects the things)
 * **Atmosphere words:** quiet, hum/humming, woven/weave -- note: "quiet" is an especially common AI crutch (quiet confidence, quiet rebellion, quietly growing). Also: "deeply," "fundamentally"
 * **Filler adverbs:** remarkably, genuinely, truly, incredibly, arguably -- these pose as intensifiers but weaken the claim. "The output was useful" is stronger than "The output was genuinely useful"
 
