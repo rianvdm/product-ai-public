@@ -62,14 +62,8 @@ For explainers that will be shared with colleagues, maintained over time, and de
 - Freshness checks
 - Common mistakes to avoid
 
-**Existing sites using this framework:**
 
-| Site | Repo | URL | Shared JS? | Pages |
-|------|------|-----|------------|-------|
-| Worker → Logpush Fields | `cf-workers-logpush-api` | `cf-workers-logpush-api.datalab.cfdata.org` | No (single-page) | `/` (PRD companion comparing 4 options) |
-| Alerts & Anomaly Detection (customer view) | `cf-alerts-explainer` | `cf-alerts-explainer.datalab.cfdata.org` | No (self-contained single-file) | `/` (ANS + ADA: catalog, journey step-through, z-score/SLO explorer, delivery payloads) |
 
-**Linking from the `cfrian` home page:** When deploying a new explainer, also add a `<ToolCard>` to `/Users/rian/git/cfrian/src/pages/Home.tsx` (the "All Tools" hub at `cf-rian.datalab.cfdata.org`). The `ToolCard` component is defined in that same file and takes `icon` (a `@phosphor-icons/react` component — import a distinct one, e.g. `ChartLineUp`), `title`, `description`, `href`; append it to the tools list and keep the title differentiated from existing cards. Each new explainer's nav header should link back with `← All Tools` pointing at `cf-rian.datalab.cfdata.org`. **cfrian is a Vite + React + pnpm app** — build with `pnpm build`; deploy with `pnpm ship` (= `vite build && wrangler deploy`). **Convention:** cfrian's own `AGENTS.md` says the user deploys it manually — make the ToolCard edit, run `pnpm build` to verify, commit + push, but **hand the `pnpm ship` deploy back to Rian unless he explicitly authorizes it** (deploying the explainer's own `cf-*` Worker is fine; that has no such rule).
 
 
 
