@@ -1,0 +1,25 @@
+.opencode/agent/blind-validator.md
+  s_bb22fd649a2f4a::t_a181bd5cbdef5f 32,35,65-71
+.opencode/command/meeting.md
+  s_bb22fd649a2f4a::t_e2d6e82270c477 18,20
+.opencode/skills/finding-original-cds/SKILL.md
+  s_bb22fd649a2f4a::t_afd62e9f827d28 28,34-45,53-55,59,62,64,69-70,73-92,102-103,121,128-129
+01-context/avoid-ai-patterns.md
+  s_bb22fd649a2f4a::t_c706e2e7254e08 3,26,42,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6eebaed0b5ec5598f62bf74b7723df1ecead6b03",
+  "prompts": {},
+  "sessions": {
+    "s_bb22fd649a2f4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "88663aca-b834-4e38-aad3-061c33d455be",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Rian van der Merwe <rianvdm@gmail.com>"
+    }
+  }
+}
