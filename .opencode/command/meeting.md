@@ -15,9 +15,9 @@ Transform a meeting transcript into structured, scannable meeting notes that sur
 ### Getting the transcript
 
 * If the user pastes transcript text directly, use that
-* If the user provides a Google Doc URL, extract the document ID from the URL and use the `google-workspace` MCP server:
+* If the user provides a Google Doc URL, extract the document ID from the URL and read it via cf-portal codemode (see AGENTS.md → MCP Servers):
   ```
-  docs_get(documentId: "DOCUMENT_ID", format: "markdown")
+  codemode.google_workspace_mcp_docs_get({ documentId: "DOCUMENT_ID", format: "markdown" })
   ```
   The document ID is the long string between `/d/` and `/edit` in the URL (e.g., from `https://docs.google.com/document/d/1ABC123xyz/edit`, the ID is `1ABC123xyz`).
   If the MCP tool fails, ask the user to paste the transcript content directly.

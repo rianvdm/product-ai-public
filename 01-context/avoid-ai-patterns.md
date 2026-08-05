@@ -1,6 +1,6 @@
 # Avoid AI-Sounding Language
 
-*Last updated: 2026-07-16*
+*Last updated: 2026-08-05*
 
 To keep writing natural and human, avoid these telltale AI patterns. Any single instance might be fine. The problem is when multiple patterns appear together or when one is used repeatedly.
 
@@ -23,7 +23,7 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 
 * **Verbs:** delve, underscore, highlight, showcase, leverage, utilize, facilitate, foster, navigate, garner, craft, harness, boast, surpass
 * **Adjectives:** intricate, meticulous, swift, adept, liminal, spectral, crucial, pivotal, robust, seamless, transformative, groundbreaking, cutting-edge, nuanced, multifaceted, sharp (as in "a sharp piece," "a sharp essay" -- AI's go-to flattering adjective for someone else's writing), load-bearing (any use -- "the load-bearing question," "the load-bearing assumption," "this detail is load-bearing," "the load-bearing part of the argument." A go-to AI move for dressing up any claim as structurally critical. Avoid the word entirely; say what actually depends on what)
-* **Nouns:** tapestry, journey, echo, whisper, shadow, ghost(s), landscape (as catch-all: "competitive landscape," "digital landscape," etc.), realm, paradigm, ecosystem, synergy, seam(s) (metaphor for the gaps between systems or teams -- name the actual gap instead), throughline (as in "the throughline is," "the real throughline" -- AI's go-to word for naming a connecting thread; say what actually connects the things)
+* **Nouns:** tapestry, journey, echo, whisper, shadow, ghost(s), landscape (as catch-all: "competitive landscape," "digital landscape," etc.), realm, paradigm, ecosystem, synergy, seam(s) (metaphor for the gaps between systems or teams -- name the actual gap instead), throughline (as in "the throughline is," "the real throughline" -- AI's go-to word for naming a connecting thread; say what actually connects the things), shape (as in "the same shape," "a different shape," "shaped like," "the shape of the problem" -- vague geometric metaphor standing in for a concrete comparison; say what the actual similarity is, or drop the comparison)
 * **Atmosphere words:** quiet, hum/humming, woven/weave -- note: "quiet" is an especially common AI crutch (quiet confidence, quiet rebellion, quietly growing). Also: "deeply," "fundamentally"
 * **Filler adverbs:** remarkably, genuinely, truly, incredibly, arguably -- these pose as intensifiers but weaken the claim. "The output was useful" is stronger than "The output was genuinely useful"
 
@@ -39,6 +39,7 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 * "At the end of the day"
 * "What stood out to me..." / "jumped out at me" / "caught my attention" / "what I keep coming back to" / "I keep thinking about" -- recycled reaction framing that becomes a tic across posts
 * "In conclusion" / "To sum up" / "In summary" -- competent writing doesn't need to announce it's concluding. The reader can feel it
+* "the same question wearing different clothes" / "X in disguise" / "X dressed up as Y" -- a costume metaphor standing in for "these are the same thing." Say it plainly: "ask the same thing," "are the same question"
 
 ## Word-level substitution tics
 
@@ -50,7 +51,7 @@ This applies to all output: docs, emails, blog posts, summaries. The temptation 
 
 ## Sentence structures to avoid
 
-* **"It's not X -- it's Y"** -- the classic AI rhetorical move. Also catches the two-sentence variant ("It isn't X. It's Y."), the causal variant ("not because X, but because Y"), and the em-dash dismissal ("X -- not Y")
+* **"It's not X -- it's Y"** -- the classic AI rhetorical move. Also catches the two-sentence variant ("It isn't X. It's Y."), the causal variant ("not because X, but because Y"), and the em-dash dismissal ("X -- not Y"). **Check parallel items as a set, not just individually.** In bullets, section headers, or list items, the same negation-contrast repeating across every item is the tell even when each one is individually defensible -- three bullets reading "ships outcomes *rather than* features," "measures impact, *not only* velocity," "owns the roadmap, *not just* the backlog" is a template, not three sentences. Keep the contrast in the one place it carries the claim; make the rest positive assertions
 * **"No X. No Y. Just Z."** -- dramatic countdown that builds false tension by negating before revealing the point
 * **"The X? A Y."** -- self-posed rhetorical question answered immediately ("The result? Devastating." "The worst part? Nobody saw it coming."). The model asks a question nobody was asking, then answers it for dramatic effect
 * **Excessive rule of threes** -- triplets in every paragraph (e.g., "Products impress people; platforms empower them. Products solve problems; platforms create worlds.")
