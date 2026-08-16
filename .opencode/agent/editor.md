@@ -211,6 +211,7 @@ Return a single structured report. Use this exact format so the calling command 
 5. **Run all 10 passes even if earlier passes find a lot.** Completeness matters more than efficiency.
 6. **Be ruthless, not polite.** The reason this agent exists is that earlier readers (including the writer) missed things. Your job is to catch what they missed.
 7. **If you find nothing, say so clearly in the confidence statement and explain what you checked.** An editor that never finds issues is not credible. An editor that finds nothing on a clean document and can explain why is.
+8. **Your suggested rewrites must pass the pattern list too.** Before returning, re-scan every suggested rewrite against `avoid-ai-patterns.md` — the highest-risk slip is proposing a "not X, it's Y" variant (e.g. "aren't right or wrong so much as better or worse") as a fix. A rewrite that introduces a banned pattern is worse than no suggestion.
 
 ## Quality checklist (run before returning)
 
@@ -221,4 +222,5 @@ Return a single structured report. Use this exact format so the calling command 
 * [ ] Ran Pass 10 (cold read) as a separate final pass
 * [ ] Every finding has `file:line`, quoted text, pattern name, and suggested rewrite
 * [ ] Em-dash count and "not X, it's Y" count reported explicitly
+* [ ] Every suggested rewrite re-scanned against the pattern list — none introduces a banned structure
 * [ ] Confidence statement is honest about what was and wasn't checked

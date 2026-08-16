@@ -130,6 +130,11 @@ Gateway intents control which events Discord sends to your bot.
 * **Permission restriction:** `default_member_permissions` hides commands from users without the specified permission
 * **Subcommand required:** If a command has subcommands defined, the base command can't be run alone — Discord requires picking a subcommand
 
+### "The application did not respond" on a slash command that actually worked
+* Discord gives an interaction **3 seconds** to receive a response. A handler that runs its side effects synchronously before responding (REST calls, role changes, D1 writes) blows the deadline — Discord shows the error, but the Worker invocation keeps running, so the side effects still complete. Looks like a failure, is usually a success with a lost reply.
+* For any command doing more than ~1 REST round trip: immediately return type 5 (`DeferredChannelMessageWithSource`, keep the ephemeral flag if needed), run the work in `ctx.waitUntil()`, then PATCH the result to `/webhooks/{application_id}/{interaction_token}/messages/@original`.
+* Hit live 2026-08-07 on elereada's `/starcitizen announce confirm:True` (guild-members fetch + role moves + post + record = 6+ sequential round trips).
+
 ### WebSocket connection drops on Cloudflare Workers
 * **DO eviction:** Use alarm-based keepalive (30s interval) to prevent idle eviction
 * **Deploy:** Deploys always evict the DO. Alarm reconnects within ~30s. Use `/gateway/reconnect` for immediate recovery
