@@ -7,7 +7,7 @@ description: Use when the user wants to find and add an original (non-remastered
 
 ## Overview
 
-Pick the best **original or non-remastered** CD pressing of an album and add it to the wantlist, balancing how common a pressing is (haves), price, and US availability. **Core insight:** have/want counts and price live in the **public Discogs release API** (`WebFetch https://api.discogs.com/releases/<id>`, no auth) — the discogs MCP tools cannot return them. That's the step that gets re-derived every session; don't.
+Pick the best **original or non-remastered** CD pressing of an album and add it to the wantlist, balancing how common a pressing is (haves), price, and US availability. **Core insight:** have/want counts live in the **public Discogs release API** (`WebFetch https://api.discogs.com/releases/<id>`, no auth) — the discogs MCP tools cannot return them — and **the live price lives in a second call, `/marketplace/stats/<id>`**. That's the step that gets re-derived every session; don't.
 
 Default target is a **US CD** unless the user says otherwise.
 
@@ -24,16 +24,18 @@ Not for: vinyl-specific hunts (same method, swap the format filter), buying/chec
 |------|------|---------|---------|
 | List pressings | `search_discogs(type="release")` | format, label, year, ID | **country, have/want** |
 | Pressing details | `get_release(<id>)` (MCP) | country, catalog #, format, tracklist | **have/want, price** |
-| Have/want + price | `WebFetch https://api.discogs.com/releases/<id>` | `community.have`/`want`, `lowest_price`, `num_for_sale`, country, year, catalog | — (the key source) |
+| Have/want + stock | `WebFetch https://api.discogs.com/releases/<id>` | `community.have`/`want`, `num_for_sale`, country, year, catalog | **a trustworthy price** — see below |
+| **The price you quote** | `curl "https://api.discogs.com/marketplace/stats/<id>?curr_abbr=USD"` | live `{num_for_sale, lowest_price, blocked_from_sale}` | — (the only current figure) |
 | Which master is on the disc | same call → `identifiers[]` (`type == "Matrix / Runout"`) + `notes` | matrix runout, SID codes, pressing-plant IDs, manufacturing-window notes | — (the only hard evidence; see matrix section) |
 | Cover/case photos | `curl api.discogs.com/releases/<id>` → `images[].uri`, then download + `Read` | public image URLs (no auth), then view the JPEGs | discogs.com **website** blocks `WebFetch` (403); the **API** doesn't |
 | Add | `add_to_wantlist(release_id)` | confirmation | takes **release_id only** |
 
+- **Quote price from `/marketplace/stats/<id>`, never from the release record.** The release object's `lowest_price` goes stale and gives no sign of it. Sampled across 10 releases on 2026-08-16, **3 disagreed with the live figure** — *Ziggy Stardust* `12217950` read **$0.20** on the release and **$31.38** on marketplace stats, a 157× error that put a $31 disc on the wantlist as if it were pocket change. The other two were off by ~$1 in both directions. `num_for_sale` matched in all 10, so the release record is fine for stock depth; it's the price field that lies. One extra call per finalist.
 - **No marketplace tools exist.** `lowest_price` is the **global** low, not US-seller-only. You cannot filter by seller location — hand off `https://www.discogs.com/sell/release/<id>?ships_from=United States`.
 - **The wantlist listing lags after writes.** A successful `add_to_wantlist` worked even if `get_wantlist` doesn't show it yet. To confirm a removal, re-issue the DELETE — a `404 "does not exist in the user's wantlist"` proves it's gone.
 - **The `/versions` feed can hide a `Remastered` tag — never filter remasters on it alone.** Its `format` string is not a faithful flattening of the release's `formats[]`; it appears to carry only the *first* format object's descriptions, so a `Remastered` hanging off a second `All Media` entry vanishes. On *Ziggy Stardust* (master `1561`), release `1030082` reads `Album, Reissue` in the versions feed but `CD:Album/Reissue, CD:Compilation, All Media:Remastered` at release level — it's the 2002 30th Anniversary 2CD remaster, and it survived a keyword filter into the shortlist. Same trap on `9599077`. **Use `/versions` for cheap fan-out (country, catalog, have-counts), then confirm every finalist against `/releases/<id>` `formats[]` before ranking it.**
 - **For a big catalogue title, go straight to the versions endpoint — `search_discogs` won't cope.** *Thriller* has 59 US CD versions and *Bad* 37, far past what a 50-result release search surfaces usefully. `curl "https://api.discogs.com/masters/<id>/versions?format=CD&country=US&per_page=100"` returns every pressing **with `stats.community.in_collection` inline**, so one call gives you the country filter and the have-counts together and you only fetch `/releases/<id>` for the handful of finalists. Get the master id from `database/search?type=master`.
-- **Don't retry a 429 more than once, and never in a tight loop.** A `429`/`504` from the MCP means Discogs is throttling Amazon's shared egress IP, and repeated attempts extend the penalty (see [[corrections]] → Discogs API Rate Limits). One retry after a window reset is the limit; after that, hand Rian the `discogs.com/release/<id>` pages. Three manual retries are what tripped the circuit breaker on 2026-08-04.
+- **Don't retry a 429 more than once, and never in a tight loop.** A `429`/`504` from the MCP means Discogs is throttling a shared egress IP, and repeated attempts extend the penalty (see [[corrections]] → Discogs API Rate Limits). One retry after a window reset is the limit; after that, hand Rian the `discogs.com/release/<id>` pages. Three manual retries are what tripped the circuit breaker on 2026-08-04.
 - **MCP rate-limit fallback.** The discogs MCP has a circuit breaker that trips for ~10 min under load (`"Discogs rate-limit circuit tripped", retryAfterSecs: <n>`) — it takes down `search_discogs`, `get_release`, **and** the wantlist tools at once. The **public API needs no auth for reads**, so you can keep working: `curl "https://api.discogs.com/database/search?q=<Artist>+<Album>&type=master"` returns master IDs, and `/masters/<id>/versions?format=CD&country=US` + `/releases/<id>` already work unauthenticated. **Wantlist writes work over the PAT too** — so a tripped circuit blocks nothing. (Corrected 2026-08-05; this section previously claimed writes had no public-API substitute, which sent you to hand Rian links for no reason.)
 
 ```bash
@@ -58,7 +60,7 @@ A PAT also raises the rate limit to 60/min. Prefer it over burning retries on a 
 
 1. **List pressings:** `search_discogs(query="<Artist> <Album>", type="release", per_page=50)`. Note the `Format: CD` IDs. (`type="release"` = specific pressings, not the master.)
 2. **Drop remaster/deluxe/club:** exclude anything whose format says `Remastered`, `Deluxe Edition`, `Box Set`, `Anniversary`, `Club Edition`, or is a much-later year. `Reissue` alone is fine. **Club-edition tell:** these aren't always tagged `Club Edition` — a catalog number starting with `D` (e.g. `D 110473`) instead of the label's standard catalog/barcode is a giveaway for a BMG/Columbia House club pressing. Avoid those too.
-3. **Get stats (parallel):** for each surviving CD, `WebFetch https://api.discogs.com/releases/<id>` → `community.have`, `community.want`, `lowest_price`, `num_for_sale`, country. Keep **Country = US**.
+3. **Get stats (parallel):** for each surviving CD, `WebFetch https://api.discogs.com/releases/<id>` → `community.have`, `community.want`, `num_for_sale`, country. Keep **Country = US**. Then, for the finalists only, `curl "https://api.discogs.com/marketplace/stats/<id>?curr_abbr=USD"` for the live price — that's the number you report and rank on.
 4. **Compare & pick** by the rubric below.
 5. **Verify the master (conditional):** if a finalist's manufacturing window straddles a known remaster date, or its year is blank, check `identifiers[]` for the matrix runout before adding — see the matrix section for the trigger list.
 6. **Add:** `add_to_wantlist(release_id=<winner>)`.
@@ -81,6 +83,34 @@ Originality preference: original-era (release year ≈ album year) > reissue/rep
 
   **Split catalog numbers before comparing them.** The `/masters/<id>/versions` endpoint packs several into one `catno` string — `"16029-2, 299 143"` — while `/releases/<id>` lists them separately under `labels[]`. Strip punctuation off both sides without splitting on the comma first and you compare `160292299143` against `160292`, which never matches, so a genuine same-catalog pressing silently reads as "different catalog." Split on `[,;/]`, normalise each part, then intersect the sets. This is what hid the fact that Rian's 1990 Phil Collins *Face Value* `16029-2` carries the same catalog as the 1985 and 1988 pressings, against the 2016 remaster's `R2 550171` (found 2026-08-05; fixing it moved 7 albums out of the "different catalog" bucket in the collection-wide audit).
 - **Club Edition** — BMG/Columbia House mail-order pressing. Often tagged `Club Edition`, but the tell is a catalog # starting with `D` (e.g. `D 110473`) instead of a normal barcode. Different packaging/quality (and sometimes swaps a digipak for a jewel case, or vice versa). **Avoid.**
+
+## "Should I replace a remaster I already own?" — check, don't assume
+
+The rubric above says avoid remasters when *buying*. It does **not** follow that every remaster in the collection is a downgrade, and answering per-album takes about five minutes.
+
+**Three sources carry the evidence, in this order:**
+
+1. **`https://www.dyradb.com/?artist=<Artist+Name>`** — dynamic range per edition, matched by barcode. Fetches fine. Coverage is patchy (nothing at all for Dire Straits' *On The Night*, Deep Purple, or Black Sabbath's debut), so a miss here means "unmeasured", never "fine".
+2. **`https://paoprod.com/projects/album-comparisons/<artist-album>/`** — A/B write-ups of specific pressing pairs with a verdict. Fetches fine, but the index page is JS-rendered, so **find the slug with a web search rather than curling the index**.
+3. **magicvinyldigital.net** — per-edition DR tables. Fetches fine.
+
+**Steve Hoffman forums, Home Theater Forum and loh-humm.com all block WebFetch (403).** Don't burn turns on them; a search summary of a forum thread is the most you'll get, and see the warning below about those.
+
+**The answer is genuinely per-catalogue. Measured 2026-08-16:**
+
+| Album | Owned | Verdict |
+|---|---|---|
+| Dire Straits *Brothers In Arms* | 1996 Ludwig/Gateway | **Replace.** 1985 John Dent original is DR16 vs DR12 |
+| Dire Straits *On Every Street* | 2000 Warner SBM | **Replace.** 1991 original DR12 vs DR10 |
+| Fleetwood Mac *Rumours* | 2004 Rhino (Inglot/Hersch) | **Replace.** PAO calls the 1984 CD the decisive winner |
+| Bon Jovi ×4 | 1998–99 Mercury (Marino) | **Replace.** +7 dB and "boxed in" on *Slippery*; *Cross Road* measures DR8 |
+| **Black Sabbath *Black Sabbath* / *Paranoid*** | 2004 Sanctuary (Ray Staff) | **KEEP.** The Staff/Black Box masters are the *recommended* ones; the 1986 Castle "originals" are the muddy discs |
+| **Deep Purple *Machine Head*** | 2012 Jon Astley | **KEEP.** Beats the bass-heavy 1997; closest to the original vinyl |
+| **Deep Purple *Made In Japan*** | 2014 (original 1972 mix) | **KEEP.** The 1998 EMI 25th is the one with the bad reputation |
+
+**So lead with the catalogue's history, not the tag.** Where the first CD issue was a poor transfer — early-80s Castle, thin 80s licensee pressings — the remaster is usually the upgrade, and wantlisting "the original" makes the collection worse.
+
+**Say which claims are measured and which are forum consensus.** And **fetch the page before quoting it**: on 2026-08-16 a search summary attributed a QuadraphonicQuad quote to *On Every Street* when the thread was discussing *Brothers In Arms*, which produced a confident and wrong "keep the remaster" recommendation that the DR table then reversed.
 
 ## Confirming the master from the matrix runout
 
@@ -140,4 +170,4 @@ API stats across US CD candidates: `11044695` (920 have, $4, 17 for sale) ≫ `3
 
 **Once pressings are on the wantlist, `finding-cd-bundles` finds eBay sellers holding several of them at once** (it searches by each pressing's UPC, so it inherits the master judgement made here). Use it before buying — batching saves shipping.
 
-**Going the other direction — "which of my CDs are remasters I should replace?" — is `auditing-cd-collection`,** which applies this rubric across the whole collection at once and writes a Google Sheet. Use this skill for the single album he's actually about to buy; use that one to decide which albums those are.
+**Going the other direction — "which of my CDs are remasters?" — is `auditing-cd-collection`,** which applies this rubric across the whole collection at once and writes a Google Sheet. That one produces the *candidate list*; deciding whether any given candidate is actually worth replacing is the "Should I replace a remaster I already own?" section above, because the answer turns on the album's own CD history rather than on the tag.
