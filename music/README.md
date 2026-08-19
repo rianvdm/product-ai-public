@@ -27,7 +27,9 @@ A few references also point at files outside this repo — `[[wikilink]]` style 
 
 ## Setting this up yourself
 
-The skills describe the scripts but don't ship them, so standing this up means rebuilding them. That's a reasonable job to hand to a coding agent: point it at the `SKILL.md` you care about plus this section, which specifies the interface each one assumes. Everything is Node 22+ or Python 3 with no third-party packages — stdlib and `fetch` only.
+The skills describe the scripts but don't ship them, so standing this up means rebuilding them. That's a reasonable job to hand to a coding agent — but point it at **this whole folder**, not just this file. The `SKILL.md` documents carry the behaviour (what the output should say, which heuristics are wrong, where each API lies); this section carries the interfaces, endpoints and auth shapes. Neither half is enough alone.
+
+Everything is Node 22+ or Python 3 with no third-party packages — stdlib and `fetch` only. Expect to iterate: the specification below is complete enough to get working scripts, not complete enough to get mine.
 
 ### Credentials
 
@@ -43,6 +45,53 @@ The scripts read a `.env` at the repo root directly rather than through the envi
 | `OPENAI_API_KEY` | `playlist-cover` | Image generation |
 
 The collection audit also needs a Google Sheets and Drive client. I use a CLI wrapper; anything that can create a spreadsheet, write value ranges, and apply formatting requests will do.
+
+### Build only the half you want
+
+The two groups share nothing. The Spotify pair needs no Discogs or eBay credentials; the CD three need no Spotify or OpenAI key. Within the CD group, `finding-original-cds` needs no scripts at all — it's a judgement rubric that runs on the public Discogs API and an agent's own reasoning, so it's the cheapest place to start and it tells you whether the API is behaving before you build anything.
+
+### Layout
+
+Only one thing here is load-bearing: `set-cover.mjs` and `audio-features.mjs` both import from a single shared `spotify.mjs`, so it lives outside the skill folders and the relative paths have to resolve.
+
+```
+.
+├── .env
+├── scripts/
+│   ├── spotify.mjs
+│   ├── spotify-auth.mjs
+│   └── audio-features.mjs        imports { apiAll } from './spotify.mjs'
+└── skills/
+    ├── finding-original-cds/     SKILL.md only — no scripts
+    ├── finding-cd-bundles/       + find-bundles.mjs, seller-scan.mjs, seller-discover.mjs
+    ├── auditing-cd-collection/   + the six .py steps
+    ├── managing-spotify-playlists/  SKILL.md only — drives scripts/spotify.mjs
+    └── playlist-cover/           + fetch-playlist.mjs, generate-cover.mjs, set-cover.mjs
+                                    set-cover.mjs imports { token } from scripts/spotify.mjs
+```
+
+Each skill folder is a drop-in `SKILL.md` with YAML frontmatter — put them wherever your harness looks for skills.
+
+### Wire details worth not guessing
+
+These are the ones an agent will invent plausibly and wrongly, producing scripts that 401 or 403 with nothing useful in the message.
+
+**Discogs** — base `https://api.discogs.com`. The auth header is `Authorization: Discogs token=<DISCOGS_TOKEN>`, *not* `Bearer`. It also requires a descriptive `User-Agent` of your own (`YourTool/1.0 +https://example.com`); a default or generic one gets rejected. Authenticated rate ceiling is 60 requests/minute, and in practice it throttles harder than that under load.
+
+**Spotify** — API base `https://api.spotify.com/v1`. Refresh with `POST https://accounts.spotify.com/api/token`, `grant_type=refresh_token`, and `Authorization: Basic <base64(client_id:client_secret)>`. The same Basic header with `grant_type=client_credentials` gets you the zero-scope app token that `fetch-playlist.mjs` uses.
+
+**eBay** — token from `POST https://api.ebay.com/identity/v1/oauth2/token`, `Authorization: Basic <base64(EBAY_APP_ID:EBAY_CERT_ID)>`, `grant_type=client_credentials`, `scope=https://api.ebay.com/oauth/api_scope`. Search is `GET https://api.ebay.com/buy/browse/v1/item_summary/search?gtin=<upc>`, and `gtin` accepts UPC/EAN only — a catalog number silently returns nothing useful.
+
+**ReccoBeats** — base `https://api.reccobeats.com/v1`, no auth, takes Spotify track IDs directly.
+
+### Check it works before building on it
+
+Four one-call smoke tests, in the order that saves the most time:
+
+1. `GET https://api.discogs.com/users/<you>/wants` with the token header returns your wantlist — confirms both the auth shape and the User-Agent.
+2. `GET /me/playlists?limit=1` through `spotify.mjs` returns a private playlist — confirms the refresh token carries scopes, which the client-credentials token doesn't.
+3. An eBay `item_summary/search?gtin=` on a barcode you can read off a disc in your hand returns listings — confirms the keyset is actually activated.
+4. `set-cover.mjs` against a throwaway playlist, then read the playlist back and check `images[0].url` changed — the upload returns `202 Accepted` whether or not it worked, so this is the only test that means anything.
 
 ### Spotify scripts
 
