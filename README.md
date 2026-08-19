@@ -40,7 +40,16 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 * [`diagnosing-mac-performance`](.opencode/skills/diagnosing-mac-performance/SKILL.md) -- Triage a slow Mac: snapshot CPU/memory/swap, identify runaway processes and memory pressure, and recommend fixes ordered by disruption
 * [`workers-vitest-pool`](.opencode/skills/workers-vitest-pool/SKILL.md) -- Set up or upgrade vitest tests for Cloudflare Workers: known-good stack (vitest 4 + pool-workers 0.15 + Node 22) and the v2-to-v4 migration recipe that fixes the `.sqlite-shm` isolation bug
 * [`system-file-guardrails`](.opencode/skills/system-file-guardrails/SKILL.md) -- Safety checks for editing AI system files (skills, commands, agents): pre-edit reference checks, post-edit validation, post-session coherence
-* [`finding-original-cds`](.opencode/skills/finding-original-cds/SKILL.md) -- Pick the best original (non-remaster) CD pressing on Discogs; a personal-hobby example of working around MCP tool gaps by hitting the public API directly
+
+### Music
+
+Five skills covering a CD collection and a Spotify library. They're a hobby, but they're the most heavily-iterated skills I have -- every one is mostly field notes about where an API lied, what a heuristic got wrong, and which mistake cost real money. That's the interesting part, not the music.
+
+* [`finding-original-cds`](music/finding-original-cds/SKILL.md) -- Pick the best original (non-remaster) CD pressing on Discogs, and work around MCP rate limits by hitting the public API directly
+* [`finding-cd-bundles`](music/finding-cd-bundles/SKILL.md) -- Price a Discogs wantlist against live eBay listings by barcode, find sellers worth bundling, and cross-check both against the Discogs marketplace floor
+* [`auditing-cd-collection`](music/auditing-cd-collection/SKILL.md) -- Classify a whole collection as remaster/original/unverified across ~1,800 cached API calls, and the four rules that stop it flagging originals
+* [`managing-spotify-playlists`](music/managing-spotify-playlists/SKILL.md) -- Read and write Spotify playlists safely: which operations are irreversible, how to sequence a long playlist to constraints, and the API fields that mean the opposite of what they look like
+* [`playlist-cover`](music/playlist-cover/SKILL.md) -- Generate playlist artwork from what the playlist actually contains, and the verification gate that catches image models misspelling the title
 
 ### Agents
 
@@ -80,7 +89,7 @@ Most of these files are **system prompts** or **prompt templates** you can paste
 * **`01-context/`** files work well as persistent context (system prompts, custom instructions, or project knowledge files)
 * **`02-prompts/`** files are task-specific prompts you paste when needed
 * **`.opencode/command/`** files are [OpenCode](https://opencode.ai) slash commands (but the prompt content works anywhere)
-* **`.opencode/skills/`** files are on-demand skills that get loaded when specific topics come up
+* **`.opencode/skills/`** and **`music/`** files are on-demand skills that get loaded when specific topics come up. Each is a folder with a `SKILL.md`; drop the folder into your own skills directory to use it
 * **`.opencode/agent/`** files define specialized subagents for specific tasks
 
 ## Adapting to your context
