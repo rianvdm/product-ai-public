@@ -1,6 +1,6 @@
 # Avoid AI-Sounding Language
 
-*Last updated: 2026-08-16*
+*Last updated: 2026-09-04*
 
 To keep writing natural and human, avoid these telltale AI patterns. Any single instance might be fine. The problem is when multiple patterns appear together or when one is used repeatedly.
 
@@ -77,6 +77,7 @@ Orwell called this "pretentious diction": dressing up simple statements with com
 ## Word-level substitution tics
 
 * **The "serves as" dodge:** replacing "is" with "serves as," "stands as," "marks," or "represents." AI avoids simple copulas because its repetition penalty pushes it toward fancier constructions ("The building serves as a reminder" instead of "The building is a reminder"). Corollary: "boasts," "features," "offers," and "carries" as substitutes for "has" ("The gallery boasts 3,000 square feet" instead of "The gallery has 3,000 square feet"; "a bigger share of PMs than most orgs carry" instead of "than most orgs have"). Often the comparison works with no verb at all -- "a bigger share of PMs than any org I've worked in"
+* **Abstractions that travel, carry, or come along:** "two rules travel with it," "a caveat comes with the territory," "the risk rides along" -- personifying a rule, risk, or condition so it moves on its own. Cousin of the "carries" dodge above. Say what the reader must do: "check two things first"
 * **Synonym cycling (elegant variation):** swapping synonyms for the same noun across consecutive sentences to avoid repetition -- "The protagonist faces challenges. The main character must overcome obstacles. The central figure eventually triumphs." Just use the same word. Real writers repeat nouns; AI cycles through alternatives
 * **Superficial "-ing" analysis:** tacking a present participle phrase onto a sentence to inject hollow significance -- "highlighting its importance," "reflecting broader trends," "underscoring its role as a dynamic hub"
 * **Invented concept labels:** compounding abstract problem-nouns that sound analytical without being grounded -- "supervision paradox," "acceleration trap," "workload creep." These function as rhetorical shorthand: name a thing, skip the argument

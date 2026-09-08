@@ -10,6 +10,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 
 * [`product-philosophy.md`](01-context/product-philosophy.md) -- How I think about product work: problem-first, outcomes over outputs, empowered teams
 * [`avoid-ai-patterns.md`](01-context/avoid-ai-patterns.md) -- Words, phrases, and structural patterns that make AI writing obvious
+* [`avoid-ai-visual-patterns.md`](01-context/avoid-ai-visual-patterns.md) -- Review visual composition, meaningful motion, and subject-specific diagrams
 * [`project-template.md`](01-context/project-template.md) -- Template for creating a dedicated "project brain" folder for major initiatives
 * [`stable-facts-template.md`](01-context/stable-facts-template.md) -- Template for the stable facts file used by cross-session memory
 
@@ -34,6 +35,7 @@ These prompts, context files, and commands work with Claude, ChatGPT, OpenCode, 
 
 * [`pm-thinking`](.opencode/skills/pm-thinking/SKILL.md) -- Apply problem-first, outcome-focused product thinking to any product task
 * [`interactive-explainer`](.opencode/skills/interactive-explainer/SKILL.md) -- Build self-contained interactive HTML visualizations of processes, algorithms, or systems
+* [`visual-eli5`](.opencode/skills/visual-eli5/SKILL.md) -- Build picture-led HTML explainers with page checks, browser rendering, and share cards. Includes three Python helpers; adapt the site URLs, local repo path, and author byline before use. Python 3.10+ and Chrome/Chromium are needed for rendering.
 * [`linear-walkthrough`](.opencode/skills/linear-walkthrough/SKILL.md) -- Generate narrative walkthroughs of code, documents, or systems for learning and onboarding
 * [`discord-bot`](.opencode/skills/discord-bot/SKILL.md) -- Discord bot development guide: Developer Portal setup, Gateway vs Interactions architecture, Cloudflare Workers integration, common gotchas, and verification checklist
 * [`check-skill`](.opencode/skills/check-skill/SKILL.md) -- Audit any SKILL.md against best practices: 5 skill killers, anatomy completeness, scoping, and context binding
