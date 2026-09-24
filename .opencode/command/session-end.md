@@ -1,4 +1,5 @@
 ---
+name: session-end
 description: Write a session handoff note before ending a substantive work session
 ---
 
@@ -69,7 +70,7 @@ This is the most important step. Session logs capture *what happened*, but insti
 
 1. For each learning, identify the best target. Prefer infrastructure files (commands, skills, agents, AGENTS.md) over corrections. Corrections is the staging area for things that don't fit anywhere else *yet*.
 2. Read the target file first to understand its current state.
-3. Apply the edit directly — no pre-approval step.
+3. Apply the edit directly — no pre-approval step. **Rewrite the paragraph that already covers the topic; do not append a dated paragraph beside it.** Keep the rule and the tell, drop the day's counts and names unless one of them is the tell. Five DR-skill sessions each appended one paragraph (2026-08-28 to 09-01) and the file reached 321 lines stating one rule three times; the cleanup took a review pass that a rewrite-in-place would have made unnecessary.
 4. If a learning is being promoted from `01-context/corrections.md` into an infrastructure file, **remove it from corrections** — it's been baked in and no longer needs the staging area.
 
 **Judgment gate — ask before writing when:**

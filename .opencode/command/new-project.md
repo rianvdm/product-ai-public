@@ -1,4 +1,5 @@
 ---
+name: new-project
 description: Scaffold a new project brain folder
 ---
 

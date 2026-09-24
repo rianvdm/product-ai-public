@@ -1,4 +1,5 @@
 ---
+name: assess-fix
 description: Assess whether a Jira ticket's fix can be implemented by a technical PM and LLM coding agent, and produce an implementation brief if yes
 ---
 

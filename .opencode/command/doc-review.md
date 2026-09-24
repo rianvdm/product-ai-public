@@ -1,4 +1,5 @@
 ---
+name: doc-review
 description: Review generated files for accuracy, completeness, and style using multi-agent validation
 ---
 

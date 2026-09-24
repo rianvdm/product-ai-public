@@ -15,12 +15,14 @@ Read what a playlist actually contains, design three covers from it, look at the
 
 ## The house style
 
-On 2026-08-17 Rian named three of his own covers as the target: *Guitars* (a burning Stratocaster on flat red), *Calm* (a hazy amber sunrise over a lake, title in spaced caps inside a thin square rule) and *Dark Ambient* (a near-black storm sky over a barren plain, title tiny and low-contrast). They look nothing alike and they are built the same way. Four rules, all four in every variant:
+**People: no generated photorealistic humans.** Rian finds them cheesy and recognisably AI-generated (September 16, 2026). This includes celebrity likenesses, anonymous crowds, and rear-view figures; hiding a face does not solve it. For people, use an explicitly illustrated treatment or a real sourced photograph. Photographic generation remains suitable for objects, places and natural textures. Choose the emotional moment before styling it: a live playlist needs the connection of a performance, not merely a polished instrument. For a human-centred cover, establish the illustrated or real-photo direction with Rian before rendering.
+
+On 2026-08-17 Rian named three of his own covers as the target: *Guitars* (a burning Stratocaster on flat red), *Calm* (a hazy amber sunrise over a lake, title in spaced caps inside a thin square rule) and *Dark Ambient* (a near-black storm sky over a barren plain, title tiny and low-contrast). They look nothing alike and they are built the same way. These four principles guide the composition; use the agreed medium for human subjects:
 
 | Rule | What it means | The failure it replaces |
 |---|---|---|
 | **One idea, fully committed** | A single subject doing a single thing. Nothing added to fill space. | Collages and "and also a…" compositions, which read as clip art no matter how well rendered |
-| **Photographic realism** | Rendered or shot, with real light and real material. | Flat vector and painterly illustration, which read as cheap |
+| **Photographic realism for non-human subjects** | Rendered or shot, with real light and real material. Human subjects use illustration or real photography, as above. | Generic clip art and synthetic photographic people |
 | **Near-monochrome** | One hue family across a *full* range from near-white to near-black. *Guitars* is red/orange/black; *Calm* runs cream sky to amber water to shadowed ridges; *Dark Ambient* is grey-blue from pale cloud to black land. | The four-colour palettes this skill kept specifying, which dilute the image |
 | **Title as a designed lockup** | The type is a graphic element with its own treatment — a face borrowed from the genre's visual culture, a considered size, sometimes a rule or frame around it. Small: roughly a third of the frame width, never a headline. | "Put the title in the empty area", which produces a caption rather than a cover |
 
@@ -42,14 +44,14 @@ The rule this breaks most often is the palette, because **near-monochrome does n
 
 Under ~20 popularity the type should feel almost too quiet to notice — that restraint is the genre signal.
 
-**Small type needs a full-quality render — the draft tier physically cannot do it.** `gpt-image-1-mini` at `low` has a floor on glyph size and ignores every instruction that tries to go below it: "one fifth", "one tenth", "a small discreet caption" and "vast empty space around the text" all came back at about a third. The same prompt on `chatgpt-image-latest` at `high` landed at one fifth, correctly spelled, first try. Four things follow:
+**Historical typography observations (August 2026, mini/low).** These findings describe the old models; Flare and Sunburst have not yet been tested on these covers. In those tests, `gpt-image-1-mini` at `low` appeared to have a floor on glyph size and ignored instructions that tried to go below it: "one fifth", "one tenth", "a small discreet caption" and "vast empty space around the text" all came back at about a third. The same prompt on `chatgpt-image-latest` at `high` landed at one fifth, correctly spelled, first try. The following workarounds helped in those tests:
 
-* **Drafts overstate title size, so never redesign a layout over it** — and never judge a quiet-genre treatment at draft tier at all. The model also stacks lines by itself to cope with the floor, so a two-line draft title does not predict a two-line final.
+* **Mini/low drafts overstated title size.** If Flare misses the requested size, compare that variant at a higher quality before changing the layout. Mini/low also stacked lines in the old tests, so its two-line draft title did not predict a two-line final.
 * **This is also why small type breaks.** Nearly every spelling failure lands on small text at draft tier, where the mini is straining against its own floor. At full quality the same tiny titles render cleanly.
 * **Draft the short lockup and add the extra line at full quality.** Two elements is what the draft tier can hold. *The Midnight Essentials* broke four rounds running, even with the letters spelled out individually; shortening to *The Midnight* cleared it on the next render, and the full three-element lockup then came back perfect at full quality.
 * **Numerals fail worse than letters, and the palette can contaminate them.** A *1990-2005* subtitle returned *1820 2009*, *1990-200S* and *1960-2005* in one batch — and the *1960* came from the one variant graded warm sepia, where the model read the grade as an era and dated the cover to match. Cut digits first when a lockup is fighting you; if they must stay, make the palette era-correct.
 
-**A framing device does most of the work on a quiet cover.** Rendering *Calm* with a square rule, with a taller rectangle, and with none, Rian rated both framed versions good and the unframed one was a stock sunset with a word on it — same photograph, same type. When a quiet cover feels generic, add the rule rather than a second subject. Hairline rules and letter-spaced caps render reliably even at draft tier, and having a rule matters more than its proportions.
+**A framing device does most of the work on a quiet cover.** Rendering *Calm* with a square rule, with a taller rectangle, and with none, Rian rated both framed versions good and the unframed one was a stock sunset with a word on it — same photograph, same type. When a quiet cover feels generic, add the rule rather than a second subject. Hairline rules and letter-spaced caps rendered reliably in the August draft tests, and Rian preferred having a rule over either particular proportion.
 
 **When Rian names a cover he likes, go and look at it before designing.** `fetch-playlist.mjs` prints the playlist's `current cover` URL — `curl` it and Read the image. Describe what is actually there: subject, ground, palette count, type treatment, how much of the frame the title occupies. Designing from a remembered impression of a cover you were shown is how the recipe gets lost.
 
@@ -75,33 +77,33 @@ Under ~20 popularity the type should feel almost too quiet to notice — that re
    node ~/git/product-ai/.opencode/skills/playlist-cover/generate-cover.mjs --spec <scratchpad>/spec.json
    ```
 
-   Defaults are `gpt-image-1-mini` at `low` — the draft tier. The hard constraints (no logos, watermarks, fake UI, duplicated titles) are appended by the script, so leave them out of the prompt.
+   Defaults are `gpt-image-2.5-flare` at `low`. If lettering or subject detail fails, retry the affected variant at `medium` before changing its design. The hard constraints (no logos, watermarks, fake UI, duplicated titles) are appended by the script, so leave them out of the prompt.
 
 5. **Open every draft with the Read tool.** See the verification gate below. Re-render anything that fails before Rian sees it.
 
 6. **Open the survivors in Preview, then present them** — `open -a Preview <file> …` with every draft in one command, in the same order you describe them. Rian compares them at full size in Preview, not in the transcript, and expects them to be on screen when he reads your summary. Then one line each on what the direction is doing. Not a paragraph.
 
-7. **Promote his pick to full quality — render it both ways and let him choose.** The edit preserves the composition he picked; the re-render rebuilds the subject and is usually the better *picture*. Neither wins reliably, and both together cost about 12k tokens, so stop guessing:
+7. **Promote his pick to full quality — render it both ways and let him choose.** Use `gpt-image-2.5-sunburst` at `xhigh` for both. Compare an edit intended to preserve the approved composition with a fresh render of the same prompt. Keep this comparison while gathering evidence on the new model; cost and timing are recorded in each usage sidecar:
 
    ```bash
-   # a) edit — keeps the exact composition he approved
+   # a) edit — use the approved composition as the reference
    node ~/git/product-ai/.opencode/skills/playlist-cover/generate-cover.mjs --spec <scratchpad>/final.json \
-     --edit <scratchpad>/drafts/<slug>-<label>.png --model chatgpt-image-latest --quality high \
+     --edit <scratchpad>/drafts/<slug>-<label>.png --model gpt-image-2.5-sunburst --quality xhigh \
      --only final --name <slug>-edit --out <scratchpad>/finals
 
    # b) re-render — same prompt, full quality, fresh composition
    node ~/git/product-ai/.opencode/skills/playlist-cover/generate-cover.mjs --spec <scratchpad>/spec.json \
-     --only <label> --model chatgpt-image-latest --quality high \
+     --only <label> --model gpt-image-2.5-sunburst --quality xhigh \
      --name <slug>-rerender --out <scratchpad>/finals
    ```
 
    The edit prompt asks to reproduce the draft at higher fidelity — crisper edges, finer texture, cleaner letterforms — and says explicitly that nothing may move, resize or shift hue.
 
-   **Why both.** The edit keeps the composition and recovers detail the draft never had, but it cannot re-expose a scene — it came back flat and waxy where the re-render had hard sunlight and real cast shadows. The re-render rebuilds the subject properly, and its cost is drift: on *Faith* it lost the approved composition, and the *Guitars* re-render was a different guitar in a different pose.
+   **Why both (August 2026 observations with the previous models).** The edit kept the composition and recovered detail the draft never had, but struggled to re-expose a scene — it came back flat and waxy where the re-render had hard sunlight and real cast shadows. The re-render rebuilds the subject properly, and its cost is drift: on *Faith* it lost the approved composition, and the *Guitars* re-render was a different guitar in a different pose.
 
    **Route by what is changing: adding something inside the existing exposure goes to the edit, changing the exposure itself goes to the re-render.** The edit can add a medium into darkness that is already there and can lift a black point locally; asked instead for more haze on *Shimmery Guitars* it left the figure a hard silhouette sitting on top of the fog, where the re-render lifted the whole key and dissolved the figure into it. But an atmospheric win that shifts the mood is a loss — *Faith*'s re-render delivered every requested change and lifted the *whole frame*, turning a dark cover into a warm radiant one, so the edit took it.
 
-   **Check saturation first on both, because that is the axis neither respects.** "Nothing else may move, resize or shift hue" holds for geometry and composition and not for grade: the *Trance Classics* edit was asked only to reset a typeface and sharpen metal and pulled the icy cyan out to near-neutral steel, while *The Midnight* re-render drifted warm the other way. A lost grade is recoverable with a second edit that touches nothing else. Running tally: the edit has won four of six promotions.
+   **Check saturation first on both, because that is the axis neither respects.** "Nothing else may move, resize or shift hue" holds for geometry and composition and not for grade: the *Trance Classics* edit was asked only to reset a typeface and sharpen metal and pulled the icy cyan out to near-neutral steel, while *The Midnight* re-render drifted warm the other way. For a lost grade, make a second edit that changes only the colour, explicitly passing `--model gpt-image-2.5-sunburst --quality xhigh`. August 2026 tally with the previous models: the edit won four of six promotions. Re-check these tendencies on Sunburst.
 
 8. **Verify the final too**, including the 300px check. Then give him the path.
 
@@ -119,11 +121,11 @@ Drafts and both finals stay in the scratchpad; only the cover he picks lands in 
 
 ## Changing one thing about a cover he already likes
 
-Re-rendering rolls fresh artwork and throws away the composition he approved. `--edit` doesn't: it sends the existing image to the edits endpoint, and anything the prompt doesn't mention survives.
+Re-rendering generates fresh artwork. `--edit` sends the approved image as a reference so the model can preserve its composition. Verify that unchanged details survive, especially colour and lettering.
 
 ```bash
 node ~/git/product-ai/.opencode/skills/playlist-cover/generate-cover.mjs --spec <scratchpad>/tweak.json \
-  --edit <path-to-existing-cover>.png
+  --edit <path-to-existing-cover>.png --model gpt-image-2.5-sunburst --quality xhigh
 ```
 
 Write the prompt as *only the change*, and close it by naming what must not move — "leave the guitar shape, the glare, the composition and the colours exactly as they are." Without that sentence the model drifts.
@@ -131,7 +133,7 @@ Write the prompt as *only the change*, and close it by naming what must not move
 Two rules:
 
 - **Copy the cover to the scratchpad and edit from the copy** when the output path is the cover itself. Editing a file onto itself works, but a bad result then has nothing to fall back to.
-- **Draft tier is nearly free here** (~270 tokens an edit, versus several thousand for a full high-quality render), so try four typefaces rather than guessing one. It softens fine detail though, so apply the winner to the original at `chatgpt-image-latest --quality high`.
+- **Edits default to Sunburst/xhigh.** For an inexpensive type experiment, explicitly select `--model gpt-image-2.5-flare --quality low` and inspect its usage before expanding the batch. Apply the chosen treatment to the original with Sunburst/xhigh. Explicit CLI flags override spec values; spec values override defaults, so pass the final flags when reusing a draft spec.
 
 ## The verification gate
 
@@ -175,7 +177,7 @@ Match on the genre tags and the era, not the playlist name. The archetype decide
 |---|---|---|
 | **Symbolic object on a flat field** | Tags name a loud, physical scene — punk, metal, garage, hard rock. Concrete one-word names. | One object doing something dramatic — burning, shattering, submerged — on a saturated single-colour ground with no environment at all, corner-set display lettering. This is the *Guitars* recipe and it is the strongest of the five |
 | **Atmospheric photograph** | Ambient, slowcore, dream pop, folk, quiet electronica. Low mean popularity. | Landscape or weather carrying the mood, one hue family, framed caps or a small clean sans, lots of air. This is the *Calm* recipe |
-| **Illustrated scene with a figure** | Singer-songwriter, indie, emo, country, soul — anything about people. Names that are phrases or lyrics. | One figure in a mood-lit scene, photographic rather than painterly, two anchor colours, warmer type clear of the focal point |
+| **Illustrated scene with people** | Singer-songwriter, indie, emo, country, soul, or live music where human connection is central. | Expressive illustration with a specific human moment; establish the treatment with Rian. Use real photography if a photographic human scene is wanted. |
 | **Neon / retro graphic** | Synthwave, italo disco, city pop, new wave. Era clustered 1979–1991, or deliberately retro-modern. | Chrome, grids, dusk cityscape, one dominant hue against near-black, retro script or heavy geometric type |
 | **Abstract texture** | Tags scatter across many genres, or lean experimental, techno, drone, jazz fusion. | Gradient, grain, fluid form, no literal subject, one hue plus white, widely tracked geometric sans |
 
@@ -187,7 +189,7 @@ Era shifts the treatment inside the archetype: a 1985-median playlist wants grai
 
 Six parts, in this order. Each is a phrase or two, not a paragraph.
 
-1. **Medium and treatment** — photographic or rendered with real light and material, per the house style. Reach for painterly or flat-vector only when Rian asks for it by name.
+1. **Medium and treatment** — photographic or rendered with real light and material for non-human subjects. For people, use the illustrated treatment agreed with Rian or a real sourced photograph.
 2. **Subject** — what is in frame and what it is doing.
 3. **Composition** — where the focal element sits *and where the empty space is*. The title needs somewhere quiet to live, so decide that here rather than hoping.
 4. **Light and texture** — direction of light, grain, bloom, brush, halation.
@@ -224,19 +226,30 @@ If an exact match genuinely matters, the only honest route is to render the artw
 
 **Upload replaces, never merges.** `set-cover.mjs` works (verified Aug 2026 on *Melodic Dance*), but `PUT /playlists/{id}/images` overwrites whatever is there and Spotify keeps no history. A `mosaic.scdn.co` URL in the playlist's `images` is the auto-generated grid of album art, so replacing it costs nothing; any other URL is a cover Rian uploaded, and that one is gone the moment you overwrite it. Read the current image URL before uploading, and ask when it isn't a mosaic.
 
-**Cost.** Measured Aug 2026: three mini/low drafts ≈ 816 image output tokens total, one `gpt-image-2` high ≈ 7,000, one `chatgpt-image-latest` high ≈ 4,600. Order of a few cents for the drafts, order of a quarter for the finals. Don't render six drafts because three felt thin — render three good ones.
+**Cost.** Each render saves `<name>.usage.json` beside its PNG with the requested model, quality, size, operation, elapsed milliseconds, and full API `usage`. Use this to measure the new models on actual cover prompts. Both 2.5 models charge $30 per million image output tokens plus input charges; equal token rates do not imply equal per-image costs. [Pricing and usage guidance](https://developers.openai.com/api/docs/guides/image-generation#cost-and-latency)
+
+Historical measurements from August 2026: three mini/low drafts used about 816 image output tokens total; one `gpt-image-2` high used about 7,000; one `chatgpt-image-latest` high used about 4,600. These are previous-model observations, not estimates for Flare or Sunburst.
 
 ## Models and quality
 
-| Model | Use |
+Defaults updated September 16, 2026. Flare drafts and Sunburst edits were tested on Goeie Ou Dae. Rian preferred the `xhigh` final over `high` and chose it as the final-quality default. Keep drafts at `low`; explicit spec and CLI settings still override defaults.
+
+| Operation | Model and quality |
 |---|---|
-| `gpt-image-1-mini` | Drafts and cheap type experiments. The default in the script. |
-| `chatgpt-image-latest` | **Finals.** On the *Guitars* test it produced a more convincingly photographic subject than `gpt-image-2` — correct pickguard, three single coils, tremolo, jack socket — for a third fewer tokens. One prompt, one render each, so keep watching rather than treating it as settled. |
-| `gpt-image-2` | The prior default for finals; still good, leans more illustrative than photographic. |
+| Draft generation | `gpt-image-2.5-flare`, `low`; try `medium` if lettering or detail fails. Script default for generation. |
+| Final generation | `gpt-image-2.5-sunburst`, `xhigh`; pass both flags explicitly. |
+| Targeted edit | `gpt-image-2.5-sunburst`, `xhigh`. Script default for edits when the spec/CLI does not override it. |
+| Difficult lettering or material detail | Try `max` on the affected variant if a visible problem persists at `xhigh`. |
 
-`quality` accepts **low, medium, high, auto** and nothing else — `high` is the ceiling on every image model this account can reach, verified against the API on 2026-08-17. There is no tier above it, so don't go looking for one. `1024x1024` is the right size: Spotify serves 640px at most, so rendering larger buys nothing.
+Both 2.5 models support `low`, `medium`, `high`, `xhigh`, `max`, and `auto`. Keep quality explicit for predictable comparisons. Start at `1024x1024` and retain the 300px legibility check. [Image generation guide](https://developers.openai.com/api/docs/guides/image-generation)
 
-**Drafts are honest about composition, palette, subject and type placement, and dishonest about quality and title size** (the mini at `low` renders subjects soft and plasticky; the glyph floor is covered under the house style). When Rian judges a draft as looking cheap or its type as too large, say the tier is doing it and offer a full-quality render of that variant, rather than redesigning.
+OpenAI positions Sunburst for precise edits and Flare for fast everyday generation. Both were released September 8, 2026. [Release notes](https://developers.openai.com/api/docs/changelog)
+
+The old mini draft and `chatgpt-image-latest` final models are scheduled to shut down December 1, 2026. Keep their names only in historical observations. The previous preference for `chatgpt-image-latest` over `gpt-image-2` came from one Guitars comparison; it establishes no ranking against the new models. [Deprecations](https://developers.openai.com/api/docs/deprecations)
+
+On Goeie Ou Dae, Sunburst/high used 1,756 image output tokens in 39.1 seconds; xhigh used 3,122 in 58.2 seconds. Both used the same draft and prompt. Rian found xhigh clearly better even though the assistant judged the difference subtle. His visual preference determines the default; these measurements describe one comparison.
+
+Judge each draft's composition, palette, subject, and type placement directly. If low-quality output looks cheap or its type is too large, compare at higher quality before redesigning. The old mini's glyph floor has not been established for Flare. Keep the full-size and 300px visual checks for every model.
 
 ## Quick reference
 
@@ -245,7 +258,7 @@ If an exact match genuinely matters, the only honest route is to render the artw
 | `fetch-playlist.mjs "<url>"` | Brief: name, era, genre tags, top artists, sample tracks |
 | `fetch-playlist.mjs "<url>" --json` | Same, structured |
 | `generate-cover.mjs --spec s.json` | Render every variant at draft quality |
-| `... --only <label> --model chatgpt-image-latest --quality high` | Re-render one variant at full quality — better subject detail, but the composition drifts |
+| `... --only <label> --model gpt-image-2.5-sunburst --quality xhigh` | Re-render one variant at full quality — better subject detail, but the composition drifts |
 | `... --out <dir> --name <slug>` | Where it lands and what it's called (`--name` needs `--only`) |
 | `... --edit <existing>.png` | Change one thing, keep the rest of the artwork |
 | `sips -Z 300 <f> --out <f>-300.png` | The legibility check that actually matters |

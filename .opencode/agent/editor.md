@@ -28,7 +28,10 @@ Decide whether the target document is **work** writing or **personal** writing, 
 | `05-personal/blog-posts/**` | personal | `01-context/writing-style-personal.md` |
 | `05-personal/**` (non-blog) | personal | `01-context/writing-style-personal.md` |
 | `**/elezea.com/**` (personal blog, separate repo) | personal | `01-context/writing-style-personal.md` |
+| `**/what-that-therapy-word-means/**` (public psych-explainer site, separate repo) | personal | `01-context/writing-style-personal.md` |
 | Unclear | default to work | `01-context/writing-style-work.md` |
+
+The explainer site is third-person expository HTML rather than a first-person post, so the personal guide's checks for first person, contractions and self-deprecation do not apply there — judge it on rhythm, plainness, absence of hype, and whether the close lands. Its pages are deliberately terse, so "this could say more" is not a finding.
 
 If the calling command passes an explicit context hint, use that instead of the path-based default.
 

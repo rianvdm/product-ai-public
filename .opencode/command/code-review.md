@@ -1,4 +1,5 @@
 ---
+name: code-review
 description: Review changes with parallel @code-review subagents
 agent: plan
 ---

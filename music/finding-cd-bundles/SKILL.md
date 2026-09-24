@@ -13,6 +13,8 @@ Price Rian's Discogs wantlist against live eBay listings — cheapest copy of ea
 
 **Corollary that matters:** this tool inherits its master judgement entirely from the wantlist. If a remaster got wantlisted by mistake, this faithfully finds remasters. The wantlist is the filter — curate it with `finding-original-cds` first.
 
+**The barcode filters remasters. It does NOT filter club editions, and it does not filter packaging.** Found 2026-08-21 on The Cure *Disintegration*: eBay's `gtin` search returned 3 US listings and the cheapest, at $15.95, had **"MANUFACTURED BY COLUMBIA HOUSE UNDER LICENSE"** printed on the tray. A BMG copy (`D 101109` + "BMG Direct Marketing, Inc. under License") sat one row below it, advertised in the title as `9 60855-2`. Club pressings share the original's master and are indexed on eBay under the original's UPC, so **every filter this tool has passes them through.** Discogs doesn't have this problem — it catalogues club editions as separate releases, so a Discogs sell page for the wantlisted release is club-free by construction. On eBay you have to look. See *Reading an eBay listing* below.
+
 **And check the other marketplace.** Every album is also priced against the Discogs marketplace floor, because eBay loses that comparison more often than not — see *The Discogs cross-check* below. Never report an eBay price without it.
 
 ## Buy the subset, and message the seller
@@ -21,7 +23,7 @@ Two things about bundles that are easy to get wrong, both learned the hard way o
 
 **1. Never buy a whole bundle — buy the subset that wins.** A seller's price is competitive on some of their stock and bad on the rest. `resellingroly` held 5 wantlist albums; four of them beat the market but their *Nevermind* was $21.99 against $13.20 elsewhere. Buy those four, get *Nevermind* somewhere else. Evaluating bundles all-or-nothing made every one of 51 look like a loss — the script now computes the optimal subset (include an item whenever the seller's **price** undercuts the cheapest **landed** price elsewhere; shipping is paid once, which is what creates the room).
 
-**2. The combined-shipping discount is negotiable, not a fixed property of the seller.** eBay exposes no combined-shipping rule through the API, and plenty of sellers have none configured — `resellingroly` charged 4 × per-item shipping to the cent, $18.98 on $24.23 of CDs. **Rian messaged them and they refunded the excess.** So the "if they combine" figure isn't hypothetical; it's what you get by asking, and asking worked first try. That purchase saved ~$8.66 over buying the same four separately.
+**2. The combined-shipping discount is negotiable, not a fixed property of the seller.** eBay exposes no combined-shipping rule through the API, and plenty of sellers have none configured — `resellingroly` charged 4 × per-item shipping to the cent, $18.98 on $24.23 of CDs. **Rian messaged them and they refunded the excess — ~$13.88, money confirmed received 2026-08-20.** So the "if they combine" figure isn't hypothetical; it's what you get by asking, asking worked first try, and it now has a closed loop rather than just a promise. That purchase saved ~$8.66 over buying the same four separately.
 
 Scale expectations: US CD shipping is a near-flat **~$4.39 Media Mail** (median of 152 listings; 17% ship free), so savings are real but modest — roughly **4 of 50** bundles clear $1, topping out around **$6.50**. `--cheapest` is still the right default for "what does my wantlist cost"; the bundle view is for "is there a message worth sending."
 
@@ -107,8 +109,12 @@ Not for: choosing which pressing to want (→ `finding-original-cds`), vinyl, or
 | Discogs price floor | `GET /marketplace/stats/<id>?curr_abbr=USD` | `{num_for_sale, lowest_price, blocked_from_sale}`. Item price only, any country, no condition |
 | Discogs listings | **Does not exist** | Per-release enumeration was closed years ago. The aggregate above is all there is |
 | Cart / checkout | **Does not exist** | No third-party cart API; Order API checkout is Limited Release |
+| Your own *buyer* orders | **Does not exist** | `/marketplace/orders` returns orders where you're the **seller** only. Outstanding purchases have to be transcribed by hand — see [[cd-purchases-in-flight]] |
+| A seller's shipping policy | **Does not exist** | Only the cart shows it. `shipping_price` on a listing is not it — see below |
 
 **Credentials** live in `~/git/product-ai/.env` (and mirrored in `~/.config/ebay/credentials.env`): `EBAY_APP_ID`, `EBAY_CERT_ID`, `DISCOGS_TOKEN`. The script reads only those keys and never prints them.
+
+⚠ **The two `DISCOGS_TOKEN` values are not interchangeable.** Reads work from either, but the one in `~/git/product-ai/.env` returns **403 on every write** — wantlist add/remove included (verified 2026-08-22). For any write, source `~/.config/ebay/credentials.env` and nothing else. A 403 here is the wrong token, not an account permission problem.
 
 **If eBay auth returns `invalid_client`,** the production keyset has been deactivated. Fix at Application Keys → **Notifications** → **Marketplace Account Deletion** → toggle **"Not persisting eBay data"** → Confirm. That gate — not a human approval queue — is what holds up new keysets, and it activates the key immediately.
 
@@ -184,12 +190,46 @@ Re-measured 2026-08-05 on the 28-entry wantlist (25 unique albums) after the `re
 
 If a run comes back dramatically worse than this, suspect the wantlist changed or the location filter, not the approach.
 
+## Reading an eBay listing before buying it
+
+The script's output is a shortlist, not a verdict. Three checks close the gaps the API can't see, and on 2026-08-21 they eliminated **the three cheapest US copies** of an album in a row.
+
+1. **Read the tray photo for a club marker.** "MANUFACTURED BY COLUMBIA HOUSE UNDER LICENSE" or "BMG Direct Marketing, Inc. under License" plus a `D`-prefixed catalog number (`D 101109`). Both are printed on the back tray card and are invisible in the title, the barcode and the item specifics. **A listing with no back-tray photo cannot be cleared** — either message the seller or move on.
+2. **Read `Case Type` in the item specifics.** `Paper Sleeve` means a bare disc with no jewel case and no booklet, and the price looks like a bargain right up until you notice. One of the three 2026-08-21 rejects was this.
+3. **Ignore the disc-face plant credit.** It does not identify the pressing — see the *Common mistakes* entry below.
+
+**Run a keyword search alongside the barcode search when the answer matters for one album.** `gtin` recall on individual listings is poor: the same album returned **3 listings by barcode and 22 by keyword**, and every genuinely buyable copy was in the keyword set. Filter the keyword results on `/disintegration/i`-style title matching plus a negative-keyword list (`remaster|deluxe|anniversar|expanded|box set|\d\s*cd|vinyl|lot|you pick|import`). The barcode is the precision instrument; the keyword search is the recall instrument. **The main script deliberately uses only the former** — it is scanning 30+ albums, where precision matters more — so this is a one-album manual step, not a change to the tool.
+
+## A 2xCD album could vanish from every list — fixed 2026-09-10
+
+`LOT_RE` carried `\d+\s*cd'?s?\b` to catch "12 CD lot". It also matched **"2CD"**, which is how sellers correctly describe a legitimate 2-disc album — so the only US listing for *Across A Wire* (a 2xCD) was classed as a lot.
+
+The classification alone would have been survivable. The damage came from the accounting: `kept` counted every title-plausible listing, but the priced list is built from `bestLanded`, which additionally requires `!isLot && ship != null`. So the album satisfied `kept > 0` — keeping it out of `noListings` — while never entering `bestLanded`. **It appeared in the priced list, in neither gap list, and in no total.** It was not mispriced; it was invisible, and the run's "21 albums" looked complete.
+
+Two fixes, and the second matters more:
+
+1. `isDiscCountLot(title, qty)` compares the number in the title against the wanted release's disc count, which is now stored on each want. "2CD" on a 2xCD want is a match; "12 CD" is a lot.
+2. The gap test is now `kept === 0 || !bestLanded.has(album)`, so **an album that produces no comparable price is always reported**. This also catches the other silent-drop path — every listing quoting CALCULATED shipping, which `--zip` reduces but does not eliminate.
+
+**Reconcile the counts on any run you're going to act on:** priced + both gap lists should equal the distinct wantlist albums. That arithmetic is the only thing that catches a vanish, and it is cheap. This is the same regex family as the `\bCD\b` / `2xCD` format-filter bug in `seller-scan.mjs` — a pattern that cannot tell a disc *count* from a lot *size*.
+
+## Non-US sellers quote their own currency
+
+`seller-scan.mjs` captured `l.price.currency` but printed a hardcoded `$`. Every registry seller was American, so it never showed until Gavin-B-And-G (London) — where **£16.00 shipping printed as "$16"**, understating it by about a third. It now prints the real symbol via `CUR_SYMBOL`.
+
+**A foreign seller changes the arithmetic twice over**: the item prices convert, and the shipping tiers are quoted in the seller's currency too. Convert before comparing anything against the $6.00 local-shop benchmark or a Discogs floor in USD. Discogs' own listing page shows an "about $X" line — use it to sanity-check the rate rather than assuming one.
+
 ## Common mistakes
 
 - **Reporting recall as a percentage of keyword-search hits.** Tried on 2026-08-05 and it's the wrong metric — Nevermind's UPC matches "only 10.5% of keyword hits" but that's **75 real listings**, which is abundant. What matters is absolute listings per album and whether sellers overlap. The percentage makes a working tool look broken.
 - **Passing a catalog number to `gtin`.** It accepts UPC/EAN only. Catalog numbers are for the human eyeball step in `finding-original-cds`.
 - **Trusting the raw hit list without a title check.** eBay's gtin index carries some mis-tagged listings; the script requires a shared distinctive token with artist or title. If a result looks wrong, it probably is.
+- **Treating a UPC match as proof it isn't a club edition.** It isn't. Club pressings share the original's master and turn up in the `gtin` results under the original's barcode — see the *Core insight* caveat. The tray card is the only tell.
+- **Reading the gtin result set as the listing set.** `gtin` returned **3** US listings where a keyword search returned **22** for the same album. The per-album coverage figures in *Calibration* say how often an album gets **at least one** hit; they say nothing about seeing most listings *within* an album. Never quote a gtin cheapest as "the cheapest on eBay" for a single-album question.
+- **Reading the plant credit off the disc face.** "MADE IN U.S.A. BY WEA MANUFACTURING INC." is printed on the disc of pressings from *several* plants — the wantlisted 2026-08-21 *Disintegration* (`178726`) carries that text while being an SRC pressing, with `SRC` appearing only in the matrix runout. Nearly rejected a good listing on this. **Plant identity lives in the matrix, never in the printed credit.**
 - **Implying full wantlist coverage.** Roughly one album in six returns nothing. Name them.
+- **Trusting the run's album count without reconciling it.** Priced + both gap lists must equal the distinct wantlist albums, or something vanished — see the 2xCD section above.
+- **Trusting a `0 raw` on an artist with an `&` in the name.** The inventory search returns empty on a literal `&`. Probe it by hand.
 - **Recommending a bundle on album count.** The largest bundle is routinely the worst buy — `randrcollectables` had 6 albums at a flat $21.95 each. Quote the verdict line, which is computed on the optimal subset.
 - **Raising `--min` to shorten the output.** A 2-album seller is a real bundle, and on a short wantlist most of them are. `--min 3` hid the order Rian actually placed on 2026-08-05.
 - **Judging a bundle all-or-nothing.** One overpriced item shouldn't sink four good ones; it should just be bought elsewhere. This mistake made the tool report "no bundle is ever worth it," which was flatly wrong — Rian bought 4 of 5 from `resellingroly` the same day and saved ~$8.66.
@@ -207,7 +247,7 @@ Everything above prices the wantlist against **eBay**, with Discogs present only
 node ~/git/product-ai/.opencode/skills/finding-cd-bundles/seller-scan.mjs philadelphiamusic [seller2 ...]
 ```
 
-**Keep the seller list and their shipping policies in [[discogs-seller-registry]].** Shipping policy is the whole strategy — see below.
+**Keep the seller list and their shipping policies in [[seller-registry]].** Shipping policy is the whole strategy — see below.
 
 ### Why this exists, and why it looks the way it does
 
@@ -225,6 +265,8 @@ Unlike the eBay path — which searches the **barcode of the exact wantlisted pr
 
 **So read that marker before quoting a price**, and say plainly when a hit is a different pressing than the one wantlisted. A cheap hit on the wrong packaging is not a find.
 
+**But a negative marker is not a skip verdict either — compare catalog numbers before ruling a hit out.** On 2026-08-23 two Pink Floyd hits at The-Music-Fix were called "wrong pressing, skip" because their release IDs differed from the wantlisted ones — yet both carried the **same catalog number** (`CK 33453`, `CK 40599`): sibling pressing runs of the same edition, differing only in matrix/plant, which is materially what the wantlist wants unless the entry is packaging- or matrix-driven (*Across A Wire* is; most aren't). Rian caught it. The ladder is: same release ID → exact; same catno → sibling run, normally fine; different catno → the real different-edition case that deserves the skip scrutiny.
+
 ### Shipping policy is the strategy
 
 Record it in the registry for every seller, and read the results through it:
@@ -232,6 +274,10 @@ Record it in the registry for every seller, and read the results through it:
 - **Flat rate + unlimited combining** (philadelphiamusic: **$5.00 flat**, cart states "add up to 997 more discs/tapes at no additional shipping cost"): only the first item carries shipping. Judge each album on its **item price** against another venue's **landed** price, and batch aggressively — re-scan whenever the wantlist grows, because anything they stock is worth adding at item cost alone. This flipped the Cranberries from "skip, $10 landed vs $9.98 on eBay" to "buy, $5 marginal".
 - **Per-item shipping:** treat albums independently, and ask about combining before checkout — it's negotiable and asking has worked.
 - **Unknown:** assume per-item. The API never exposes shipping rules; **only the cart does**, so confirm there before concluding.
+
+⚠ **`shipping_price` on a listing can be the *incremental* rate, not the first-item rate.** Found on `AndrewRocco` 2026-08-22: 95 of 100 sampled listings quoted `$1.00`, which reads like the cheapest shipping anywhere in the registry. The real policy is **$6.00 for the first item, then $1.00 each** — the API was reporting the additional-item tier. This is a third distinct failure mode alongside the `$0.00` weight-calculator bug (ddsdiscsva, babshigh), and it's the dangerous one, because `$1.00` looks like a plausible real number where `$0.00` obviously doesn't.
+
+**So never write a shipping figure into [[seller-registry]] from `shipping_price`.** Ask Rian to put one item in a cart and read the quote back — he did exactly that for AndrewRocco and it took one message. A uniform suspiciously-low quote means a tiered seller, not a bargain.
 
 ### Calibration
 
@@ -251,13 +297,49 @@ Fixed 2026-08-15: `DESC_CD` was `/\bCD\b/i`, which **does not match `"HDCD"`** �
 
 **The lesson is the regex family, not the two instances.** `\bCD\b` fails against anything that prefixes CD without a separator — `HDCD`, `2xCD`, `3xCD`, `SHM-CD` is fine but `SHMCD` would not be. When adding a format token, test it against a list, and treat any `raw > 0 -> 0 cand` row as a bug report until proven otherwise.
 
-### A zero is trustworthy — verified 2026-08-06
+### When the wantlisted release is ITSELF a remaster, an unconditional remaster filter guarantees a wrong answer
+
+Fixed 2026-08-27. `DESC_BAD` rejected any CD description carrying `RM`, and `FMT_BAD` did the same against the resolved `formats[]`. But **some albums have no non-remastered edition, because the remaster IS the first release** — Sting's *Fields Of Gold* (1994) was newly mastered by Bob Ludwig at Gateway for that compilation, so nearly every pressing is tagged `Remastered`. On those, the filter could only ever return the sibling that happened to *lack* the tag, and silently dropped the exact wantlisted release.
+
+ShinylVinyl held **four** US *Fields Of Gold* pressings. The scan reported one — `4465306`, the only untagged one — and dropped the exact wantlisted `4450033` **and** the NM `20804659` that turned out to be the right buy. The scan line read `4 raw -> 1 cand -> 1 confirmed`, which looks like an ordinary loose-match rejection.
+
+**The fix is to make the remaster clause conditional, never to drop it.** `loadWantlist()` now computes `selfRemastered` per want from `basic_information.formats`, and:
+
+```js
+const descBad = (d, w) => DESC_BAD_ALWAYS.test(d) || (!w.selfRemastered && DESC_BAD_RM.test(d))
+const fmtBad  = (f, w) => FMT_BAD_ALWAYS.test(f) || (!w.selfRemastered && FMT_BAD_RM.test(f))
+```
+
+`Club`, `Dlx`, `Anniversary`, `Promo`, `Test Pressing` and `Unofficial` stay unconditional — the Club Edition among those four *Fields Of Gold* copies is still correctly rejected.
+
+**The general principle: the wantlist is the master filter.** The *Core insight* at the top of this file says so — this tool inherits its master judgement entirely from the wantlist, which is curated by `finding-original-cds`. A second filter that overrides the wantlist defeats the point, and it fails silently and specifically on the exact pressing. **Compilations and live albums are where this recurs**, since a comp is its own first release and often carries the tag.
+
+### Cross-check a new seller against their Discogs wantlist page
+
+This bug was caught because Rian opened ShinylVinyl's own **"in your wantlist"** seller page and saw four albums where the scan had marked three as exact. That page matches on the **exact release ID**; this scan matches on **`master_id`**. They answer different questions and neither subsumes the other:
+
+* The Discogs page **misses same-catalog siblings** — it never showed their *Brothers In Arms*, *London Calling* or *Stay On These Roads*, all legitimate hits.
+* The scan **can silently under-report** through a filter bug, as above.
+
+**So open that page on every newly-added seller.** It costs one click, needs no API budget, and it is the only external check on this tool's recall that exists. Any album it lists that the scan didn't mark `[exact wantlist pressing]` is a bug report.
+
+### An `&` in the query silently returns zero — fixed 2026-09-10
+
+`q=Mumford & Sons Babel` returns **0** against a seller holding four copies. `q=Mumford Sons Babel` returns **4**. The `&` is correctly percent-encoded as `%26` by `URL.searchParams` — Discogs' inventory search simply dies on it, and reports the death as an empty result set rather than an error.
+
+That makes it the worst possible failure shape: it is indistinguishable from the seller not stocking the album, so it reads as a legitimate `0 raw` and **the section below said to trust it**. Every seller scan ever run before this date silently omitted every artist with an ampersand in the name.
+
+Reproduced on two sellers and isolated by elimination: `*`, `-`, `'`, `:`, `,` and the `(2)` same-name-artist suffix all match fine. Only `&` breaks. `cleanQuery()` in `seller-scan.mjs` now strips it before the request.
+
+**The general rule: a wantlist entry whose artist or title contains punctuation deserves one manual `q=` probe before you trust a zero for it.** Found because Rian opened the seller's own wantlist page and saw two Mumford & Sons albums the scan had reported as absent — which is exactly the cross-check two sections below, doing the job it exists for.
+
+### A zero is otherwise trustworthy — verified 2026-08-06
 
 `q=` does a loose full-text match, so a one-word query looks alarmingly broken: `q=the cure` returned 29 listings containing no Cure release, `q=queen` returned 249 with no Queen. Tempting to read as a failing search. It isn't.
 
 The script queries **artist + title together**, and that form has good recall — tested against six albums confirmed present in a seller's stock (*Jagged Little Pill Acoustic*, *Hours...*, *Boys For Pele*, Tin Machine's *Live: Oy Vey Baby*, Echobelly's *Lustra*) it found **6 of 6**, usually as the only hit. Trailing punctuation didn't matter.
 
-So a reported 0 means the seller genuinely doesn't stock it. Sanity-check the inventory's format mix before writing off a whole scan, but **don't assume the search is broken just because single-word queries look noisy** — and check the `raw > 0 -> 0 cand` rows above before concluding anything.
+So a reported 0 means the seller genuinely doesn't stock it — **unless the query contained an `&`**, per the section above. Sanity-check the inventory's format mix before writing off a whole scan, but **don't assume the search is broken just because single-word queries look noisy** — and check the `raw > 0 -> 0 cand` rows above before concluding anything.
 
 ### Hit count is not buy count
 
@@ -272,11 +354,80 @@ Read the floor's **depth**, not just its price: 84 copies from $0.01 is real and
 
 **A seller can hold six of your albums and deserve three of them. Report the split, not the hit count.**
 
+⚠ **But once an order at a flat-rate seller is going out, stop comparing against the floor.** Marginal shipping is $0, so an extra disc must be judged on **item price against another venue's *landed* price** — the rule in *Shipping policy is the strategy* above. Comparing item price to a bare floor double-counts shipping and skips albums that were the cheapest way to get them.
+
+Got this wrong on 2026-08-27: four ShinylVinyl albums were skipped as "5× the floor" when their shipping was already paid by a *Dark Side* order. *Brothers In Arms* at $6.04 marginal-free beat **every** registry alternative — dailybookstore $7.88 solo, CD_WAREHOUSE_817 $11.25 solo — and adding it killed a second order that existed only to carry it. Rian caught it by asking why the other matches weren't in the cart.
+
+**"It's 5× the floor" is not a reason to skip an album whose shipping is already paid.** The floor still earns a skip on **depth** — 58 copies means you can genuinely do better — but that is a different argument, and say which one you're making.
+
 ### Sealed listings need a catalog-number check
 
 A big seller clearing retail stock (`CD_WAREHOUSE_817`) lists mostly *"Brand New, Factory Sealed"* — and one listing said outright *"Cannot confirm matrix/pressing, as it is sealed."* Two of its sealed Mint hits carried **later catalog numbers than the wantlisted originals** (`88875043862` for *Thriller* instead of `EK 38112`; `B0015887-02` for *Nevermind* instead of `DGCD-24425`) and passed the remaster filter only because neither was *tagged* `Remastered`.
 
 **Sealed + later catalog + unreadable matrix is the worst combination in this whole system** — it looks like the best listing on the page and can't be verified. Compare the catalog number against the wantlisted release on every sealed hit.
+
+## Scanning a named eBay seller
+
+The Discogs half of this skill can take a seller name and list their wantlist stock. The eBay half could not, until 2026-09-10. It can now, and the route matters because the two obvious approaches both fail.
+
+Browse search accepts **`filter=sellers:{username}`**, but only alongside a `q`, `category_ids`, `gtin` or `epid` — a sellers filter on its own returns an error. That leaves two shapes:
+
+* **Enumerate the seller's inventory** with `category_ids=176984` (Music > CDs) and page through. **Don't.** Deep offset paging is lossy: grebur-7102 reported `total: 5743` and returned **5,107 unique itemIds across 29 pages**, silently dropping the very listing that prompted the scan — which was in that category. Results reshuffle between pages, so items fall through the gaps. Enumeration looks authoritative and isn't.
+* **Query per wantlist album with the ARTIST ONLY**, plus the sellers filter, and match titles locally. ~35 shallow calls, no pagination depth, and it found every listing enumeration found plus the ones enumeration lost. **This is the way.**
+
+**Do not put the album title in `q`.** eBay ANDs every term, so a wantlist title more verbose than the seller's returns **zero**:
+
+```
+Counting Crows Across A Wire Live In New York City   -> 0
+Counting Crows Across A Wire Live                    -> 1
+Counting Crows                                       -> 4
+```
+
+The seller's title said "Live **From** New York" with no "City". The first version of `ebay-seller-scan.mjs` queried artist + title and **silently missed the exact listing this whole scan existed to find** — while still returning eight other hits, so it looked like it worked. Query broad, filter locally, and let the local matcher supply precision.
+
+**Scope the search to `category_ids=176984` (Music > CDs).** Without it the scan returns vinyl, DVDs and box sets, and it is not a rounding error: it inflated rarewaves from 66 CD hits to 125, and their apparent best price for *Live At Wembley* was a **12" vinyl box set**. Roughly **40% of raw hits at the big new-media sellers were not CDs.** Guard the title as well (`vinyl|LP|12"|cassette|DVD|blu-ray|SACD`), because sellers miscategorise — but never reject on "box set" alone, since CD box sets are legitimate.
+
+**Matching needs a coverage threshold, not a token hit.** Requiring one artist token plus *one* title token fails quietly by returning a real listing for the **wrong album**, which is worse than returning nothing:
+
+| Wantlist album | Wrongly matched |
+|---|---|
+| *Jesus Freak* | "Welcome to the Freak Show: DC Talk Live in Concert" |
+| *Live At Wembley '86* | "Queen Live Magic", "Return of the Champions" |
+| *Rage Against The Machine* | "The Battle Of Los Angeles", "Maximum Rage" |
+
+Requiring *every* title token overcorrects — the genuine *Across A Wire* listing omits "City". **60% of the title's distinctive tokens separates all of them**, and that threshold is what `ebay-seller-scan.mjs` uses.
+
+**Self-titled albums need their own rule.** When the album title *is* the artist name, coverage is 100% for every record they ever made, so the threshold cannot help. Position discriminates instead: a listing for the self-titled record **leads** with the name, while one for another album leads with that album's. Without this, boris32's *Battle Of Los Angeles* and *Maximum Rage* both scored as the wantlisted debut.
+
+These false positives are not cosmetic — they produced a "5 of 7 albums beat the market" verdict for boris32 that was really 4 of 6, and would have written fiction into the registry.
+
+```bash
+node ~/git/product-ai/.opencode/skills/finding-cd-bundles/ebay-seller-scan.mjs grebur-7102
+```
+
+It splits output into **complete** and **incomplete (disc only / no booklet)**, reading the description body for the latter — see below for why that matters.
+
+### The gtin search misses stock the seller demonstrably has
+
+`--cheapest` reported **no US eBay listings** for *Babel*. grebur-7102 had one, at $5.94. The barcode index simply doesn't carry every listing, which is the recall gap the *Common mistakes* entry warns about — stated there as "never quote a gtin cheapest as the cheapest on eBay for a single-album question", and here is the case that proves it. **A "no US eBay listings" line means the barcode search found nothing, not that eBay has nothing.**
+
+### The description body outranks the item specifics — and bulk-template sellers are where they disagree
+
+Written first as "read `Case Type` and `Edition` on every candidate", which caught some traps and **passed a disc-only CD straight through to a buy recommendation.** Rian caught it by opening the page.
+
+grebur-7102's *Love Deluxe* at $6.03 reports **`Case Type = Jewel Case Standard`** in the item specifics. The first line of its description body reads **"NO BOOKLET   DISC ONLY"**. Both statements are on the same listing, and the item specifics are the wrong one. Their second *Love Deluxe* says the same in the description while carrying no `Case Type` at all, and two more listings put `***DISC ONLY***` in the title while the aspect still claimed a jewel case.
+
+**How far this generalises, measured rather than assumed:** all four contradictions were that one seller's. Checking six listings across five other sellers (7946shantel, high5resaleshoppe, dad-at-home, charlie17766, spellbinder610, chbride71) found **zero** — every `Case Type` either agreed with its description or the description said nothing. Two of them positively declared `Cardboard Sleeve` on digipaks they were honest about.
+
+So the honest rule is narrower than "the aspects lie": **item specifics are seller-entered, and a bulk lister working from a template will leave them at a flattering default while disclosing the truth in the description.** Read the description body first on every candidate — it costs one call and it is authoritative when they disagree — and treat a seller who contradicts themselves once as one who will do it again. **Precedence is description body, then title, then item specifics.** Fetch `/buy/browse/v1/item/{id}`, strip the tags from `description`, and read the first ~200 characters. Sellers who bulk-list from a template put the real disclosure there and let the structured fields default to something flattering.
+
+What the item specifics are still good for, when nothing contradicts them:
+
+* `UPC` — matched the *Across A Wire* listing to the wantlisted `GED 25226` family.
+* `Edition` — `Greatest Hits` on a listing titled *Every Breath You Take* exposed a different 1995 compilation than the wantlisted 1992 `540 030-2`.
+* A **track count in the description** is a cheap edition check: "13 soul-stirring tracks" matched Kari Jobe's standard `B002014102` against the Deluxe `B002014300`.
+
+Also check `buyingOptions` for `BEST_OFFER`. All four candidates here had it, which is the same negotiation lever as asking about combined shipping.
 
 ## Discovering new sellers — `seller-discover.mjs`
 
@@ -299,6 +450,8 @@ The largest CD sellers are European and therefore out of scope for shipping: **r
 ### Does size predict hits?
 
 Loosely, and only within the right inventory shape: 250k listings → 6 albums, 146k → 2, 99k → 4, 46k → 6, 15k of the wrong kind → 0. But **`devman242` at 1% CD held the best copy of a gap album on two consecutive scans**, and `CD_WAREHOUSE_817` at ~19% CD tied the best hit rate in the registry.
+
+**And `Abandon_Ark` breaks the pattern outright: 2,017 listings → 5 albums** on a 35-entry wantlist (2026-08-21). That is a hit rate per listing about 100× bordentownrecords' at 1/124th the size. The inventory is 71% CD and entirely mainstream catalogue — no vinyl business, no deep backstock. **Size is close to worthless as a predictor once shape is right**, so never skip a small seller on listing count alone.
 
 So size and shape predict hit *rate*, never whether a specific album is present. **A big wantlist gap justifies scanning a seller the screen would otherwise skip.**
 
@@ -344,7 +497,7 @@ Still true: a catalogue title whose catalog number *differs* from the wantlisted
 ## Related
 
 - Skill `finding-original-cds` — which pressing to want in the first place, and the matrix-runout check for confirming a master. This skill assumes that one has already run.
-- [[discogs-seller-registry]] — **who to scan and what shipping costs.** Durable reference, rewritten in place. Read it before scanning; update it when a seller's policy or standing changes.
+- [[seller-registry]] — **who to scan and what shipping costs.** Durable reference, rewritten in place. Read it before scanning; update it when a seller's policy or standing changes.
 - [[discogs-scan-results]] — **current hits, baskets and what to buy.** Living document, *overwritten* each run, never appended. Write results here, not into the registry.
 
   **Every seller name in that file must be a link**, and every buy row must carry its listing link — the file exists to be acted on, and an unlinked username means opening Discogs and typing it in. `seller-scan.mjs` already prints `https://www.discogs.com/sell/item/<id>` per listing; the seller profile is `https://www.discogs.com/seller/<name>/profile`. Link once per seller (the heading), not three times on the same page.

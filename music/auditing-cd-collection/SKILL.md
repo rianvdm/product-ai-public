@@ -1,6 +1,6 @@
 ---
 name: auditing-cd-collection
-description: Use when the user wants to audit their whole CD collection — for remasters ("which of my CDs are remasters", "audit my collection", "re-run the CD audit") or for packaging ("list every digipak", "which of my CDs are not jewel cases", "digipak vs jewel case"). Collection-wide and produces a Google Sheet. For picking the right pressing of ONE album use finding-original-cds; for pricing a wantlist use finding-cd-bundles.
+description: Use when the user wants to audit their whole CD collection — for remasters ("which of my CDs are remasters", "audit my collection", "re-run the CD audit") or for packaging ("list every digipak", "which of my CDs are not jewel cases", "digipak vs jewel case"). Collection-wide and produces a Google Sheet. For picking the right pressing of ONE album use finding-original-cds; for pricing a wantlist use finding-cd-bundles; for which owned CDs are not ripped yet use ripping-cds.
 ---
 
 # Auditing the CD collection for remasters
@@ -9,7 +9,7 @@ description: Use when the user wants to audit their whole CD collection — for 
 
 Classifies every CD in Rian's Discogs collection as remaster / original / unverified, finds a non-remastered pressing to replace each remaster with, and writes it all to a Google Sheet he can work through. **Core insight:** the whole thing runs off two Discogs endpoints plus one versions lookup, and the expensive part (~1,800 API calls) is fully cached on disk — so a re-run after a wantlist change costs one script, not the whole pipeline.
 
-Last full run: **2026-08-05** — 780 CDs, 171 flagged, 135 on the review list after exclusions. Output: a Google Sheet, plus a human-readable writeup alongside it.
+Last full run: **2026-08-23** — 792 CDs, 164 flagged, 61 on the review list after exclusions. Output: [CD Collection — Remaster Audit](https://docs.google.com/spreadsheets/d/1nTfjYqsPbMXRjtmPND0VegwjVxwMU5n_CZMvxiXD2Mk/edit). Human-readable writeup: `05-personal/music/cd-remaster-audit.md`.
 
 ## When to use
 
@@ -22,12 +22,13 @@ Last full run: **2026-08-05** — 780 CDs, 171 flagged, 135 on the review list a
 Scripts live beside this file. They read and write a working directory set by `AUDIT_DIR` — **never let data land in the skill folder.** `DISCOGS_TOKEN` is in `~/git/product-ai/.env` (also `~/.config/ebay/credentials.env`).
 
 ```bash
-export AUDIT_DIR=/path/to/scratchpad
+export AUDIT_DIR=~/.cache/cd-audit          # durable, NOT a session scratchpad
 set -a; . ~/git/product-ai/.env; set +a       # DISCOGS_TOKEN
 S=~/git/product-ai/.opencode/skills/auditing-cd-collection
 
 python3 $S/fetch_collection.py    # ~10s   collection + wantlist
-python3 $S/fetch_details.py       # ~35min 780 releases + 737 masters  (RESUMABLE)
+python3 $S/fetch_details.py       # ~25min 792 releases + 740 masters  (RESUMABLE, but see Rate limits)
+python3 $S/fetch_slow.py          # ~35min same work, single-threaded, never gives up
 python3 $S/classify.py            # instant, local only
 python3 $S/enrich.py              # ~8min  versions lookup for ~250 masters (RESUMABLE)
 python3 $S/build_sheet.py         # ~1min  creates the spreadsheet
@@ -37,6 +38,8 @@ python3 $S/format_sheet.py        # ~30s   reads sheet.json written by the previ
 **Order matters and the steps are not independent.** `classify.py` must run before `enrich.py` (enrich reads `classified.json` to decide which masters to look up), and `build_sheet.py` writes the `sheet.json` that `format_sheet.py` needs.
 
 ### Re-running cheaply
+
+**Point `AUDIT_DIR` at `~/.cache/cd-audit`, not a session scratchpad.** The cache is the whole reason a re-run is cheap, and a scratchpad is deleted when the session ends — the 2026-08-23 re-run paid the full ~50 minutes again because the 08-05 cache had gone with its scratchpad. `~/.cache` survives, sits outside the repo, and never gets committed.
 
 The two slow steps append to `releases.jsonl` / `masters.jsonl` / `enrich.jsonl` and skip anything already cached. So:
 
@@ -55,11 +58,15 @@ gws drive files update --params '{"fileId":"<OLD_ID>"}' --json '{"trashed":true}
 
 ### Rate limits
 
-Authenticated Discogs allows 60 req/min. Both fetchers use a shared token bucket at 50–55/min with 4 workers; in practice Discogs throttles to ~33/min anyway. **Don't raise the worker count** — latency isn't the bottleneck, the bucket is. A sequential version took 50 min for what now takes 35.
+Authenticated Discogs allows 60 req/min. `fetch_details.py` and `enrich.py` use a token bucket at 50–55/min with 4 workers; in practice Discogs throttles to ~33/min anyway. **Don't raise the worker count** — latency isn't the bottleneck, the bucket is.
 
-**`fetch_details.py` gives up, and after a busy session it will.** On 2026-08-15 it died at **117 of 788** with `RuntimeError: gave up on https://api.discogs.com/releases/...` — six retries with capped backoff wasn't enough headroom because the same session had already been running seller scans against the same egress. The cache means a re-run resumes, but it can die again at the next contended moment.
+**Treat 60/min as the ceiling, not the sustainable rate.** Once Discogs has been throttling this egress, a fixed 46/min buys a 429 every ~25 requests, and with a 90s cooldown that delivers an effective **5.9/min** — measured 2026-08-23. Both `fetch_slow.py` and `enrich.py` now narrow their own rate on each 429 so they settle where they can actually run; the manual overrides are `DISCOGS_THROTTLE` (seconds between requests, default 1.3) and `DISCOGS_ENRICH_RATE` / `DISCOGS_ENRICH_WORKERS` (default 50/4). **After a busy session start at `DISCOGS_THROTTLE=2.2` and `DISCOGS_ENRICH_RATE=25`** — both finished with zero throttling at those settings where the defaults were collapsing.
 
-**If Discogs has already been hit hard this session, use the single-threaded fetcher instead:** `05-personal/music/packaging-audit/fetch_releases_slow.py`. One request at a time at ~46/min, cools down 90s on a 429, and never gives up — ~17 min for 788 against ~8 for the parallel one. It appends to the same `releases.jsonl` in the same shape, so the two are interchangeable and share a cache. Seventeen minutes that finishes beats eight that doesn't.
+**`fetch_details.py` gives up, and after a busy session it will.** It died at **117 of 788** on 2026-08-15 and at **763 of 792** on 2026-08-23, both with `RuntimeError: gave up on https://api.discogs.com/releases/...` — six retries with capped backoff isn't enough headroom once the same session has been hitting Discogs for something else. The cache means a re-run resumes, but it dies again at the next contended moment.
+
+**If anything else has already hit Discogs this session, run `fetch_slow.py` from the start** and skip `fetch_details.py` entirely. One request at a time at ~46/min, 90s cooldown on a 429, never gives up — ~35 min for a full 792 + 740 against ~25 for the parallel one. It writes the same `_key`/`_missing`/`data` envelope to the same two jsonl files, so the two share a cache and either resumes the other's work. Ten extra minutes that finish beats twenty-five that don't.
+
+(`05-personal/music/packaging-audit/fetch_releases_slow.py` is the ancestor of `fetch_slow.py` and covers releases only — the masters pass is half the run, so prefer the one in this folder.)
 
 ### Check `gws auth` before a long fetch, not after
 
@@ -97,11 +104,24 @@ Discogs tags don't catch every modern reissue, so for jazz and classic rock read
 
 ## Exclusions
 
-Rows leave the review list for three reasons, each stated per row on the `Excluded` tab:
+Rows leave the review list for four reasons, each stated per row on the `Excluded` tab:
 
 1. **A non-remastered copy is already on the shelf** — matched on master ID (falling back to artist + title), in three tiers: an original-era copy, a copy carrying the original catalog number, or a copy with no remaster evidence but an unconfirmed year. Owning a remaster only matters if the original isn't already there.
 2. **The replacement is already on the wantlist** — the decision is made.
-3. **`KEEP_ARTISTS` in `build_sheet.py`** — currently `{"Genesis"}`, because Rian wants the Definitive Edition Remasters. Edit that set to add more.
+3. **The replacement is already ordered** — see below.
+4. **`KEEP_ARTISTS` in `build_sheet.py`** — a `{artist: reason}` dict, currently Genesis (Definitive Edition remasters by choice), Peter Gabriel and U2 (happy with the shelf copies). Add an entry to retire an artist; the reason lands verbatim on the `Excluded` tab.
+
+### In-flight orders
+
+**A bought-but-undelivered disc is invisible to both other exclusions** — the collection still holds the remaster, and the wantlist entry was deleted at purchase. Without this step every open order reads as outstanding work. On the 2026-08-23 run that was 27 line items.
+
+`build_sheet.py` reads `in_flight.json` from `AUDIT_DIR` if it exists:
+
+```json
+[{"artist": "Pearl Jam", "album": "Ten", "note": "Replacement ordered 2026-08-22 (crescentmusicexchange, eBay) — in transit"}]
+```
+
+Transcribe it from `05-personal/music/cd-purchases-in-flight.md`, which is hand-kept because [the Discogs API only returns orders where you are the *seller*](https://www.discogs.com/developers). Artist must match exactly after normalising; album matches as a substring **either way**, so the order list can abbreviate (`The Rise And Fall Of Ziggy Stardust` finds `…And The Spiders From Mars`). Entries that match nothing are printed at the end of the run — treat that list as transcription drift to fix, not as a silent no-op.
 
 **Nothing is deleted.** Excluded rows move to their own tab with the reason, so every call is auditable and reversible.
 

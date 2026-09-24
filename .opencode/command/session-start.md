@@ -1,4 +1,5 @@
 ---
+name: session-start
 description: Load recent session context and corrections at the start of a work session
 ---
 
