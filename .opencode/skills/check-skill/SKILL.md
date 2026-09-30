@@ -1,5 +1,5 @@
 ---
-name: checking-skill-quality
+name: check-skill
 description: >
   Use when the user says "check this skill", "review this skill", "quality check skill",
   "audit this skill", "skill quality check", "does this skill follow best practices",
@@ -23,9 +23,9 @@ files (templates, examples, scenarios), read those too to assess context binding
 3. If a skill folder exists, list its contents and read any supporting files
 4. Check the frontmatter:
    - Name: lowercase, hyphens only, max 64 chars, gerund form (verb-ing)?
-   - Description: starts with "Use when..."? Lists trigger phrases? Written in third person? Loud and specific?
+   - Description: starts with "Use when..."? Names intent categories rather than a growing phrase list? Third person? Specific, with calibrated rather than shouted urgency?
 5. Check for the 5 Skill Killers:
-   - **Killer 1 — Vague/quiet description**: Is it specific, loud, third-person, with "Use when..." format and edge-case triggers?
+   - **Killer 1 — Vague description**: Is it specific, third-person, "Use when..." format, covering the intent categories and edge cases that should trigger it?
    - **Killer 2 — Over-defined process**: Is freedom matched to task fragility? Tight for fragile ops, loose for creative?
    - **Killer 3 — Stating the obvious**: Does every paragraph add signal the model doesn't already know? Challenge each section.
    - **Killer 4 — Missing gotcha section**: Is there a dedicated Gotcha Section with documented failure patterns specific to this skill?
@@ -35,7 +35,7 @@ files (templates, examples, scenarios), read those too to assess context binding
    - Output: literal template/example shown (not just described)?
    - Gotcha Section: present and substantive — not empty, not generic?
    - Constraints: sharp and specific to this skill (not generic model behavior)?
-   - Identity/role section: absent? Flag explicitly if present — "Act as a senior X" is always an anti-pattern
+   - Identity/role line: flag only when it substitutes for audience, context, or quality bar; a one-line focus-setter is fine
 7. Check scoping:
    - Can you describe the skill's job in one sentence?
    - Does it have two distinct triggers suggesting it should be two skills?
@@ -121,8 +121,8 @@ After this skill runs, can the output be used directly — or will it need editi
 
 - Read the entire skill file before issuing any verdict
 - Overall verdict rules:
-  - RED FLAG: any Killer scores FAIL and the fix is non-trivial, or an identity/role section is present
+  - RED FLAG: any Killer scores FAIL and the fix is non-trivial
   - NEEDS WORK: one or more Killers fail but fixes are minor, or anatomy sections are weak
   - SOLID: all 5 Killers pass and anatomy is complete and high-quality
 - Do not soften verdicts to be encouraging — the point is to surface real issues
-- Flag identity/role sections ("Act as a...") explicitly every time — no exceptions
+- Flag an identity/role section when it replaces real context

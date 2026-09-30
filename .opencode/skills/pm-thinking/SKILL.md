@@ -19,7 +19,7 @@ Read `01-context/product-philosophy.md` for full context. Apply these principles
 
 ### 1. Problem-First Thinking
 
-ALWAYS start with the problem, not the solution.
+Start with the problem, not the solution.
 
 - Bad: "We should build a developer portal"
 - Good: "Engineers waste 2-3 hours per week searching for documentation across fragmented systems"

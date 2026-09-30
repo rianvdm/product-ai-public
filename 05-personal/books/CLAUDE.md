@@ -4,9 +4,9 @@ This folder contains [Reader]'s reading notes. Each book gets its own `.md` file
 
 The goal is to have a reference to check while reading — "wait, who was that character again?" or "how does this magic system work?" — without getting spoiled on what comes next.
 
-## CRITICAL: Web Search Requirement
+## Web search requirement
 
-**You MUST use web search for any factual claims about a book.** Do not rely on pre-trained knowledge alone. Books may have details your training data gets wrong, conflates with other entries in a series, or misremembers entirely.
+**Use web search for any factual claims about a book.** Do not rely on pre-trained knowledge alone. Books may have details your training data gets wrong, conflates with other entries in a series, or misremembers entirely.
 
 **Always search before:**
 * Answering questions about specific characters, their motivations, or relationships
@@ -23,7 +23,7 @@ The goal is to have a reference to check while reading — "wait, who was that c
 
 **If you can't find reliable information:** Say so clearly rather than guessing.
 
-## CRITICAL: Spoiler Policy
+## Spoiler policy
 
 **No spoilers beyond where the reader currently is in the book.** Each book's notes file has a `Progress` section at the top that tracks how far the reader has read (chapter number, percentage, or section).
 
@@ -71,7 +71,7 @@ Each book file should follow this general structure:
 * Reader's observations, theories, questions
 ```
 
-## CRITICAL: Verify Logical Consistency
+## Verify logical consistency
 
 Before writing or updating any notes, **re-read what you've already written about the system's rules**, then check that every claim is consistent with them. Magic systems, power structures, and worldbuilding often have counterintuitive logic (e.g., ceding power makes you *weaker*, not stronger). Getting cause and effect backwards in a notes file is worse than having no notes at all — the reader is relying on these as a reference while reading.
 

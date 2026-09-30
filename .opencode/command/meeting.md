@@ -53,7 +53,7 @@ Then return `s.slice(1800, 14000)`, `s.slice(13700, 25500)` and so on until you'
 
 ### The deck or document under review
 
-A deck, or the document the meeting reviewed, resolves transcription garbles faster than asking anyone. The presenter's own slide usually carries the product name, vendor, acronym or figure the transcriber mangled (`Ventronome` → Metronome, `basil` → Bazel). Fetch a deck with `codemode.google_workspace_mcp_slides_get({presentationId, format: "markdown"})` and slice it like a long doc; Slides is read-only over MCP, and the `building-google-slides` skill covers large-deck and multi-column extraction traps. Fetch a Google Doc with `docs_get` as in §1.
+A deck, or the document the meeting reviewed, resolves transcription garbles faster than asking anyone. The presenter's own slide usually carries the product name, vendor, acronym or figure the transcriber mangled (`Ventronome` → Metronome, `basil` → Bazel). Fetch a deck with `codemode.google_workspace_mcp_slides_get({presentationId, format: "markdown"})` and slice it like a long doc; Slides is read-only over MCP, and the `building-google-slides` skill covers large-deck and multi-column extraction traps. Fetch a Google Doc with `docs_get` as in §1. When the meeting walks a spreadsheet by row number ("line eight", "row nineteen"), fetch the sheet and map each row to its item; an `.xlsx` on Drive reads through `drive_get_content`, paged as in `01-context/corrections/cloudflare-tooling.md`. A few rows matching what the speakers described confirms the mapping.
 
 Read it for more than proper nouns:
 
@@ -136,7 +136,7 @@ Your job is structure and meaning, not polish; transcription tools already handl
 * **Preserve meaning exactly:** intent, technical terms, names and jargon. Questions stay questions. Handle sensitive or personal topics with discretion.
 * **Speakers keep their words.** Don't answer the meeting's questions or correct speakers in their own voice. When a cited source contradicts or settles something said, keep what was said and add a clearly labelled post-meeting check that cites the source.
 
-## 5. Provenance [CRITICAL]
+## 5. Provenance
 
 When notes draw on a citable source (deck, doc, ticket) and a machine transcript, the reader needs to know which claim came from where. The failure is systematic. Draft from the transcript and consult the deck afterwards, and you'll mark what *sounds* conversational instead of what lacks a slide: hedges on figures printed in 30pt, bare assertions nobody can verify, and every breach running the same direction.
 
@@ -158,8 +158,10 @@ With any approach:
 Save to a `meetings/` subfolder as `YYYY-MM-DD-[descriptive-name].md`:
 
 * **Project meeting** (review, workshop, decision meeting): the project brain's `meetings/`.
+* **Customer call:** `06-work/cloudflare/customers/<customer>/meetings/`, unless the call belongs to a project brain; link it from the customer `CONTEXT.md`.
 * **1:1:** `06-work/cloudflare/team/<person>/meetings/`, even when it covered one project; the project links to it. If the user redirects a 1:1 to another person's folder (for example, prep for a related 1:1), honour that, add a reference stub (summary plus link) in the canonical person's `meetings/`, and add a one-line pointer to that person's `CONTEXT.md` 1:1 summary.
 * **Cross-project or team-level meeting:** the brain that tracks the decision under discussion, linking the others from the header; otherwise `06-work/cloudflare/product/<team>/meetings/`.
+* **Job-search call** (recruiter, hiring manager, interview): `05-personal/job-search/meetings/`, with the frontmatter the earlier notes there use, linked to the call's prep note.
 * **Genuinely unclear:** ask before saving.
 
 ```markdown
@@ -210,6 +212,7 @@ For each identified participant other than Rian, find their entry in `stakeholde
 * **Found:** append a `meeting` interaction (`date`, `type`, a one-sentence `summary`, `source`) unless one with the same date and source already exists. Add topics they clearly advocated to `whatTheyCareAbout`, add commitments from the Action Items (`owner` is `me` or `them`, `status` is `open`), and set `lastUpdated`.
 * **Not found:** skip them, and report how many participants aren't in memory. The exception is someone who authored material in the meeting, such as a slide or a doc they presented, and whose identity you verify with `cfi backstage get user:cloudflare-com/<username>`. Create their entry and say so in the report. Look up emails; never infer them from usernames.
 * **Nobody identifiable** (no speaker labels, no attendee list): skip the step and say why.
+* **Personal or job-search meeting:** skip the step. `stakeholders.json` tracks Amazon colleagues only.
 
 ## Quality bar
 

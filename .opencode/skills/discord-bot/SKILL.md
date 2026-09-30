@@ -7,17 +7,17 @@ description: Discord bot development on Cloudflare Workers — Discord API, Deve
 
 Use this skill when working on Discord bots, Discord API integration, bot setup/configuration, or slash command registration. Triggered by mentions of Discord bots, Discord Developer Portal, Discord API, slash commands, Gateway, or Interactions Endpoint.
 
-## Critical Rule: Always Web Search
+## Search before giving portal instructions
 
-**The Discord Developer Portal UI changes frequently.** Do NOT rely on pre-trained knowledge for:
+The Discord Developer Portal UI changes often, so web-search current instructions before describing:
 * Where settings are located in the Developer Portal
 * OAuth2 flow steps
 * Bot permission configuration
 * Interactions Endpoint setup
 * Install link generation
 
-**Always web search first** for any Developer Portal instructions. Use queries like:
-* `Discord Developer Portal [specific task] 2026` (include the current year)
+Useful queries:
+* `Discord Developer Portal [specific task] <current year>`
 * `Discord bot setup [specific feature] latest`
 
 If search results are older than 6 months, note this to the user and suggest they verify in the portal.
@@ -133,7 +133,6 @@ Gateway intents control which events Discord sends to your bot.
 ### "The application did not respond" on a slash command that actually worked
 * Discord gives an interaction **3 seconds** to receive a response. A handler that runs its side effects synchronously before responding (REST calls, role changes, D1 writes) blows the deadline — Discord shows the error, but the Worker invocation keeps running, so the side effects still complete. Looks like a failure, is usually a success with a lost reply.
 * For any command doing more than ~1 REST round trip: immediately return type 5 (`DeferredChannelMessageWithSource`, keep the ephemeral flag if needed), run the work in `ctx.waitUntil()`, then PATCH the result to `/webhooks/{application_id}/{interaction_token}/messages/@original`.
-* Hit live 2026-08-07 on elereada's `/starcitizen announce confirm:True` (guild-members fetch + role moves + post + record = 6+ sequential round trips).
 
 ### WebSocket connection drops on Cloudflare Workers
 * **DO eviction:** Use alarm-based keepalive (30s interval) to prevent idle eviction

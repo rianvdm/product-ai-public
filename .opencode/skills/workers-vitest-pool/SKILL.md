@@ -276,7 +276,7 @@ for repo in ~/git/<worker-repo-1> ~/git/<worker-repo-2>; do
 done
 ```
 
-Anything `<0.15` is on the broken stack and should be migrated. Anything missing has no test setup yet — use the "Known-good setup" section.
+Anything below `0.13` is on the broken stack and should be migrated; `0.13`–`0.14` has the fix but should move to the `^0.15` known-good pin. Anything missing has no test setup yet — use the "Known-good setup" section.
 
 ## Provenance
 

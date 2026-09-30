@@ -1,6 +1,6 @@
 ---
 name: playlist-cover
-description: Use when the user wants cover art for a Spotify playlist — they give a playlist link, usually with the name they want on it, and want an image made and put on the playlist. Triggers e.g. "make a cover for this playlist", "playlist cover for <link>", "I need artwork for this playlist", "redo this playlist's cover", "generate a Spotify cover", "cover art for <playlist name>". Designs the art and attaches it, not playlist curation — for what to put *in* a playlist this is the wrong skill.
+description: Use when the user wants cover art for a Spotify or Roon playlist — he gives a playlist link or a Roon screenshot, usually with the name he wants on it, and wants an image made and put on the playlist. Triggers e.g. "make a cover for this playlist", "playlist cover for <link>", "I need artwork for this playlist", "redo this playlist's cover", "generate a Spotify cover", "cover art for <playlist name>". Designs the art and attaches it, not playlist curation — for what to put *in* a playlist this is the wrong skill.
 ---
 
 # Playlist covers
@@ -103,7 +103,7 @@ Under ~20 popularity the type should feel almost too quiet to notice — that re
 
    **Route by what is changing: adding something inside the existing exposure goes to the edit, changing the exposure itself goes to the re-render.** The edit can add a medium into darkness that is already there and can lift a black point locally; asked instead for more haze on *Shimmery Guitars* it left the figure a hard silhouette sitting on top of the fog, where the re-render lifted the whole key and dissolved the figure into it. But an atmospheric win that shifts the mood is a loss — *Faith*'s re-render delivered every requested change and lifted the *whole frame*, turning a dark cover into a warm radiant one, so the edit took it.
 
-   **Check saturation first on both, because that is the axis neither respects.** "Nothing else may move, resize or shift hue" holds for geometry and composition and not for grade: the *Trance Classics* edit was asked only to reset a typeface and sharpen metal and pulled the icy cyan out to near-neutral steel, while *The Midnight* re-render drifted warm the other way. For a lost grade, make a second edit that changes only the colour, explicitly passing `--model gpt-image-2.5-sunburst --quality xhigh`. August 2026 tally with the previous models: the edit won four of six promotions. Re-check these tendencies on Sunburst.
+   **Check saturation first on both, because that is the axis neither respects.** "Nothing else may move, resize or shift hue" holds for geometry and composition and not for grade: the *Trance Classics* edit was asked only to reset a typeface and sharpen metal and pulled the icy cyan out to near-neutral steel, while *The Midnight* re-render drifted warm the other way. For a lost grade, make a second edit that changes only the colour, explicitly passing `--model gpt-image-2.5-sunburst --quality xhigh`. Tally: the edit won four of six August promotions on the previous models and both September 24 promotions on Sunburst, where the re-renders also drifted in object shape (a different tape, a Walkman twice as deep).
 
 8. **Verify the final too**, including the 300px check. Then give him the path.
 
@@ -139,7 +139,7 @@ Two rules:
 
 **Never show Rian a cover you have not opened.** Read every generated file before it appears in a response, drafts and finals alike.
 
-Check four things:
+Check five things:
 
 | Check | How |
 |---|---|
@@ -147,6 +147,7 @@ Check four things:
 | Title legible small | `sips -Z 300 <file> --out <file>-300.png`, then Read *that*. Full size lies. |
 | No stray marks | Signatures, watermarks, fake player UI, a second copy of the title in a corner, and **small blocks of garbled pseudo-lettering** — usually just under the real title. |
 | Matches the brief | Right era, right mood, and 1:1 with nothing letterboxed. |
+| Objects are physically whole | Crop and zoom any multi-part object (headphones, cables, instrument strings, hands) and trace each piece to what it attaches to. On *Old Sleep* a headband ran into the cassette player and stopped, leaving one earpiece floating; it survived the draft, the full-quality edit and a lettering-only gate, and Rian caught it. An edit copies the draft's structure faithfully, flaws included, so this check belongs on the draft. |
 
 A draft that fails any of these gets re-rendered, not explained away. Text failures usually clear on a straight retry; if the same word breaks twice, shorten what you asked for or move the title somewhere with less texture under it, and name the specific letter that broke — *"the second word is AFRICAN, beginning with the letter F, not a P"* fixed it first try.
 
@@ -208,6 +209,8 @@ What testing rather than taste has established:
 
 - **Two things manufacture fake text, and the appended constraints stop neither** — they forbid captions and watermarks, not an object's own labelling or an artefact you asked for. **Subjects that plausibly carry text:** a boombox came back with a tuner dial of garbled pseudo-lettering, because real dials have writing on them; radios, books, signs, jerseys, album sleeves and shop fronts all carry this risk, so either avoid text surfaces or say the object's dials, labels and markings are blank and unlettered. **Requested degradation:** "VHS tape noise", "tracking glitches" and heavy grain resolve into smeared lettering, so exclude the side effect by name — "no smeared artefacts resembling letters, words or corrupted text anywhere."
 - **Ask for sharpness or you may not get it.** A "shot close, shallow depth of field" crowd of hands came back soft, and Rian noticed before I did. When detail matters, name it: sharp focus front to back, deep depth of field, no blur anywhere, and the specific things that must resolve — individual beads, skin texture, fingernails.
+- **Name an object's proportions and construction, not just its category.** "A late-1980s portable cassette player" covers everything from a slim Walkman to a chunky tape recorder, and each fresh render picks a new point in that range: the *Old Sleep* re-render came back twice the depth of a Walkman and Rian rejected it outright. Give size relative to something known and the parts: *barely larger than the cassette it holds, about as thick as two stacked cassettes, a flip-open lid with a window across the face, buttons along the top edge, lying flat*. "No brand or markings" stops lettering only; the shape still has to be described.
+- **Pose paired objects symmetrically.** Headphones dropped at a random tilt came back lopsided three times on *Old Sleep*: mismatched earpieces, a band attached at one end. Asking for the product-shot pose — band a clean even half-circle, both earpieces identical and mirror images — fixed it on both attempts. Fixing a broken pair works best as an edit that *replaces* the object in that pose; an edit told to keep it "in roughly the same position" rebuilds it around the pose that caused the fault.
 - **Small objects at distance dissolve.** Anything that has to stay identifiable — a flag, an instrument, a face — must be large in frame or cropped close. A South African flag on a distant pole came back as a green-and-red smear with a yellow blob, and the composition couldn't be rescued without moving the flag closer, which made it a different picture.
 
 ## Matching a real logo or typeface
@@ -221,6 +224,8 @@ When Rian asks for a band's actual lettering, three things are true and worth sa
 If an exact match genuinely matters, the only honest route is to render the artwork with `"title": null` and let Rian set real type over it in a design tool. Offer that instead of iterating toward a match you can't reach.
 
 ## Limits
+
+**Roon playlists arrive as a screenshot, not a link.** The visible tracks, artists and albums are the brief, plus whatever Rian says the playlist means; there is nothing to fetch and `set-cover.mjs` does not apply. Save the chosen cover to `05-personal/music/playlist-covers/` and reveal it in Finder (`open -R`) for him to set in Roon himself.
 
 **Private playlists 404 the fetch.** `fetch-playlist.mjs` authenticates as an app with zero scopes, so it reads public playlists only, and Spotify returns the same 404 for private, deleted, and mistyped. `scripts/spotify.mjs` authenticates as Rian and does see private playlists — `node scripts/spotify.mjs GET "/playlists/<id>/tracks?limit=100" --all` gets the tracks, and you build the brief from those by hand.
 

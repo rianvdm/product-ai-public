@@ -1,0 +1,58 @@
+/* Print stylesheet for tailored resumes: US Letter, single column, text-based.
+   Swap --accent and the font stacks for your own. To use a web font, add @font-face rules pointing
+   at static (non-variable) .ttf files in a fonts/ folder next to this file: Chrome embeds variable
+   fonts as Type3 glyphs, which some applicant tracking systems parse badly. */
+
+@page { size: Letter; margin: 0.6in 0.7in; }
+
+:root {
+  --ink: #1b1b1b;
+  --muted: #555;
+  --rule: #ddd;
+  --accent: #2f6fb3;  /* rules and markers only, never body text */
+  --body-font: Georgia, "Times New Roman", serif;
+  --heading-font: Georgia, "Times New Roman", serif;
+}
+
+body {
+  font-family: var(--body-font);
+  font-size: 10.5pt;
+  line-height: 1.35;
+  color: var(--ink);
+  background: #fff;
+  margin: 0;
+}
+
+h1, h2, h3, h4 { font-family: var(--heading-font); color: var(--ink); }
+
+h1 { font-size: 22pt; font-weight: 600; margin: 0 0 2pt; }
+h1 + p {  /* contact line, underlined with a short accent bar */
+  color: var(--muted);
+  margin: 0 0 12pt;
+  padding-bottom: 8pt;
+  background: linear-gradient(var(--accent), var(--accent)) left bottom / 36pt 2pt no-repeat;
+}
+
+h2 {
+  font-size: 10pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2pt;
+  margin: 13pt 0 6pt;
+}
+
+h3 { font-size: 13pt; font-weight: 600; margin: 15pt 0 1pt; break-after: avoid; }
+h2 + h3 { margin-top: 6pt; }  /* first company sits close to the section heading */
+.new-page { break-before: page; margin-top: 0; }  /* Markdown: ### Company {: .new-page } */
+h4 { font-size: 10.5pt; font-weight: 600; margin: 5pt 0 2pt; break-after: avoid; }
+
+p { margin: 0 0 4pt; }
+ul { margin: 2pt 0 6pt; padding-left: 14pt; }
+li { margin: 0 0 2pt; break-inside: avoid; }
+li::marker { color: var(--accent); }
+
+em { color: var(--muted); }  /* company and scope lines */
+a { color: inherit; text-decoration: none; }
+h1 + p a { color: var(--ink); }  /* contact links: clickable, black, no underline */

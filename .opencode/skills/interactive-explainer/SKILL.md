@@ -229,12 +229,12 @@ Save to:
 /Users/rian/git/product-ai/output/<name>.html
 ```
 
-Name it after the source walkthrough or subject matter — e.g. `Interactive - Data Pipeline Systems.html`.
+Name it in lowercase kebab-case after the source walkthrough or subject — e.g. `interactive-data-pipeline-systems.html`.
 
-After saving, you MUST open it in the default browser immediately — do not ask the user to do this:
+After saving, open it in the default browser yourself:
 
 ```bash
 open "/Users/rian/git/product-ai/output/<name>.html"
 ```
 
-Run this command yourself before finishing. Then tell the user where the file was saved and confirm it's open.
+Then tell the user where the file was saved and that it's open.

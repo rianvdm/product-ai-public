@@ -2,7 +2,6 @@
 description: Reviews code for bugs, security, and maintainability with tool-assisted validation
 mode: subagent
 model: anthropic/claude-opus-4-8
-temperature: 0.1
 permission:
   edit: deny
   bash: allow

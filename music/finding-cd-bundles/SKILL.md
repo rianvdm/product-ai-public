@@ -133,7 +133,7 @@ Learned the expensive way on 2026-08-05: the bundle view was run at `--min 3`, r
 
 The arithmetic is unforgiving. A 25-album wantlist simply doesn't produce many 3+ sellers; that run had three, all of them duds. **The number of qualifying sellers falls off a cliff as the wantlist shrinks**, so a threshold that was reasonable at 50 albums hides most of the real overlap at 25.
 
-**Use the default `--min 2`.** Raise it only when the output is too long to read, and if you do, say which threshold you used so a missed 2-album pair is attributable rather than invisible. The earlier "3 is the useful floor" guidance was written when the wantlist was larger and is now wrong.
+**Use the default `--min 2`.** Raise it only when the output is too long to read, and if you do, say which threshold you used so a missed 2-album pair is attributable rather than invisible.
 
 ## Filter the seller's location, always
 
@@ -215,7 +215,7 @@ Two fixes, and the second matters more:
 
 ## Non-US sellers quote their own currency
 
-`seller-scan.mjs` captured `l.price.currency` but printed a hardcoded `$`. Every registry seller was American, so it never showed until Gavin-B-And-G (London) — where **£16.00 shipping printed as "$16"**, understating it by about a third. It now prints the real symbol via `CUR_SYMBOL`.
+`seller-scan.mjs` prints each listing's own currency symbol (`CUR_SYMBOL`). Read foreign sellers' prices in their currency: a UK seller's **£16.00 shipping** is about a third more than $16.
 
 **A foreign seller changes the arithmetic twice over**: the item prices convert, and the shipping tiers are quoted in the seller's currency too. Convert before comparing anything against the $6.00 local-shop benchmark or a Discogs floor in USD. Discogs' own listing page shows an "about $X" line — use it to sanity-check the rate rather than assuming one.
 
@@ -229,7 +229,7 @@ Two fixes, and the second matters more:
 - **Reading the plant credit off the disc face.** "MADE IN U.S.A. BY WEA MANUFACTURING INC." is printed on the disc of pressings from *several* plants — the wantlisted 2026-08-21 *Disintegration* (`178726`) carries that text while being an SRC pressing, with `SRC` appearing only in the matrix runout. Nearly rejected a good listing on this. **Plant identity lives in the matrix, never in the printed credit.**
 - **Implying full wantlist coverage.** Roughly one album in six returns nothing. Name them.
 - **Trusting the run's album count without reconciling it.** Priced + both gap lists must equal the distinct wantlist albums, or something vanished — see the 2xCD section above.
-- **Trusting a `0 raw` on an artist with an `&` in the name.** The inventory search returns empty on a literal `&`. Probe it by hand.
+- **Trusting a `0 raw` on an artist or title with unusual punctuation.** `cleanQuery()` already strips `&` (Discogs returns empty on it); for other punctuation, run one manual `q=` probe before trusting a zero.
 - **Recommending a bundle on album count.** The largest bundle is routinely the worst buy — `randrcollectables` had 6 albums at a flat $21.95 each. Quote the verdict line, which is computed on the optimal subset.
 - **Raising `--min` to shorten the output.** A 2-album seller is a real bundle, and on a short wantlist most of them are. `--min 3` hid the order Rian actually placed on 2026-08-05.
 - **Judging a bundle all-or-nothing.** One overpriced item shouldn't sink four good ones; it should just be bought elsewhere. This mistake made the tool report "no bundle is ever worth it," which was flatly wrong — Rian bought 4 of 5 from `resellingroly` the same day and saved ~$8.66.
@@ -237,7 +237,7 @@ Two fixes, and the second matters more:
 - **Letting a "you choose / combine" listing win a price comparison.** These pick-from-a-list listings match a barcode and quote a headline price that isn't the price of that disc. They're filtered now; if a suspiciously cheap result appears, read the title.
 - **Quoting the Discogs floor as if it were a landed price.** It has no shipping, no seller country, and no condition. "Cheaper on Discogs" is a lead to follow, not a conclusion — always attach the caveats.
 - **Reporting the eBay total without the ⚠ count.** `$244.33 for 19 albums` reads as the answer when half the list is cheaper elsewhere. The two numbers belong in the same sentence.
-- **Forgetting the coverage gaps now have prices.** They used to be a shrug; they're now often the best buys on the list (Mezzanine at $2.30 against no US eBay listing at all).
+- **Skipping the coverage gaps.** They carry Discogs prices and are often the best buys on the list (Mezzanine at $2.30 against no US eBay listing at all).
 
 ## Scanning a named Discogs seller — `seller-scan.mjs`
 

@@ -17,6 +17,8 @@ $ARGUMENTS
 
 Create a new project brain folder based on the template in `01-context/project-template.md`.
 
+First read `06-work/cloudflare/product/general/project-brains-for-complex-initiatives.md`. If the work doesn't meet those criteria, say so and suggest the team folder instead.
+
 ### Steps
 
 1. **Parse the project description** to determine:
@@ -55,4 +57,4 @@ Create a new project brain folder based on the template in `01-context/project-t
 
 ### Before Creating
 
-Search for any existing documentation or prior work related to this project. Mention relevant findings when reporting what was created.
+Search the wiki (see the `cfi` skill) for any existing documentation or prior work related to this project. Mention relevant findings when reporting what was created.

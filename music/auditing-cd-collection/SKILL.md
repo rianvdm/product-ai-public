@@ -109,7 +109,7 @@ Rows leave the review list for four reasons, each stated per row on the `Exclude
 1. **A non-remastered copy is already on the shelf** — matched on master ID (falling back to artist + title), in three tiers: an original-era copy, a copy carrying the original catalog number, or a copy with no remaster evidence but an unconfirmed year. Owning a remaster only matters if the original isn't already there.
 2. **The replacement is already on the wantlist** — the decision is made.
 3. **The replacement is already ordered** — see below.
-4. **`KEEP_ARTISTS` in `build_sheet.py`** — a `{artist: reason}` dict, currently Genesis (Definitive Edition remasters by choice), Peter Gabriel and U2 (happy with the shelf copies). Add an entry to retire an artist; the reason lands verbatim on the `Excluded` tab.
+4. **`KEEP_ARTISTS` in `build_sheet.py`** — a `{artist: reason}` dict of artists kept as-is (read the dict for the current list). Add an entry to retire an artist; the reason lands verbatim on the `Excluded` tab.
 
 ### In-flight orders
 

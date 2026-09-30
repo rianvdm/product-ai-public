@@ -17,7 +17,7 @@ The argument is a Jira ticket ID (e.g., `ENG-1570`) or a full Jira URL. Extract 
 
 ### Phase 1: Understand the Ticket
 
-Use the Jira MCP directly to fetch the full ticket. Extract:
+Fetch the full ticket with `cfi --json jira get <KEY> --comments 20` (see the `cfi` skill). Extract:
 
 * **Summary and description** — what needs to change and why
 * **Code references** — any file paths, line numbers, Sourcegraph URLs, or GitLab links in the description or comments
@@ -39,11 +39,9 @@ This specialist agent reads the actual code, maps the change surface area, check
 
 ```
 Task(
-  subagent_type="general",
+  subagent_type="fix-assessor",
   description="Assess fix feasibility for [TICKET-ID]",
-  prompt="Load and follow the instructions in .opencode/agent/fix-assessor.md
-
-I'm assessing whether [TICKET-ID] can be fixed by a technical PM with the help of an LLM coding agent.
+  prompt="I'm assessing whether [TICKET-ID] can be fixed by a technical PM with the help of an LLM coding agent.
 
 Problem: [brief description of what needs to change]
 
@@ -103,7 +101,7 @@ Apply these rules to the feasibility assessment from `@fix-assessor`:
 
 The implementation brief must be **self-contained** — a PM and LLM coding agent reading it should be able to produce the MR without access to the Jira ticket, the wiki, or your investigation. Include everything.
 
-**IMPORTANT: Do not write the file yet. Hold the draft in memory and proceed to Phase 4.**
+Keep the draft unsaved until Phase 4 is complete.
 
 ### Phase 4: Validate and Challenge
 
@@ -146,7 +144,7 @@ Here is the draft:
 )
 ```
 
-**CRITICAL:** Send both Task calls in a **single message**. Do NOT begin writing the file or proceeding to Phase 4b until both agents have responded.
+Send both Task calls in one message, and wait for both before Phase 4b or writing the file.
 
 #### Phase 4b: Mechanism verification (conditional)
 
@@ -359,4 +357,4 @@ If the ticket involves a domain not listed here, check the `available_skills` de
 
 ## Output
 
-**IMPORTANT:** Write your output in a new `.md` file in the `work/fix-it/` folder. Name the file `[TICKET-ID]-assess-fix.md` (e.g., `ENG-1570-assess-fix.md`). Never respond inline in chat.
+Write the assessment to a new `.md` file in `work/fix-it/`, named `[TICKET-ID]-assess-fix.md` (e.g., `ENG-1570-assess-fix.md`). The file is the deliverable; in chat, give its path and the verdict rather than the full assessment.

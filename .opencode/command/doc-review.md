@@ -5,7 +5,7 @@ description: Review generated files for accuracy, completeness, and style using 
 
 # Review Generated File
 
-Review a file produced by another command (e.g., `/ask-se`, `/prd`, `/okr`) using parallel subagents with independent focus areas, followed by a validation pass that filters out false positives.
+Review a file produced by another command (e.g., `/ask-data-team`, `/prd`, `/okr`) using parallel subagents with independent focus areas, followed by a validation pass that filters out false positives.
 
 ## Input
 
@@ -27,7 +27,7 @@ If no file path is provided, ask the user which file to review.
 
 | File location | Source command | Format reference |
 |---------------|---------------|------------------|
-| `work/support/` | `/ask-se` | `.opencode/command/ask-se.md` (Summary → Structure → Sources → FAQ sections) |
+| `work/support/` | `/ask-data-team` | `.opencode/command/ask-data-team.md` (suggested reply first, then supporting evidence and references) |
 | `*/prds/` | `/prd` | `02-prompts/pm/draft-review-prd.md` (Problem-first, POA, required sections) |
 | `*/okrs/` | `/okr` | `02-prompts/pm/review-okrs.md` (Problem → End State → Objective → Key Results) |
 | Other | Unknown | `01-context/writing-style-work.md` (general style check only) |
@@ -141,7 +141,7 @@ Present only **Confirmed** findings to the user, grouped by severity:
 ```
 ## Review: [filename]
 
-**Source command:** /ask-se (detected) | **Findings:** N confirmed
+**Source command:** /ask-data-team (detected) | **Findings:** N confirmed
 
 ### Critical
 * `file:line` — [description with evidence]

@@ -3,7 +3,6 @@ name: fix-assessor
 description: Assesses whether a Jira ticket's fix can be implemented by a technical PM and an LLM coding agent. Reads GitLab code, maps change surface area, scores feasibility criteria. Returns structured evidence for the orchestrator to make a Go/No-Go verdict.
 mode: subagent
 model: anthropic/claude-opus-4-8
-temperature: 0.
 tools:
   write: false
   edit: false
@@ -186,4 +185,4 @@ If a GitLab tool call fails or a repo can't be found:
 1. Record the failure in Gaps and Uncertainties
 2. Note what information you expected from that source
 3. If you can't find the repo at all, return immediately with a clear statement — the assessment cannot proceed without code
-4. Continue with available sources for partial failures — one inaccessible file doesn't block the whole assessment
+4. Continue when a single file is missing; if a tool fails authentication or can't be reached, stop and return the exact error instead
