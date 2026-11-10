@@ -45,7 +45,7 @@ async () => {
 
 Then return `s.slice(1800, 14000)`, `s.slice(13700, 25500)` and so on until you've covered `length`. About 11–12K characters per slice is safe (verified 2026-08-06). Overlap each slice by a few hundred characters so nothing falls between them. Each slice is an independent call, so they can run in parallel.
 
-**Dual-track transcripts.** Some recordings interleave two transcription passes of the same audio, usually a `Microphone` channel and a diarized `Speaker 1/2/3` channel, so nearly every sentence appears twice with different garbles. The user may call this "some duplication." Treat it as evidence: where the channels disagree, one is usually right (`office seaford` → Thomas Seifert). Check which channel handles a few known words better and prefer it. Don't deduplicate before reading.
+**Dual-track transcripts.** Some recordings interleave two transcription passes of the same audio, usually a `Microphone` channel and a diarized `Speaker 1/2/3` channel, so nearly every sentence appears twice with different garbles. The user may call this "some duplication." Treat it as evidence: where the channels disagree, one is usually right (`dana riviera` → Dana Rivera). Check which channel handles a few known words better and prefer it. Don't deduplicate before reading.
 
 **Merged diarization labels.** One `Speaker N` label can hold several people. **The tell is a label that answers its own questions:** if "Speaker 1" asks why X was decided and also supplies the design rationale, it isn't one person. Before writing "Speaker N is <name>", scan that label for lines only the presenter could have said. If you find one, say the label is merged and attribute nothing from it without independent confirmation. Third-party address is the strongest confirmation: when the presenter says "what Rian was saying" right after a line, that line is attributable and the rest of the bucket is not.
 
@@ -84,7 +84,7 @@ The attendee list decides who gets credited and who gets a stakeholder update. S
 
 ### The related project brain
 
-Look for a matching brain in `work/projects/` using the meeting title, the user's message and the topics discussed, and read its `CONTEXT.md` before drafting. It gives you correct names and tells you what's new versus already known. With no match, proceed without one.
+Look for a matching brain in `work/projects/` using the meeting title, the user's message and the topics discussed, and read its `CONTEXT.md` before drafting. It gives you correct names and tells you what's new versus already known. When no live brain matches, grep the vault for the topic's ticket IDs and key terms before proceeding without one. That search finds an archived predecessor in `projects/_ARCHIVE/` and same-topic reviews sitting in a team's `notes/` or `research/`, which often settle what the meeting left open. If the user expects a brain that doesn't exist, report what you found and offer `/new-project`.
 
 * **When the meeting is a factual dispute** ("did we already agree on X?"), check the brain's dated decision table before writing. A documented, dated decision and an unresolved one are different situations, and one side may simply be correct.
 * **Before asserting that something is unowned, undecided or undesigned,** check the team hub (`06-work/cloudflare/product/<team>/CONTEXT.md`) and any onsite repo as well as the brain you're reading. Org-level assignments land there, so silence in one brain is not evidence. **The tell is a structural explanation that none of the participants gave:** if a root cause appears only in your parenthetical and in nobody's words, source it or drop it.
@@ -96,29 +96,18 @@ Common mistranscriptions:
 | Person (role) | Transcribed as |
 |---|---|
 | [Author] | Ryan, Rihanna, Rion, Ron |
-| Ryan Skidmore (engineer, AI code reviewer) | "Ryan" when the topic is the AI reviewer, CI components or DevTools engineering |
-| Nevi Shah (PM: WOBS, WAE, unified Observability) | Nebby, Navi, Navy, Nebi, Nav'i |
-| Marc Selwan (Senior PM, R2 SQL and Pipelines) | Mark Selwin, Mark Sullivan |
-| Micah Wylde (Principal Systems Engineer, Pipelines and R2 SQL) | Mike, Micha |
-| Rifad Lafir (engineer, Security Observability) | Rafod, Rifat |
-| Nick Piazza (SecOps) | Nick Piaza |
-| Pranav Sekhar (Senior Growth Engineer, AEO) | Prenav, prenov |
-| Aly Cabral (VP, Developer GTM) | Ally; the vault once carried "Ally Cabraw" |
-| Carsten Holm (VP, Pricing) | Carson |
-| Thomas Seifert (CFO) | office seaford |
-| Matt TK (CF CLI and CF Wrangler) | One person: don't split him into "Matt" and "TK" or "correct" him to Matt Moen or Tim Kadlec |
 
-Gemini also fuses a name to the next word (`Carstenalready`, `Nevilike`), so search stems.
+Gemini also fuses a name to the next word (`Danaalready`, `Samlike`), so search stems.
 
 **For a name not in the table,** verify against a system of record. The vault propagates its own errors, and a wrong spelling repeated in seven files reads as confirmation.
 
 1. `cfi backstage get user:cloudflare-com/<username>` for title, team and manager.
 2. The reviewer or stakeholder table on a relevant wiki page; RFCs and specs list full names.
-3. The people directory: `GET https://people.cloudflare.dev/api/v1/employees?limit=100` with a `cf-access-token`, cursor-paginated (about 57 pages; `limit` above 100 errors, and the cursor must be URL-encoded). A zero-hit scan proves a transcription wrong. It works on a surname, or on a mangled first name via a `firstName` prefix scan, which is how "Ally" became Aly Cabral.
+3. Your company's people directory, if it has an API. A zero-hit scan proves a transcription wrong. It works on a surname, or on a mangled first name via a `firstName` prefix scan, which is how "Dayna" became Dana Rivera.
 
-When you grep the vault, grep the stem (`Aly`, `Cabr`), not the transcribed spelling: `\bally\b` misses a correct "Aly Cabral" and reports that the vault doesn't know. Beware the plausible-seniority trap: a real exec whose name nearly fits will feel like a match (Allan Leinwand for "Ally"), and fitting seniority is not evidence. Never build a name from an email prefix or invent a surname; look it up or use what you have. If a name stays unresolved, flag it inline, and never let an unverified spelling into `stakeholders.json`.
+When you grep the vault, grep the stem (`Dan`, `Rive`), not the transcribed spelling: `\bdayna\b` misses a correct "Dana Rivera" and reports that the vault doesn't know. Beware the plausible-seniority trap: a real exec whose name nearly fits will feel like a match (a senior leader with a similar first name), and fitting seniority is not evidence. Never build a name from an email prefix or invent a surname; look it up or use what you have. If a name stays unresolved, flag it inline, and never let an unverified spelling into `stakeholders.json`.
 
-**Use circumstance to rule candidates out.** When a transcript introduces someone by circumstance ("back from parental leave", "just joined", "leaving for India"), check it against what the vault shows a same-named candidate doing at the time. A transcript named "Drew" as the returning pricing owner. Andrew Depke was the obvious match but had been working the whole time, so the note said "Drew, not Andrew Depke", and a later calendar invite confirmed Drew Conklin.
+**Use circumstance to rule candidates out.** When a transcript introduces someone by circumstance ("back from parental leave", "just joined", "leaving for India"), check it against what the vault shows a same-named candidate doing at the time. A transcript named "Alex" as the returning owner. Alexander Reed was the obvious match but had been working the whole time, so the note said "Alex, not Alexander Reed", and a later calendar invite confirmed Alex Moreno.
 
 **A correct spelling can still name nobody in the room.** Cross-check anyone credited with owning work against the attendee list. A summit transcript named a "Josh" who wasn't there, so the owner became `[TBD — name doesn't match anyone in the room]`.
 
@@ -201,9 +190,9 @@ Title 1:1s as `# 1:1 with [Person] - [YYYY-MM-DD]`.
 Section rules:
 
 * **Summary:** always; 2–3 sentences on themes and outcomes, not a chronological recap.
-* **Decisions:** always, writing "No decisions made." if none. Include anything agreed, approved or resolved, with enough context to stand alone.
+* **Decisions:** always, writing "No decisions made." if none. Include anything agreed, approved or resolved, with enough context to stand alone. A plan someone reports as already settled is context, not a decision this meeting made; Gemini's "Aligned" decisions often list these.
 * **Open Questions:** always, writing "No open questions." if none. Include anything raised but unresolved or left for follow-up, with who raised it and who answers.
-* **Action Items:** always, writing "No action items identified." if none. Include implied commitments, name the owner or write `[TBD]`, give enough context to act without rereading the notes, use checkboxes, and include any deadline mentioned.
+* **Action Items:** always, writing "No action items identified." if none. Include implied commitments, name the owner or write `[TBD]` (take owners from who committed in the transcript, not from Gemini's Next steps, which can hand an ask to the person who made it or lift an item from chatter before the meeting started; check each against the transcript timestamp), give enough context to act without rereading the notes, use checkboxes, and include any deadline mentioned.
 
 ## 7. Update stakeholder memory
 

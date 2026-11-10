@@ -1,6 +1,6 @@
 ---
 name: auditing-cd-collection
-description: Use when the user wants to audit their whole CD collection — for remasters ("which of my CDs are remasters", "audit my collection", "re-run the CD audit") or for packaging ("list every digipak", "which of my CDs are not jewel cases", "digipak vs jewel case"). Collection-wide and produces a Google Sheet. For picking the right pressing of ONE album use finding-original-cds; for pricing a wantlist use finding-cd-bundles; for which owned CDs are not ripped yet use ripping-cds.
+description: Use when the user wants a collection-wide CD audit for remasters or packaging (digipak vs jewel case), output to a Google Sheet. For one album's pressing use finding-original-cds; for unripped CDs use ripping-cds.
 ---
 
 # Auditing the CD collection for remasters

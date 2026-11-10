@@ -1,6 +1,6 @@
 ---
 name: managing-spotify-playlists
-description: Use when the user wants to change or inspect one of their Spotify playlists — create one, rename it, add or remove tracks, reorder, change visibility, or attach cover art — or asks what a playlist currently contains. Triggers e.g. "add these to <playlist>", "make me a playlist of X", "clean up <playlist>", "dedupe this", "reorder these", "what's in my <playlist>", "set the cover on <playlist>". Playlist contents and metadata; for designing the cover image itself use playlist-cover.
+description: Use when the user wants to create, inspect, or change a Spotify playlist (add, remove, reorder, dedupe, rename, visibility, set cover). For designing the cover image use playlist-cover.
 ---
 
 # Managing Spotify playlists

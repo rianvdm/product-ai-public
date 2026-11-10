@@ -72,6 +72,7 @@ This is the most important step. Session logs capture *what happened*, but insti
 2. Read the target file first to understand its current state.
 3. Apply the edit directly — no pre-approval step. **Rewrite the paragraph that already covers the topic; do not append a dated paragraph beside it.** Keep the rule and the tell, drop the day's counts and names unless one of them is the tell. Appended paragraphs pile up into one rule stated several times, which later costs a cleanup pass.
 4. If a learning is being promoted from `01-context/corrections.md` into an infrastructure file, **remove it from corrections** — it's been baked in and no longer needs the staging area.
+5. **Auto-memory is not a promotion target for shared lessons.** It is Claude Code-only and machine-local, so OpenCode, Codex, and the other Mac never see it. A lesson that should change behaviour everywhere goes to a tracked file from the table above; keep auto-memory for facts about this machine or this harness.
 
 **Judgment gate — ask before writing when:**
 - The change touches a **skill, command, agent, or AGENTS.md** AND you're uncertain whether it belongs there (these files load into every future session, so a bad edit propagates). For clear-fit edits to those files — a new case in a lookup table, an obvious missing step in a command — apply directly.

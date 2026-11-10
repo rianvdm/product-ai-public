@@ -1,6 +1,6 @@
 ---
 name: finding-original-cds
-description: Use when the user wants to find and add an original (non-remastered, non-deluxe, non-club-edition) CD pressing of an album to their Discogs wantlist, or decide which Discogs CD release to buy — e.g. "find an original US CD of X", "add the original pressing to my wantlist", "which CD pressing should I get", or avoiding remaster/deluxe/anniversary/club editions. Discogs-specific.
+description: Use when the user wants an original (non-remaster, non-deluxe, non-club) CD pressing of an album added to their Discogs wantlist, or asks which CD pressing to buy.
 ---
 
 # Finding original CDs on Discogs

@@ -79,7 +79,7 @@ For one-off visualisations, quick explorations, or content that doesn't need dep
 
 ## Design Principles (both modes)
 
-**Clarity before richness.** Every visual element should earn its place by making the logic clearer. If removing something makes the visualisation easier to understand, remove it.
+**Clarity before richness.** Every visual element should earn its place by making the logic clearer. If removing something makes the visualisation easier to understand, remove it. A companion to a decision doc is for easy understanding and the doc holds the detail: each scene gets one short claim and one picture that proves it. When a reviewer flags an accuracy problem in a visual, fix it inside the existing picture (make the total come from what is actually lit, move a mark to where the picture crosses it) rather than adding a second chart or a caveat paragraph, and keep any visual the user has praised.
 
 **Interactive, not passive.** The user should be able to change something and see the logic respond. A static diagram is documentation; an interactive one is understanding.
 
@@ -214,6 +214,15 @@ Structure: controls (sliders, inputs) in a sidebar; the main area shows the outp
 - Label every control clearly with its name and current value
 - Show cause-and-effect — when a parameter changes, the thing that changes in the output should be visually obvious (highlight it briefly, animate it)
 - Include axis labels, legends, or annotations as needed
+
+### Browser checks before handing over
+
+Run these in a real browser on every build, both modes:
+
+- **Phone width by element bounds.** Under CDP device emulation at 320, 360 and 390 px, compare each wide element's right edge with the column's content box. A page-scroll check (`scrollWidth <= innerWidth`) passes even when `html { overflow-x: clip }` cuts content off, and a Chrome window can't be resized below 500 px, so emulate.
+- **Details open where the reader clicked.** When a list or chart is taller than the screen, open a selection's details in a row under the clicked item, not in a panel after the list.
+- **Controls keep focus.** Build buttons and checkboxes once and sync their state on each render; rebuilding them with `innerHTML` drops keyboard focus to `<body>`.
+- **Clickable rows are buttons.** Put a `<button aria-expanded>` in the row's first cell, and give empty visual cells hidden text, so screen readers know the row opens and what it holds.
 
 ## Saving and opening
 

@@ -1,6 +1,6 @@
 ---
 name: diagnosing-mac-performance
-description: Use when the user reports their Mac is slow, sluggish, laggy, or unresponsive — or asks what's using CPU, memory, or battery. Also triggers on "check system performance", "what's eating my CPU", "Mac is hot", "fan is loud", or any request to diagnose macOS resource usage. Covers CPU hogs, memory pressure, swap thrashing, and runaway system daemons.
+description: Use when the Mac is slow, hot, or loud, or the user asks what's using CPU, memory, or battery.
 ---
 
 # Diagnosing Mac Performance Issues

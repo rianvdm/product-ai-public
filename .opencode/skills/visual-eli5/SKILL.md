@@ -1,6 +1,6 @@
 ---
 name: visual-eli5
-description: Use when the user asks for a temporary or one-off visual HTML page that explains an unfamiliar topic from scratch with big pictures and few words. Do not use for prose-only explanations, reader-controlled interactive visualizations, or pages for the therapy explainer site.
+description: Use when the user asks for a temporary visual HTML page that explains an unfamiliar topic from scratch with big pictures and few words.
 ---
 
 # Visual ELI5

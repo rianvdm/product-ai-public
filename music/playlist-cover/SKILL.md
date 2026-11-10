@@ -1,6 +1,6 @@
 ---
 name: playlist-cover
-description: Use when the user wants cover art for a Spotify or Roon playlist — he gives a playlist link or a Roon screenshot, usually with the name he wants on it, and wants an image made and put on the playlist. Triggers e.g. "make a cover for this playlist", "playlist cover for <link>", "I need artwork for this playlist", "redo this playlist's cover", "generate a Spotify cover", "cover art for <playlist name>". Designs the art and attaches it, not playlist curation — for what to put *in* a playlist this is the wrong skill.
+description: Use when the user wants cover art made for a Spotify or Roon playlist ("make a cover for this playlist", "redo this playlist's cover"). For playlist contents use managing-spotify-playlists.
 ---
 
 # Playlist covers
