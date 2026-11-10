@@ -50,6 +50,7 @@ The prompts and context files work in any LLM assistant. The commands, agents, a
 * [`blind-validator`](.opencode/agent/blind-validator.md) -- Re-fetch each source cited in a draft and check every claim against it. Checks caller-supplied raw output where it cannot fetch, and flags references that are not pinned links
 * [`challenger`](.opencode/agent/challenger.md) -- Adversarial reasoning reviewer that finds logic errors, weak explanations, unsupported claims, and gaps that mechanical checklists miss
 * [`fix-assessor`](.opencode/agent/fix-assessor.md) -- Read code, map change surface area, check CI/tests, and score feasibility criteria for a proposed fix
+* [`research`](.opencode/agent/research.md) -- Deep research across docs, a wiki, Jira, GitLab, and a service catalog, returning sourced findings. Used by `/assess-fix` and `/doc-review`; point its source table at your own tools
 * [`editor`](.opencode/agent/editor.md) -- Ruthless style editor that runs ten scoped passes over a document to catch AI patterns, overused words, banned sentence structures, and style-guide violations
 
 ### Commands
@@ -117,7 +118,7 @@ This is a slice of a working setup, so some files point at things that are not p
 
 * **Personal context files.** Commands and agents read `01-context/writing-style-work.md`, `writing-style-personal.md`, `corrections.md`, `agent-tooling.md`, split `stable-facts-*` and `session-log-*` files, and a root `AGENTS.md`. Create your own; the templates and `generate-writing-style.md` cover most of them.
 * **Internal tools.** [`/assess-fix`](.opencode/command/assess-fix.md), [`/meeting`](.opencode/command/meeting.md), and [`blind-validator`](.opencode/agent/blind-validator.md) reach Jira, GitLab, a wiki, and Google Docs through a CLI and an MCP portal from my workplace (`cfi`, cf-portal). [`/doc-review`](.opencode/command/doc-review.md) and [`fix-assessor`](.opencode/agent/fix-assessor.md) expect the same access without naming a tool. Swap in whatever gives your agent that access.
-* **Unpublished agents and skills.** `/assess-fix` and `/doc-review` dispatch a `research` agent, `/code-review` loads a `codex` skill, and the PM prompts name `company-context` and `team-context` skills. Supply your own or remove the step.
+* **Unpublished skills.** `/code-review` loads a `codex` skill, and the PM prompts name `company-context` and `team-context` skills. Supply your own or remove the step.
 * **A missing reference file.** The PRD and OKR prompts point to `03-reference/confluence-wiki-markup-syntax.md` for their output format. Drop that requirement if you do not write to Confluence.
 
 ## Versions

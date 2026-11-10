@@ -203,7 +203,7 @@ If a section has no entries, write "None." If every reference is already a corre
 
 ## Error Handling
 
-If a tool fails authentication or can't be reached (`cfi`, `glab`, cf-portal), stop and return immediately with the exact error so the caller can show it to Rian; don't route around it with another tool. A tool that works but finds nothing is a finding, not a failure: record it and continue.
+If a tool fails authentication or can't be reached (`cfi`, `glab`, cf-portal), stop and return immediately with the exact error so the caller can show it to the user; don't route around it with another tool. A tool that works but finds nothing is a finding, not a failure: record it and continue.
 
 When a single source can't be found (the tool works, the file or ticket doesn't exist):
 
