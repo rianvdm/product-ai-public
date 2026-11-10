@@ -83,10 +83,6 @@ These have nothing to do with product management. They are here because they are
 * [`discord-bot`](.opencode/skills/discord-bot/SKILL.md) -- Discord bot development guide: Developer Portal setup, Gateway vs Interactions architecture, Cloudflare Workers integration, common gotchas, and verification checklist
 * [`diagnosing-mac-performance`](.opencode/skills/diagnosing-mac-performance/SKILL.md) -- Triage a slow Mac: snapshot CPU/memory/swap, identify runaway processes and memory pressure, and recommend fixes ordered by disruption
 
-### Career
-
-* [`building-exec-resumes`](.opencode/skills/building-exec-resumes/SKILL.md) -- Write VP+ product resumes tailored to one posting: a sourced career fact base, positioning and bullet rules, stage tailoring, 16 AI-tell checks, and the research behind them. Includes a fact-base template and a Markdown-to-PDF renderer (Python 3.9+, `markdown`, `pypdf`, Chrome).
-
 ### Music
 
 Five skills covering a CD collection and a Spotify library. The scripts they call are not included; [`music/README.md`](music/README.md) specifies them and the credentials they need.
