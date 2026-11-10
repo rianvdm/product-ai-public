@@ -59,7 +59,7 @@ Read it for more than proper nouns:
 
 * **Grades the room flattens.** A presenter will say two things as a pair that the slide scores differently. Look for modal verbs, priority labels and one-line principles. A deck that labels two mandates **must** and **should** while the talk presents them as equals has told you the most decision-relevant thing in the session.
 * **Disagreements with the transcript.** Record both rather than reconciling them. A slide that lists three levers where the speaker said four tells you what was ad-libbed; collapsing them into one number destroys that.
-* **Figures quoted from the document.** Check the unit and basis, because that is what slips. In a pricing review, a speaker compared ClickHouse at "0.34 cents" with R2 at "15 cents" per GB. The memo's 0.34¢ was a cost to serve per *million events*, 15¢ was ten times R2's public list price, and the memo itself called ClickHouse the more expensive backend. Gemini's summary repeated the comparison as fact.
+* **Figures quoted from the document.** Check the unit and basis, because that is what slips. In a pricing review, a speaker compared one storage backend at "2 cents" with another at "20 cents" per GB. The memo's 2¢ was a cost per *million events*, the 20¢ was ten times the second backend's list price, and the memo itself called the first backend the more expensive one. Gemini's summary repeated the comparison as fact.
 * **What it doesn't cover.** If a section was spoken to a diagram with no text, say so in place, so readers don't assume the deck corroborates it. If the deck fails to resolve the open garbles, record that too.
 
 #### Speaker notes are a separate fetch, and worth it
@@ -111,7 +111,7 @@ When you grep the vault, grep the stem (`Dan`, `Rive`), not the transcribed spel
 
 **A correct spelling can still name nobody in the room.** Cross-check anyone credited with owning work against the attendee list. A summit transcript named a "Josh" who wasn't there, so the owner became `[TBD — name doesn't match anyone in the room]`.
 
-**Products and acronyms get the same treatment,** because a plausible product exists for almost any mangled string. Check Amazon's product list with the Amazon docs search tool or docs.example.com: "cloud for sesses" is Amazon for SaaS, and SASE surviving a plausibility check is exactly the trap. Treat the Gemini auto-summary as another unreliable narrator; it once expanded AEO (answer engine optimization) as "Account Expansion." Flag what you can't resolve, and remove the flag once it's resolved.
+**Products and acronyms get the same treatment,** because a plausible product exists for almost any mangled string. Check your company's product list with its docs search tool: "cloud for sesses" was a real product name, and SASE surviving a plausibility check is exactly the trap. Treat the Gemini auto-summary as another unreliable narrator; it once expanded AEO (answer engine optimization) as "Account Expansion." Flag what you can't resolve, and remove the flag once it's resolved.
 
 **Resolve relative dates with `date -j -f %Y-%m-%d <date> +%A`,** not arithmetic. When a participant's recollection conflicts with a dated artifact, record both in a parenthetical and leave the artifact's date alone.
 
@@ -150,7 +150,6 @@ Save to a `meetings/` subfolder as `YYYY-MM-DD-[descriptive-name].md`:
 * **Customer call:** `06-work/cloudflare/customers/<customer>/meetings/`, unless the call belongs to a project brain; link it from the customer `CONTEXT.md`.
 * **1:1:** `06-work/cloudflare/team/<person>/meetings/`, even when it covered one project; the project links to it. If the user redirects a 1:1 to another person's folder (for example, prep for a related 1:1), honour that, add a reference stub (summary plus link) in the canonical person's `meetings/`, and add a one-line pointer to that person's `CONTEXT.md` 1:1 summary.
 * **Cross-project or team-level meeting:** the brain that tracks the decision under discussion, linking the others from the header; otherwise `06-work/cloudflare/product/<team>/meetings/`.
-* **Job-search call** (recruiter, hiring manager, interview): `05-personal/job-search/meetings/`, with the frontmatter the earlier notes there use, linked to the call's prep note.
 * **Genuinely unclear:** ask before saving.
 
 ```markdown
@@ -201,7 +200,7 @@ For each identified participant other than Rian, find their entry in `stakeholde
 * **Found:** append a `meeting` interaction (`date`, `type`, a one-sentence `summary`, `source`) unless one with the same date and source already exists. Add topics they clearly advocated to `whatTheyCareAbout`, add commitments from the Action Items (`owner` is `me` or `them`, `status` is `open`), and set `lastUpdated`.
 * **Not found:** skip them, and report how many participants aren't in memory. The exception is someone who authored material in the meeting, such as a slide or a doc they presented, and whose identity you verify with `cfi backstage get user:cloudflare-com/<username>`. Create their entry and say so in the report. Look up emails; never infer them from usernames.
 * **Nobody identifiable** (no speaker labels, no attendee list): skip the step and say why.
-* **Personal or job-search meeting:** skip the step. `stakeholders.json` tracks Amazon colleagues only.
+* **Personal meeting:** skip the step. `stakeholders.json` tracks work colleagues only.
 
 ## Quality bar
 

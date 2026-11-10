@@ -53,12 +53,12 @@ Each subagent receives:
 
 **Agent type:** `research` — needs MCP access for verification.
 
-**Primary sources:** Amazon docs (for official product behavior) and GitLab (for code references and implementation details). Use wiki and Jira as secondary sources when docs/GitLab don't have the answer.
+**Primary sources:** Product docs (for official product behavior) and GitLab (for code references and implementation details). Use wiki and Jira as secondary sources when docs/GitLab don't have the answer.
 
 **Read-only constraint:** Only use MCP tools for reading and searching. Do NOT create comments, notes, MRs, update tickets, or modify any resources.
 
 Prompt the subagent to:
-* Check every factual claim against Amazon docs first, then GitLab for implementation-level claims
+* Check every factual claim against the product docs first, then GitLab for implementation-level claims
 * Flag hallucinated URLs, product names, feature descriptions, or behaviors
 * Verify code examples and configuration snippets are syntactically valid
 * Confirm referenced tickets, pages, or docs actually exist (use MCP tools to fetch them directly)
@@ -71,7 +71,7 @@ Prompt the subagent to:
 
 **Agent type:** `research` — needs MCP access to check what's missing against internal knowledge.
 
-**Primary sources:** Wiki (for tribal knowledge, edge cases, historical decisions) and Jira (for known issues, roadmap items, related work the doc should reference). Use Amazon docs and GitLab as secondary sources when needed.
+**Primary sources:** Wiki (for tribal knowledge, edge cases, historical decisions) and Jira (for known issues, roadmap items, related work the doc should reference). Use the product docs and GitLab as secondary sources when needed.
 
 **Read-only constraint:** Only use MCP tools for reading and searching. Do NOT create comments, notes, MRs, update tickets, or modify any resources.
 

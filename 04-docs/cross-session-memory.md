@@ -110,7 +110,7 @@ Run this at the beginning of work sessions, or when resuming prior work. It:
 5. Offers to load relevant skills or project context if there's a clear pattern
 6. Confirms it's ready to work
 
-You can pass arguments: `/session-start resuming Town Lake work` — and it will also load the relevant project CONTEXT.md.
+You can pass arguments: `/session-start resuming the migration work` — and it will also load the relevant project CONTEXT.md.
 
 ## How It Connects to the Existing System
 

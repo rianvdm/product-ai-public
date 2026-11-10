@@ -79,7 +79,7 @@ Read the page with `cfi --json wiki get <page-id-or-url>`. Check:
 * If the draft quotes the page, is the quote accurate?
 
 ### Product Docs
-Search Amazon docs through cf-portal codemode to find and verify the content. Check:
+Search the product docs through cf-portal codemode to find and verify the content. Check:
 * Does the documented behavior match what the draft claims?
 * If the draft cites specific limitations, retention periods, or feature behavior — does the doc actually say that?
 

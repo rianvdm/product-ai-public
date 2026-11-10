@@ -9,7 +9,7 @@ description: Use when the user wants a collection-wide CD audit for remasters or
 
 Classifies every CD in Rian's Discogs collection as remaster / original / unverified, finds a non-remastered pressing to replace each remaster with, and writes it all to a Google Sheet he can work through. **Core insight:** the whole thing runs off two Discogs endpoints plus one versions lookup, and the expensive part (~1,800 API calls) is fully cached on disk — so a re-run after a wantlist change costs one script, not the whole pipeline.
 
-Last full run: **2026-08-23** — 792 CDs, 164 flagged, 61 on the review list after exclusions. Output: [CD Collection — Remaster Audit](https://docs.google.com/spreadsheets/d/1nTfjYqsPbMXRjtmPND0VegwjVxwMU5n_CZMvxiXD2Mk/edit). Human-readable writeup: `05-personal/music/cd-remaster-audit.md`.
+Last full run: **2026-08-23** — 792 CDs, 164 flagged, 61 on the review list after exclusions. Output: a Google Sheet (CD Collection — Remaster Audit). Human-readable writeup: `05-personal/music/cd-remaster-audit.md`.
 
 ## When to use
 

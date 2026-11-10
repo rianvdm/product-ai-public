@@ -1,5 +1,6 @@
 ---
 name: interactive-explainer
+description: Use when the user wants a reader-controlled HTML visualization of a process, algorithm, decision, comparison, or system, including sliders, toggles, branching, step-throughs, live inputs, or a durable explainer deployed as a site.
 ---
 
 # Interactive Explainer

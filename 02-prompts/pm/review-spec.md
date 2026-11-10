@@ -224,13 +224,13 @@ A good SPEC review:
 ## Example Review Snippets
 
 ### Good alignment assessment:
-> The SPEC proposes using shipboard3 infrastructure instead of Workers (as stated in the PRD). This is likely a pragmatic choice given shipboard3's existing JIRA sync infrastructure, but the decision should be formally documented in CONTEXT.md.
+> The SPEC proposes using the internal reporting service infrastructure instead of Workers (as stated in the PRD). This is likely a pragmatic choice given the internal reporting service's existing JIRA sync infrastructure, but the decision should be formally documented in CONTEXT.md.
 
 ### Good question:
-> **Objective/KR linkage:** The data model has `okr_measures` with a `parent_id` self-reference, but doesn't address where Objectives come from. The PRD notes this is pending Roger Tam's response on SHIP→Epic migration. How should we proceed if that migration isn't feasible?
+> **Objective/KR linkage:** The data model has `okr_measures` with a `parent_id` self-reference, but doesn't address where Objectives come from. The PRD notes this is pending the platform team's response on the ticket migration. How should we proceed if that migration isn't feasible?
 
 ### Good recommendation:
-> **Document the tech stack decision.** Update CONTEXT.md to record the pivot from Workers to shipboard3 with rationale (reusing existing JIRA sync infrastructure). This ensures future readers understand why the SPEC differs from the PRD.
+> **Document the tech stack decision.** Update CONTEXT.md to record the pivot from Workers to the internal reporting service with rationale (reusing existing JIRA sync infrastructure). This ensures future readers understand why the SPEC differs from the PRD.
 
 ### Bad (too vague):
 > The data model seems incomplete.

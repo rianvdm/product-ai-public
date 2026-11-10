@@ -267,7 +267,7 @@ If the verdict is **GO** or **MAYBE**, add the implementation brief:
 [Numbered, precise steps. Each step should reference a specific file and line range, describe what the current code does, and specify what to replace it with.]
 
 1. **[file.go:L1058]** Replace the membership lookup with an accounts lookup
-   * Current: `getMembershipDetails(actorID, membershipID)` calls `GET /user/{id}/internalmemberships`
+   * Current: `getMembershipDetails(actorID, membershipID)` calls `GET /user/{id}/memberships`
    * New: Call `GET /accounts/{id}` instead, which returns account details directly
    * Update the response parsing to use the accounts endpoint response struct
 
@@ -298,7 +298,7 @@ If the verdict is **GO** or **MAYBE**, add the implementation brief:
 
 ### MR Conventions
 * **Branch name:** [pattern from recent MRs, e.g., `fix/eng-1570-replace-membership-lookup`]
-* **Commit message:** [pattern, e.g., `fix: replace /internalmemberships with /accounts endpoint (ENG-1570)`]
+* **Commit message:** [pattern, e.g., `fix: replace /memberships with /accounts endpoint (ENG-1570)`]
 * **Labels:** [any required labels from the repo]
 * **Reviewers:** [from CODEOWNERS or recent MR patterns]
 * **MR description:** Reference the Jira ticket and briefly explain the change
@@ -331,11 +331,11 @@ Finally, always include the investigation log:
 
 ## Skills to Apply
 
-This command is general-purpose — it works across any Amazon team and repo. Before starting Phase 1, check the ticket's domain against the skill triggers in `AGENTS.md` and load any matching skills. Common matches:
+This command is general-purpose — it works across any team and repo. Before starting Phase 1, check the ticket's domain against the skill triggers in `AGENTS.md` and load any matching skills. Common matches:
 
 | Skill | Load when the ticket involves |
 |-------|------|
-| `company-context` | **Always** — any Amazon internal service or product |
+| `company-context` | **Always** — any internal service or product |
 | `team-context` | Logs, Logpush, Audit Logs, Analytics, ClickHouse, ABR, data pipeline, or any team project |
 | `data-logpush-expert` | Logpush delivery, job config, destination errors |
 | `data-analytics-expert` | Dashboard data, GraphQL API, sampling |

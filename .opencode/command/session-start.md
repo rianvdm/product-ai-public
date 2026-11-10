@@ -20,20 +20,20 @@ Read `01-context/corrections.md` in full. Apply these corrections for the rest o
 ### 2. Load Stable Facts
 
 Two stable-facts files exist:
-- `01-context/stable-facts-work.md` — Amazon work state, blockers, environment
+- `01-context/stable-facts-work.md` — work state, blockers, environment
 - `01-context/stable-facts-personal.md` — Personal/side-project state, decisions, environment
 
-**If the user's arguments indicate a topic area** (e.g., "continue with Exponent" → work, "Discrobble work" → personal), read only the relevant file. **Otherwise**, read both.
+**If the user's arguments indicate a topic area** (e.g., "continue with the pricing project" → work, "Discrobble work" → personal), read only the relevant file. **Otherwise**, read both.
 
 This gives you the current state of all active work, recent decisions, blockers, and environment constraints. Use this as your primary orientation — it's more current and compact than the session log.
 
 ### 3. Load Recent Session Logs
 
 Two session logs exist:
-- `01-context/session-log-work.md` — Amazon work
+- `01-context/session-log-work.md` — work
 - `01-context/session-log-personal.md` — Personal/side projects (Discrobble, discogs-mcp, ListenToMore, tldl)
 
-**If the user's arguments indicate a topic area** (e.g., "continue with Exponent" → work, "Discrobble work" → personal), read only the relevant log. **Otherwise**, read both.
+**If the user's arguments indicate a topic area** (e.g., "continue with the pricing project" → work, "Discrobble work" → personal), read only the relevant log. **Otherwise**, read both.
 
 Find the **last 3 entries** (H2 sections) from whichever log(s) you loaded. These represent the most recent substantive work sessions.
 
@@ -56,7 +56,7 @@ From the recent entries and stable-facts, identify what might be relevant to tod
 * [Thread from session log entry, if any that aren't already tracked]
 ```
 
-If the user provided arguments (e.g., "resuming Town Lake work"), also load the relevant project CONTEXT.md for that topic.
+If the user provided arguments (e.g., "resuming the migration work"), also load the relevant project CONTEXT.md for that topic.
 
 ### 5. Offer Context Loading
 
