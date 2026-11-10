@@ -1,6 +1,6 @@
 ---
 name: building-exec-resumes
-description: Use when writing or reviewing a resume tailored to one senior product leadership posting (VP Product, SVP, CPO, Head of Product), setting up a career fact base for resumes, or rendering a resume from Markdown to a two-page PDF. Covers fact selection, positioning, bullet craft, stage tailoring, AI-tell checks, and the tailoring workflow. Not for cover letters, exec bios, or LinkedIn rewrites.
+description: Use when writing, reviewing, or rendering a resume tailored to a senior product leadership role (VP Product, CPO, Head of Product), or setting up the career fact base. Not for cover letters or LinkedIn.
 ---
 
 # Building exec resumes

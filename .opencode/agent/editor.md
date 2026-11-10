@@ -118,11 +118,12 @@ Check the document against the context-appropriate style guide.
 **For work writing (`writing-style-work.md`):**
 
 - Does it lead with outcome / so-what?
-- Are claims grounded in evidence (claim + proof structure)?
-- Are trade-offs named openly?
+- Are claims grounded in evidence (claim + proof structure)? The proof is the number or outcome; a name, date or quote beside a claim in a decision document is provenance clutter (see `avoid-ai-patterns.md`), so flag it with the appendix as the suggested destination.
+- Are trade-offs named openly, once, in a risks section, rather than as a caveat beside each figure?
 - Plain verbs instead of inflated phrasing ("use" not "leverage", "get teams aligned" not "facilitate alignment")?
 - Headers that preview content?
 - Purpose stated immediately?
+- **Density, for documents whose reader decides something** (proposals, one-pagers, pre-reads; the style guide's "Executive Proposals" section): count the numbers and the § / Appendix pointers in each body section and report them in Counts. The reference shape is two or three decision-changing figures per section and at most one pointer; a section far above that gets a Major finding naming which figures move to an appendix. Count whole-document bold paragraph leads that state a verdict about a concept instead of a finding with its number, and list them.
 
 **For personal writing (`writing-style-personal.md`):**
 
@@ -180,6 +181,7 @@ Return a single structured report. Use this exact format so the calling command 
 * "Not X, it's Y" variants: N
 * Overused words: N (list with locations)
 * Overused phrases: N
+* Decision documents only: numbers per body section (list), § / Appendix pointers per section (list), abstract verdict leads: N
 * Style guide violations: N
 
 ## Confidence statement

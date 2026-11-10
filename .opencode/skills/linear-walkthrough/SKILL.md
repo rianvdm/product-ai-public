@@ -1,6 +1,6 @@
 ---
 name: linear-walkthrough
-description: Generates a linear, narrative walkthrough of source material — code, documents, architecture diagrams, meeting notes, Jira tickets, or any combination. Produces a step-by-step guide that explains logic, purpose, and connections between components in a readable sequence. Use when the user wants to understand how something works, wants to explain a system to others, asks to "walk through" or "explain" code or docs, or needs to document a system's logic for learning or onboarding. Also trigger when the user provides files or code and asks "how does this work?" or "take me through this."
+description: Use when the user wants a step-by-step narrative walkthrough of code, docs, or tickets, such as "walk me through this", "how does this work?", or explaining a system for onboarding.
 ---
 
 # Linear Walkthrough

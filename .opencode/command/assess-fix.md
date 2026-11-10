@@ -197,6 +197,7 @@ Apply findings in this order:
 
 * **Mischaracterized code references (from blind validator):** Fix file paths, line numbers, function names, and code descriptions. If a key implementation step is based on wrong code, rewrite the step.
 * **Sources not found (from blind validator):** Remove the reference. If the implementation brief depends on a file that doesn't exist, flag as a critical issue and reconsider the verdict.
+* **Link gaps (from blind validator):** Replace each bare or branch-pinned reference with the link the validator supplied.
 * **Causal-story errors (from mechanism verification):** This is the highest-stakes category. If the debugging track found the draft's hypothesis doesn't match the code, the verdict almost certainly needs to change. Common outcomes:
   * Causal story partially wrong → downgrade to MAYBE, reframe the implementation brief around the real mechanism, add a prerequisite for a live reproduction before opening the MR.
   * Causal story materially wrong (proposed fix addresses a phantom mechanism) → downgrade to NO-GO or MAYBE with a redirected brief for a different fix.
@@ -346,6 +347,7 @@ If the ticket involves a domain not listed here, check the `available_skills` de
 ## Anti-Patterns to Avoid
 
 * **Defaulting to GO because the change looks simple** — Simple-looking changes in unfamiliar repos are where LLMs fail hardest. Require evidence, not vibes.
+* **Scoring a slice to escape the override rules** — When a ticket defines shippable slices, scoring one separately is fine, but every override applies to the slice too: a slice that is an authz, security or billing change is Red on Risk however small the diff. Rating it Yellow because "it only tightens access" is the GO-by-default pattern wearing a different hat. If the slice is NO-GO, put the concrete change under "What to Do Instead" for the engineer rather than writing a brief.
 * **Skipping the "What NOT to Change" section** — This is the most important guard rail. LLMs over-reach. Telling them what to leave alone is as important as telling them what to change.
 * **Vague implementation steps** — "Update the API call" is not a step. "In `transformer.go:L1058`, replace `getMembershipDetails(actorID, membershipID)` with `getAccountDetails(accountID)` and update the return type from `MembershipInfo` to `AccountInfo`" is a step.
 * **Ignoring the ticket comments** — Comments often contain crucial context: disagreements about approach, clarifications from the filing team, decisions that aren't in the description.
@@ -358,3 +360,5 @@ If the ticket involves a domain not listed here, check the `available_skills` de
 ## Output
 
 Write the assessment to a new `.md` file in `work/fix-it/`, named `[TICKET-ID]-assess-fix.md` (e.g., `ENG-1570-assess-fix.md`). The file is the deliverable; in chat, give its path and the verdict rather than the full assessment.
+
+Every Jira ticket, MR, wiki page and code reference in the file is a link where it's mentioned, with code pinned to the commit SHA you read and a line anchor (the forms are in `01-context/writing-style-work.md` → Formatting Module). The implementation brief's Key Files and What to Change steps use the same pinned links, so the coding agent opens the exact lines you read.

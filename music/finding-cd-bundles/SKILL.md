@@ -1,6 +1,6 @@
 ---
 name: finding-cd-bundles
-description: Use when the user wants to buy CDs from their Discogs wantlist — the cheapest listing for each album, whether any eBay seller has several worth bundling, whether eBay or the Discogs marketplace is cheaper, or what a NAMED Discogs seller has from the wantlist. Triggers e.g. "what do my wantlist CDs cost", "cheapest place to buy these", "who has more than one of my wantlist CDs", "find CD bundles on eBay", "is eBay or Discogs cheaper", "what can I buy in one order", "check <seller> for my wantlist", "scan philadelphiamusic", "what does <seller> have". Sourcing and price, not which-pressing judgement — for choosing the right pressing use finding-original-cds.
+description: Use when the user wants to price his Discogs wantlist CDs (cheapest listings, eBay sellers worth bundling, eBay vs Discogs, or what a named seller has). For which pressing to pick use finding-original-cds.
 ---
 
 # Buying wantlist CDs on eBay
@@ -229,7 +229,7 @@ Two fixes, and the second matters more:
 - **Reading the plant credit off the disc face.** "MADE IN U.S.A. BY WEA MANUFACTURING INC." is printed on the disc of pressings from *several* plants — the wantlisted 2026-08-21 *Disintegration* (`178726`) carries that text while being an SRC pressing, with `SRC` appearing only in the matrix runout. Nearly rejected a good listing on this. **Plant identity lives in the matrix, never in the printed credit.**
 - **Implying full wantlist coverage.** Roughly one album in six returns nothing. Name them.
 - **Trusting the run's album count without reconciling it.** Priced + both gap lists must equal the distinct wantlist albums, or something vanished — see the 2xCD section above.
-- **Trusting a `0 raw` on an artist or title with unusual punctuation.** `cleanQuery()` already strips `&` (Discogs returns empty on it); for other punctuation, run one manual `q=` probe before trusting a zero.
+- **Trusting a `0 raw` on an artist or title with unusual punctuation.** `cleanQuery()` already strips `&` (Discogs returns empty on it), and `originalTitle()` / `originalArtists()` drop the ` = ` translated half of Japanese releases; for other punctuation, run one manual `q=` probe before trusting a zero.
 - **Recommending a bundle on album count.** The largest bundle is routinely the worst buy — `randrcollectables` had 6 albums at a flat $21.95 each. Quote the verdict line, which is computed on the optimal subset.
 - **Raising `--min` to shorten the output.** A 2-album seller is a real bundle, and on a short wantlist most of them are. `--min 3` hid the order Rian actually placed on 2026-08-05.
 - **Judging a bundle all-or-nothing.** One overpriced item shouldn't sink four good ones; it should just be bought elsewhere. This mistake made the tool report "no bundle is ever worth it," which was flatly wrong — Rian bought 4 of 5 from `resellingroly` the same day and saved ~$8.66.
@@ -333,6 +333,12 @@ Reproduced on two sellers and isolated by elimination: `*`, `-`, `'`, `:`, `,` a
 
 **The general rule: a wantlist entry whose artist or title contains punctuation deserves one manual `q=` probe before you trust a zero for it.** Found because Rian opened the seller's own wantlist page and saw two Mumford & Sons albums the scan had reported as absent — which is exactly the cross-check two sections below, doing the job it exists for.
 
+### A translated title silently returns zero — fixed 2026-10-31
+
+Japanese releases follow Discogs' `Original = Translation` convention in both fields. The wantlist reported *Rush In Rio* (`13348755`) as artist `Rush, Rush` and title `Rush In Rio = ラッシュ・イン・リオ CD`, and that query returned **0** at every seller. bordentownrecords returned **14** for `Rush Rush In Rio`. Same failure shape as the `&` bug: a dead query that reads as a clean miss.
+
+`seller-scan.mjs` now keeps only the original-language side: the title up to ` = `, and the artists up to the first one joined by `=`. The eBay scripts were never affected, because their tokenisers drop non-ASCII and they read only the first artist.
+
 ### A zero is otherwise trustworthy — verified 2026-08-06
 
 `q=` does a loose full-text match, so a one-word query looks alarmingly broken: `q=the cure` returned 29 listings containing no Cure release, `q=queen` returned 249 with no Queen. Tempting to read as a failing search. It isn't.
@@ -340,6 +346,8 @@ Reproduced on two sellers and isolated by elimination: `*`, `-`, `'`, `:`, `,` a
 The script queries **artist + title together**, and that form has good recall — tested against six albums confirmed present in a seller's stock (*Jagged Little Pill Acoustic*, *Hours...*, *Boys For Pele*, Tin Machine's *Live: Oy Vey Baby*, Echobelly's *Lustra*) it found **6 of 6**, usually as the only hit. Trailing punctuation didn't matter.
 
 So a reported 0 means the seller genuinely doesn't stock it — **unless the query contained an `&`**, per the section above. Sanity-check the inventory's format mix before writing off a whole scan, but **don't assume the search is broken just because single-word queries look noisy** — and check the `raw > 0 -> 0 cand` rows above before concluding anything.
+
+**A `FAILED` row is an unknown, not a zero.** Since 2026-10-02 the scanner retries 429s and 5xx, then marks a query that still fails as `FAILED` and lists every failure at the end of the run. Before that, three throttled retries came back as `0 raw`, and a single 502 crashed the run before any results were written. Re-run the named sellers. And don't make other Discogs API calls while a scan is running, because they share the same rate limit.
 
 ### Hit count is not buy count
 
@@ -454,6 +462,12 @@ Loosely, and only within the right inventory shape: 250k listings → 6 albums, 
 **And `Abandon_Ark` breaks the pattern outright: 2,017 listings → 5 albums** on a 35-entry wantlist (2026-08-21). That is a hit rate per listing about 100× bordentownrecords' at 1/124th the size. The inventory is 71% CD and entirely mainstream catalogue — no vinyl business, no deep backstock. **Size is close to worthless as a predictor once shape is right**, so never skip a small seller on listing count alone.
 
 So size and shape predict hit *rate*, never whether a specific album is present. **A big wantlist gap justifies scanning a seller the screen would otherwise skip.**
+
+### The "Items I Want" page — the cheapest discovery route
+
+[discogs.com/shop/mywants](https://www.discogs.com/shop/mywants/) filtered to `shipsFrom=United States` with media and sleeve condition at VG+ or better lists every current listing of a wantlisted release, along with its seller, grade and the shipping quoted to Rian. It needs a logged-in browser (`claude-in-chrome`), not the API. Results paginate 25 at a time behind client-side buttons, and `limit=` is ignored. On 2026-10-02 it surfaced 120 sellers from 140 listings. Eight passed a CD-share screen, all eight hit on a full scan, and teamzero produced the best basket of the sweep.
+
+Two limits apply. **It matches exact release IDs only**, so it undercounts: vinylempire showed 3 albums there and 9 on the full scan. And **no seller held more than 3**, so it finds candidates rather than baskets. Screen candidates on the seller page's `N For Sale` count and the format mix of the first 100 listings, then run `seller-scan.mjs` on the survivors. The page is also a quick check for cheap single copies at sellers that aren't worth a standing scan.
 
 ### Ask Rian who he's already bought from — it beats both scripts
 

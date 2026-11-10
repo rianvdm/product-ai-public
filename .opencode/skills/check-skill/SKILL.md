@@ -1,12 +1,6 @@
 ---
 name: check-skill
-description: >
-  Use when the user says "check this skill", "review this skill", "quality check skill",
-  "audit this skill", "skill quality check", "does this skill follow best practices",
-  or provides a path to a SKILL.md file for review. Also triggers on "check skill quality",
-  "skill review", or "is this skill well-written". Audits a skill file against the AIDB
-  Skills Masterclass best practices framework, checking for the 5 skill killers, proper
-  anatomy, scoping, and context binding.
+description: Use when the user asks to check, review, or audit a skill or SKILL.md file against skill-writing best practices.
 ---
 
 # Checking Skill Quality
