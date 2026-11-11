@@ -1,6 +1,6 @@
 # Cross-Session Memory System
 
-*Created 2026-03-06. Updated 2026-03-14.*
+*Created 2026-03-06. Updated 2026-11-10.*
 
 This system gives the agent continuity between sessions without requiring automated extraction tools, vector databases, or external infrastructure. It extends the existing file-based context patterns with four layers, two commands, and an active promotion pathway that turns session learnings into institutional knowledge.
 
@@ -8,11 +8,11 @@ This system gives the agent continuity between sessions without requiring automa
 
 The system has four layers, each solving a different problem:
 
-### 1. Stable Facts (`01-context/stable-facts.md`)
+### 1. Stable Facts (`01-context/stable-facts-work.md`, `01-context/stable-facts-personal.md`)
 
 **Problem it solves:** "What's the current state of everything I'm working on?"
 
-A compact file (~40 lines) that captures the current state of all active work. This is the primary orientation file — the first thing `/session-start` loads, and the most frequently updated layer. Updated by `/session-end` at the end of each substantive session.
+A compact file (~40 lines) that captures the current state of all active work. There are two: one for work and one for personal projects. The session commands pick the file that matches the session. This is the primary orientation file — the first thing `/session-start` loads, and the most frequently updated layer. Updated by `/session-end` at the end of each substantive session.
 
 **Sections:**
 * **Active Work** — Current projects with status, key details, and what's next
@@ -24,11 +24,11 @@ A compact file (~40 lines) that captures the current state of all active work. T
 
 **Maintenance:** Keep it under ~60 lines. When active work items are completed or blockers are resolved, remove them. `/session-end` proposes updates as part of its workflow.
 
-### 2. Session Log (`01-context/session-log.md`)
+### 2. Session Log (`01-context/session-log-work.md`, `01-context/session-log-personal.md`)
 
 **Problem it solves:** "What was I working on yesterday? What's unfinished?"
 
-A single rolling markdown file with dated entries. Each entry captures what happened, decisions made, things learned, and open threads. Written by the `/session-end` command at the end of substantive work sessions. Read by `/session-start` at the beginning of new sessions (loads the last 3 entries).
+A rolling markdown file with dated entries, newest first, split into work and personal like stable facts. Each entry captures what happened, decisions made, things learned, and open threads. Written by the `/session-end` command at the end of substantive work sessions. Read by `/session-start` at the beginning of new sessions (loads the last 3 entries).
 
 **Entry format:**
 ```markdown
@@ -91,8 +91,8 @@ Run this at the end of any substantive work session. It:
 1. Reviews the conversation to assess whether it was substantive enough for a handoff note
 2. Drafts an entry in the session log format
 3. **Actively promotes learnings to infrastructure** — proposes specific edits to commands, skills, agents, AGENTS.md, project CONTEXT files, and decisions. Presents all proposed edits for your approval before writing. If a correction gets baked into an infrastructure file, it's removed from `corrections.md`.
-4. **Updates `01-context/stable-facts.md`** — adds/updates active work items, recent decisions, blockers, and environment changes based on the session. Removes entries that are no longer true.
-5. Appends the entry to `01-context/session-log.md`
+4. **Updates the matching `01-context/stable-facts-*.md` file** — adds/updates active work items, recent decisions, blockers, and environment changes based on the session. Removes entries that are no longer true.
+5. Adds the entry to the top of the matching `01-context/session-log-*.md` file
 6. Warns if the file has grown past 50 entries
 
 You don't need to run this for quick questions or trivial tasks. The command will tell you if it thinks the session wasn't substantial enough.
@@ -104,8 +104,8 @@ You don't need to run this for quick questions or trivial tasks. The command wil
 Run this at the beginning of work sessions, or when resuming prior work. It:
 
 1. Reads `01-context/corrections.md` (internalizes it silently)
-2. Reads `01-context/stable-facts.md` for current work state, blockers, and environment
-3. Reads the last 3 entries from `01-context/session-log.md`
+2. Reads the matching `01-context/stable-facts-*.md` file for current work state, blockers, and environment
+3. Reads the last 3 entries from the matching `01-context/session-log-*.md` file
 4. Presents a brief summary of current state, recent sessions, and any open threads
 5. Offers to load relevant skills or project context if there's a clear pattern
 6. Confirms it's ready to work
@@ -116,19 +116,19 @@ You can pass arguments: `/session-start resuming the migration work` — and it 
 
 ```
 AGENTS.md (always loaded)
-  ├── Core Context Files section → references stable-facts.md, corrections.md, session-log.md, decisions.md
+  ├── Core Context Files section → references stable-facts-*.md, corrections.md, session-log-*.md, decisions.md
   |── On-Demand Command Loading → session-start, session-end triggers
   └── On-Demand Skills → each skill references corrections.md
 
 /session-start command (beginning of session)
   ├── Reads corrections.md (internalized)
-  ├── Reads stable-facts.md (current work state)
-  ├── Reads last 3 session-log.md entries
+  ├── Reads stable-facts-*.md (current work state)
+  ├── Reads last 3 session-log-*.md entries
   └── Offers to load relevant context
 
 /session-end command (end of session)
-  ├── Updates stable-facts.md (current state snapshot)
-  ├── Appends handoff note to session-log.md
+  ├── Updates stable-facts-*.md (current state snapshot)
+  ├── Adds handoff note to session-log-*.md
   ├── PROMOTES learnings to infrastructure:
   │   ├── Commands (.opencode/command/*.md)
   │   ├── Skills (.opencode/skills/*/SKILL.md)

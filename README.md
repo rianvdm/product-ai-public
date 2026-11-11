@@ -1,6 +1,6 @@
 # Product AI Public
 
-Curated prompts, commands, skills, and agents for AI-assisted product management, plus the developer and hobby skills that grew up alongside them. A subset of my personal "second brain" repo, published for others to adapt. See [How I AI](https://elezea.com/ai/) for a series of posts on how this system works in practice.
+Prompts, commands, skills, and agents for AI-assisted product management, plus the developer and hobby skills that grew up alongside them. They're a subset of my personal "second brain" repo, published for others to adapt. See [How I AI](https://elezea.com/ai/) for a series of posts on how this system works in practice.
 
 ## Start here
 
@@ -16,7 +16,7 @@ The prompts and context files work in any LLM assistant. The commands, agents, a
 
 * [`product-philosophy.md`](01-context/product-philosophy.md) -- How I think about product work: problem-first, outcomes over outputs, empowered teams
 * [`avoid-ai-patterns.md`](01-context/avoid-ai-patterns.md) -- Words, phrases, and structural patterns that make AI writing obvious, with dated notes on which tells current models still show
-* [`avoid-ai-visual-patterns.md`](01-context/avoid-ai-visual-patterns.md) -- Review visual composition, meaningful motion, and subject-specific diagrams
+* [`avoid-ai-visual-patterns.md`](01-context/avoid-ai-visual-patterns.md) -- The visual counterpart to `avoid-ai-patterns.md`: layout and motion habits that make AI-built HTML explainers look generated
 * [`project-template.md`](01-context/project-template.md) -- Template for creating a dedicated "project brain" folder for major initiatives
 * [`stable-facts-template.md`](01-context/stable-facts-template.md) -- Template for the stable facts file used by cross-session memory. The session commands read `stable-facts-work.md` and `stable-facts-personal.md`, so copy it to those names
 
@@ -70,13 +70,13 @@ The prompts and context files work in any LLM assistant. The commands, agents, a
 
 ## Beyond PM work
 
-These have nothing to do with product management. They are here because they are the most heavily iterated skills I have: most of each one is field notes about where an API lied, what a heuristic got wrong, and which mistake cost real money.
+These have nothing to do with product management. They're here because I've revised them more than any other skills I have, and most of each one is field notes on where an API lied or a mistake cost real money.
 
 ### Explainers
 
 * [`interactive-explainer`](.opencode/skills/interactive-explainer/SKILL.md) -- Build interactive HTML visualizations of processes, algorithms, or systems. The single-file mode works as published; the deployed-site mode relies on files that are not included
-* [`visual-eli5`](.opencode/skills/visual-eli5/SKILL.md) -- Build picture-led HTML explainers with page checks, browser rendering, and share cards. Includes three Python helpers; adapt the site URLs, local repo path, and author byline before use. Python 3.10+ and Chrome/Chromium are needed for rendering.
-* [`building-psych-explainers`](.opencode/skills/building-psych-explainers/SKILL.md) -- Build one-page psychology explainers for [therapy-words.com](https://therapy-words.com): sourcing from the originator's own words, a beat structure, and five checks (brevity, newbie, pattern, cadence, voice). Includes `css-traps.md` and a Python 3 brevity/pattern checker with no dependencies.
+* [`visual-eli5`](.opencode/skills/visual-eli5/SKILL.md) -- Build picture-led HTML explainers with page checks, browser rendering, and share cards. Includes three Python helpers; adapt the site URLs, local repo path, and author byline before use. Python 3.10+ and Chrome/Chromium are needed for rendering
+* [`building-psych-explainers`](.opencode/skills/building-psych-explainers/SKILL.md) -- Build one-page psychology explainers for [therapy-words.com](https://therapy-words.com): sourcing from the originator's own words, a beat structure, and five checks (brevity, newbie, pattern, cadence, voice). Includes `css-traps.md` and a Python 3 brevity/pattern checker with no dependencies
 
 ### Developer
 
@@ -90,7 +90,7 @@ Five skills covering a CD collection and a Spotify library. The scripts they cal
 
 * [`finding-original-cds`](music/finding-original-cds/SKILL.md) -- Pick the best original (non-remaster) CD pressing on Discogs, and work around MCP rate limits by hitting the public API directly
 * [`finding-cd-bundles`](music/finding-cd-bundles/SKILL.md) -- Price a Discogs wantlist against live eBay listings by barcode, find sellers worth bundling, and cross-check both against the Discogs marketplace floor
-* [`auditing-cd-collection`](music/auditing-cd-collection/SKILL.md) -- Classify a whole collection as remaster/original/unverified across ~1,800 cached API calls, and the four rules that stop it flagging originals
+* [`auditing-cd-collection`](music/auditing-cd-collection/SKILL.md) -- Classify a whole collection as remaster/original/unverified across ~1,800 cached API calls, and the four matching traps that each produced wrong answers first
 * [`managing-spotify-playlists`](music/managing-spotify-playlists/SKILL.md) -- Read and write Spotify playlists safely: which operations are irreversible, how to sequence a long playlist to constraints, and the API fields that mean the opposite of what they look like
 * [`playlist-cover`](music/playlist-cover/SKILL.md) -- Generate playlist artwork from what the playlist actually contains, and the verification gate that catches image models misspelling the title
 
@@ -104,21 +104,27 @@ Five skills covering a CD collection and a Spotify library. The scripts they cal
 
 ## How to use these
 
-* **`01-context/`** files work well as persistent context (system prompts, custom instructions, or project knowledge files)
+* **`01-context/`** files work well as persistent context (system prompts, custom instructions, or project knowledge files). The two templates are starting points to copy
 * **`02-prompts/`** files are task-specific prompts you paste when needed
 * **`04-docs/`** files explain how the larger patterns fit together. Read them; there is nothing to install
 * **`05-personal/`** files are examples of the same approach applied outside work
-* **`.opencode/command/`** files are OpenCode slash commands (the prompt content works anywhere)
+* **`.opencode/command/`** files are OpenCode slash commands. They need a harness with a shell and subagents; in Claude Code they go in `.claude/commands/`
 * **`.opencode/skills/`** and **`music/`** files are on-demand skills that get loaded when specific topics come up. Each is a folder with a `SKILL.md`; drop the folder into your own skills directory to use it (`.claude/skills/` in Claude Code)
-* **`.opencode/agent/`** files define specialized subagents. Their frontmatter (`mode`, the `tools` map, the pinned `model`) is OpenCode's, so adjust it for another harness
+* **`.opencode/agent/`** files define specialized subagents. Their frontmatter (`mode`, the pinned `model`, and on most of them a `tools` map) is OpenCode's, so adjust it for another harness
 
 ## What needs your own tools
 
-This is a slice of a working setup, so some files point at things that are not published. Nothing here fails silently if you know where the gaps are.
+This is a slice of a working setup, so some files point at things that are not published. Each gap is listed below with what to swap in.
 
-* **Personal context files.** Commands and agents read `01-context/writing-style-work.md`, `writing-style-personal.md`, `corrections.md`, `agent-tooling.md`, split `stable-facts-*` and `session-log-*` files, and a root `AGENTS.md`. Create your own; the templates and `generate-writing-style.md` cover most of them.
-* **Internal tools.** [`/assess-fix`](.opencode/command/assess-fix.md), [`/meeting`](.opencode/command/meeting.md), and [`blind-validator`](.opencode/agent/blind-validator.md) reach Jira, GitLab, a wiki, and Google Docs through a CLI and an MCP portal from my workplace (`cfi`, cf-portal). [`/doc-review`](.opencode/command/doc-review.md) and [`fix-assessor`](.opencode/agent/fix-assessor.md) expect the same access without naming a tool. Swap in whatever gives your agent that access.
-* **Unpublished skills.** `/code-review` loads a `codex` skill, and the PM prompts name `company-context` and `team-context` skills. Supply your own or remove the step.
+* **Personal context files.** Commands and agents read `01-context/writing-style-work.md`, `writing-style-personal.md`, `corrections.md`, split `stable-facts-*` and `session-log-*` files, and a root `AGENTS.md`. `/meeting` also reads `agent-tooling.md` and `corrections/cloudflare-tooling.md`. Create your own; the templates and `generate-writing-style.md` cover most of them.
+* **Internal tools.** [`/assess-fix`](.opencode/command/assess-fix.md), [`/meeting`](.opencode/command/meeting.md), [`/new-project`](.opencode/command/new-project.md), and [`blind-validator`](.opencode/agent/blind-validator.md) reach Jira, GitLab, a wiki, and Google Docs through a CLI and an MCP portal from my workplace (`cfi`, cf-portal). [`/doc-review`](.opencode/command/doc-review.md) and [`fix-assessor`](.opencode/agent/fix-assessor.md) expect the same access without naming a tool. Swap in whatever gives your agent that access.
+* **Unpublished skills.** Some files load skills that aren't in this repo. Supply your own or remove the step.
+  * `/code-review`: `codex`
+  * The PM prompts and `/assess-fix`: `company-context`, `team-context`
+  * `/assess-fix` and `/new-project`: `cfi`
+  * `/assess-fix`: `systematic-debugging`, from the [superpowers](https://github.com/obra/superpowers) plugin
+  * `/meeting`: `stakeholder-memory`, `building-google-slides`
+  * `interactive-explainer` (deployed mode): `internal-workers-deployment`
 * **A missing reference file.** The PRD and OKR prompts point to `03-reference/confluence-wiki-markup-syntax.md` for their output format. Drop that requirement if you do not write to Confluence.
 
 ## Versions
@@ -127,9 +133,7 @@ Files are synced from a private repo and change in place, without a changelog pe
 
 ## About
 
-I'm [Rian van der Merwe](https://elezea.com), a product manager who uses AI tools extensively in my daily work. This repo contains the prompts and context files I've found most useful, published so others can adapt them.
-
-For more on my approach to product management and AI, see [`product-philosophy.md`](01-context/product-philosophy.md).
+I'm [Rian van der Merwe](https://elezea.com). I lead product teams and use these files in my own work every day.
 
 ## License
 
