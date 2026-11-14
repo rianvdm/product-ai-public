@@ -23,7 +23,7 @@ Two stable-facts files exist:
 - `01-context/stable-facts-work.md` — work state, blockers, environment
 - `01-context/stable-facts-personal.md` — Personal/side-project state, decisions, environment
 
-**If the user's arguments indicate a topic area** (e.g., "continue with the pricing project" → work, "Discrobble work" → personal), read only the relevant file. **Otherwise**, read both.
+**If the user's arguments indicate a topic area** (e.g., "the pricing project" → work, "Discrobble work" → personal), read only the relevant file. **Otherwise**, read both.
 
 This gives you the current state of all active work, recent decisions, blockers, and environment constraints. Use this as your primary orientation — it's more current and compact than the session log.
 
@@ -33,9 +33,14 @@ Two session logs exist:
 - `01-context/session-log-work.md` — work
 - `01-context/session-log-personal.md` — Personal/side projects (Discrobble, discogs-mcp, ListenToMore, tldl)
 
-**If the user's arguments indicate a topic area** (e.g., "continue with the pricing project" → work, "Discrobble work" → personal), read only the relevant log. **Otherwise**, read both.
+**If the user's arguments indicate a topic area** (e.g., "the pricing project" → work, "Discrobble work" → personal), use only the relevant log. **Otherwise**, use both.
 
-Find the **last 3 entries** (H2 sections) from whichever log(s) you loaded. These represent the most recent substantive work sessions.
+List the entry headings first with `grep -n '^## ' <log>`. Each entry is an H2 with its date and topic, newest first, and it runs from its heading's line to the line before the next heading, or to the end of the file for the last entry.
+
+Choose **3 entries** from whichever log(s) you're using, then read only those line ranges:
+
+- **The arguments name a topic** (a project, product, ticket, or person): the 3 newest entries whose heading matches it. Match loosely, so "Discrobble" also matches `cf-discrobble-api`. If fewer than 3 headings match, fill the remaining slots with the newest entries.
+- **No topic:** the 3 newest entries.
 
 When reviewing open threads from the session log, cross-reference against stable-facts. Don't list items that are already captured as active work or blockers — only surface threads that stable-facts doesn't cover.
 

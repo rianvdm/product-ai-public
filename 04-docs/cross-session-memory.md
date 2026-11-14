@@ -12,7 +12,7 @@ The system has four layers, each solving a different problem:
 
 **Problem it solves:** "What's the current state of everything I'm working on?"
 
-A compact file (~40 lines) that captures the current state of all active work. There are two: one for work and one for personal projects. The session commands pick the file that matches the session. This is the primary orientation file — the first thing `/session-start` loads, and the most frequently updated layer. Updated by `/session-end` at the end of each substantive session.
+A compact file (under 15,000 bytes) that captures the current state of all active work. There are two: one for work and one for personal projects. The session commands pick the file that matches the session. This is the primary orientation file — the first thing `/session-start` loads, and the most frequently updated layer. Updated by `/session-end` at the end of each substantive session.
 
 **Sections:**
 * **Active Work** — Current projects with status, key details, and what's next
@@ -22,7 +22,7 @@ A compact file (~40 lines) that captures the current state of all active work. T
 
 **Why it exists separately from the session log:** The session log is append-only and grows over time. Stable facts is a living snapshot that gets rewritten to reflect current reality. It answers "what's true right now?" while the session log answers "what happened recently?"
 
-**Maintenance:** Keep it under ~60 lines. When active work items are completed or blockers are resolved, remove them. `/session-end` proposes updates as part of its workflow.
+**Maintenance:** Keep each file under 15,000 bytes, measured with `wc -c`. A line count can't see growth when every entry is one long line. Write each entry as the current state, the next action, and a pointer to where the detail lives, in about 400 characters. When active work items are completed or blockers are resolved, remove them. `/session-end` measures the file, prunes it, and updates it as part of its workflow.
 
 ### 2. Session Log (`01-context/session-log-work.md`, `01-context/session-log-personal.md`)
 
@@ -94,6 +94,7 @@ Run this at the end of any substantive work session. It:
 4. **Updates the matching `01-context/stable-facts-*.md` file** — adds/updates active work items, recent decisions, blockers, and environment changes based on the session. Removes entries that are no longer true.
 5. Adds the entry to the top of the matching `01-context/session-log-*.md` file
 6. Warns if the file has grown past 50 entries
+7. Commits the session's files, staged by explicit path, and pushes them
 
 You don't need to run this for quick questions or trivial tasks. The command will tell you if it thinks the session wasn't substantial enough.
 
@@ -105,7 +106,7 @@ Run this at the beginning of work sessions, or when resuming prior work. It:
 
 1. Reads `01-context/corrections.md` (internalizes it silently)
 2. Reads the matching `01-context/stable-facts-*.md` file for current work state, blockers, and environment
-3. Reads the last 3 entries from the matching `01-context/session-log-*.md` file
+3. Lists the entry headings in the matching `01-context/session-log-*.md` file and reads 3 entries: the newest ones whose heading matches the topic you passed, or the newest 3 when you pass none
 4. Presents a brief summary of current state, recent sessions, and any open threads
 5. Offers to load relevant skills or project context if there's a clear pattern
 6. Confirms it's ready to work
@@ -123,7 +124,7 @@ AGENTS.md (always loaded)
 /session-start command (beginning of session)
   ├── Reads corrections.md (internalized)
   ├── Reads stable-facts-*.md (current work state)
-  ├── Reads last 3 session-log-*.md entries
+  ├── Reads 3 session-log-*.md entries (topic-matched, else newest)
   └── Offers to load relevant context
 
 /session-end command (end of session)

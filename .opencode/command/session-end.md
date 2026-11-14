@@ -1,6 +1,6 @@
 ---
 name: session-end
-description: Write a session handoff note before ending a substantive work session
+description: Write a session handoff note, promote learnings, then commit and push the session's files
 ---
 
 # Session End
@@ -21,7 +21,7 @@ $ARGUMENTS
 
 Review what happened in this conversation. Only write a handoff note if the session involved **substantive work** — decisions made, problems investigated, documents created, or significant context built up. Skip if the session was just a quick question or trivial task.
 
-If the session wasn't substantive enough for a handoff note, say so and end.
+If the session wasn't substantive enough for a handoff note, say so. If it still edited product-ai files, go to step 7 to commit them; otherwise end.
 
 **Admission quality check:** For each piece of information you'd include in the handoff note, ask:
 * **Novel?** Does this extend or contradict something already in the system (skills, commands, stable-facts)? If it's already baked in, don't re-store it.
@@ -91,13 +91,15 @@ Based on whether this session was work or personal, read and update the matching
 
 If the session crossed both domains, update both.
 
-**Prune first, then update.** Before adding anything new, review every existing entry against these questions:
+**Measure, prune, then update.** Record the file's size with `wc -c <file>` before touching it. Then, before adding anything new, review every existing entry against these questions:
 
 **Active Work — for each item, ask:**
 1. **Still active?** Has this shipped, been abandoned, or become someone else's problem? If yes → remove.
 2. **Stale?** Has this item had no session activity in 4+ weeks AND no open threads? If yes → propose removal.
 3. **Redundant?** Is this captured better in a project CONTEXT.md or decision log? If yes → remove from stable-facts (it's duplicated context).
-4. **Too detailed?** Does the entry contain investigation details, file paths, or implementation notes that were useful at the time but aren't needed for orientation anymore? If yes → trim to 1-2 sentences or remove.
+4. **Longer than the entry form?** Rewrite it to the form below.
+
+**Entry form (every bullet in the file):** the current state, the next action, and a pointer to where the detail lives (a project CONTEXT, the repo's own instructions, a note, or the session log), in about 400 characters. Release histories, issue lists, commit hashes, and investigation notes belong at the pointer's target. If a detail exists nowhere else, move it to its home before cutting it here.
 
 **Recent Decisions — for each item, ask:**
 - Is this older than 6 weeks? If yes → remove (it's baked in or no longer relevant).
@@ -113,9 +115,11 @@ If the session crossed both domains, update both.
 * **Add** recent decisions worth tracking
 * **Add/remove** blockers
 * **Update** environment facts if tools, access, or setup changed
-* **Update** the "Last updated" date
+* **Set** the header line to `**Last updated:** YYYY-MM-DD`, with nothing after the date. The session log is the changelog.
 
-Keep the file compact (<60 lines). If Active Work grows beyond ~12 items, that's a signal that pruning isn't aggressive enough — force-rank and cut.
+Write new and updated entries in the entry form. Detail worth keeping from this session goes in the session-log entry from step 2, and stable facts gets the pointer.
+
+**Size budget: 15,000 bytes per file.** Run `wc -c <file>` again after your edits. If it's over budget, rewrite or cut the longest entries first and re-measure until it's under. If Active Work grows beyond ~12 items, that's a signal that pruning isn't aggressive enough — force-rank and cut.
 
 Apply prunes and updates directly. The final Confirm step lists what changed; user can spot-check or revert via git.
 
@@ -133,14 +137,30 @@ Include a **Promoted:** field in the session log entry if any infrastructure fil
 
 After writing, count the number of H2 entries in the file. If there are more than 50, warn the user that it's time to archive older entries.
 
-### 7. Confirm
+### 7. Commit and Push
+
+Run this after every edit from this session is written, including steps 3–6. Running `/session-end` is the request to commit and push product-ai.
+
+**Settle open offers first.** If this session or this run offered to change a file ("Want me to update X?") and the user hasn't answered, ask now. Make the changes they accept, drop the ones they decline, and only then commit.
+
+1. **List the session's files.** That means every product-ai file this session created or edited: notes, CONTEXTs, the session log, stable-facts, corrections and system files. `git status` also shows other sessions' uncommitted work, so build the list from this session's edits rather than from the status output. Leave out gitignored files.
+2. **Check each file's diff** (`git diff -- <path>`). Hunks this session didn't write, such as an earlier session's uncommitted edits to the same file, go into the commit without asking; name them in the report. Stop and ask only if another live session is still editing that file: `ListAgents` shows a peer in this repo and the file changed in the last few minutes.
+3. **Stage by explicit path:** `git add -- <path> ...`. Confirm `git diff --cached --name-only` lists exactly the session's files. Never use `git add -A`, `git add .` or `git up` (it stages the whole worktree), and never `--amend`.
+4. **Commit** with a subject that names the session's main outcome and a short body saying what changed and why. End with the commit attribution line the harness provides.
+5. **Push** with a bare `git push`, unpiped. If the remote has moved on, run `git pull --rebase --autostash`, then push again. If the rebase or the autostash conflicts, stop and report; don't resolve it. If a permission rule blocks the push, give the user `! git push` to run themselves.
+6. **Verify on the remote side:** `git status -sb` shows nothing ahead of `origin/main`, and `git log origin/main -1 --format=%h` matches the new commit.
+
+Edits in other repos (shared skill repos, side projects) follow that repo's own branch and review process. List them in the report and leave them uncommitted.
+
+### 8. Confirm
 
 Report in this order so a bad change is easy to catch:
 
 * **High-blast edits (flag prominently if present):** any edits to `.opencode/skills/`, `.opencode/command/`, `.opencode/agent/`, or `AGENTS.md`. These load into every future session — if the user disagrees, they'll want to revert immediately.
-* **Stable-facts changes:** removed entries, updated entries, "Last updated" bump.
+* **Stable-facts changes:** removed entries, updated entries, and each file's size before and after in bytes (flag any file still over the 15,000-byte budget).
 * **Corrections:** entries added, entries retired (baked in elsewhere).
 * **Project CONTEXT / decisions.md:** what was changed.
 * **Session log:** which file got the entry, plus current H2 count (warn if >50).
+* **Commit:** short SHA, file count, and whether the push landed. List files left uncommitted on purpose (other sessions' work, other repos).
 
-Format the report so the user can scan it in <10 seconds and spot anything that looks wrong. Revert path: `git diff` + `git checkout -- <file>` for any single change.
+Format the report so the user can scan it in <10 seconds and spot anything that looks wrong. Revert path: `git revert <sha>` for the session commit, or `git checkout <sha>^ -- <file>` for a single file.

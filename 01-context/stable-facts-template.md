@@ -6,8 +6,8 @@ Current state of work, maintained by `/session-end`. Load at session start for i
 
 ## Active Work
 
-* **[Project/initiative name]:** [Current status. Key details: what phase it's in, who's involved, what's next.]
-* **[Project/initiative name]:** [Current status.]
+* **[Project/initiative name]:** [Current state. Next action. Pointer to where the detail lives. About 400 characters.]
+* **[Project/initiative name]:** [Current state.]
 
 ## Recent Decisions
 
