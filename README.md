@@ -61,7 +61,7 @@ The prompts and context files work in any LLM assistant. The commands, agents, a
 * [`/doc-review`](.opencode/command/doc-review.md) -- Review generated files for accuracy, completeness, and style
 * [`/new-project`](.opencode/command/new-project.md) -- Scaffold a new project brain folder
 * [`/session-start`](.opencode/command/session-start.md) -- Load recent session context and corrections at the start of a work session
-* [`/session-end`](.opencode/command/session-end.md) -- Write a session handoff note before ending a work session
+* [`/session-end`](.opencode/command/session-end.md) -- Write a session handoff note, promote learnings, then commit and push the session's files
 
 ### Docs
 
