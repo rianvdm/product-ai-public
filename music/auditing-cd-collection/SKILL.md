@@ -91,7 +91,7 @@ Evidence, strongest first. All of it lands in the sheet's `Why flagged` column s
 1. **Encodings are not remasters.** HDCD, SACD, multichannel and Sony SBM shipped on plenty of *original* releases — DC Talk *Supernatural* and Lifehouse *No Name Face* are HDCD originals. They only count as evidence when the disc also postdates the album by 3+ years. Without this gate ~19 originals get flagged.
 2. **Pre-1983 albums must be measured from the CD era.** The first CD of a 1971 album necessarily arrives a decade late and is still the original CD master. The rubric compares against `max(album_year, 1983)`. Without it the whole classic-rock shelf looks suspect.
 3. **`\bre-?master` needs the word boundary.** Without it the regex matches "P|re-Master|ing" — the WCI Record Group credit printed on genuinely original 80s pressings. Cost two false positives (Phil Collins *Face Value*, Prince *Purple Rain*).
-4. **Catalog numbers must be split before comparing.** Discogs packs several into one field (`"16029-2, 299 143"`) while a release's own labels list them separately. Normalising both sides to one blob makes every partial match fail silently. Splitting on the comma first moved 7 albums out of the "differs from the earliest CD" bucket. See [[finding-original-cds]], which carries the same gotcha.
+4. **Catalog numbers must be split before comparing.** Discogs packs several into one field (`"16029-2, 299 143"`) while a release's own labels list them separately. Normalising both sides to one blob makes every partial match fail silently. Splitting on the comma first moved 7 albums out of the "differs from the earliest CD" bucket. The shared Discogs reference (`finding-original-cds/discogs-api.md`) carries the same gotcha.
 
 ## Two replacement columns, and why
 
@@ -127,7 +127,7 @@ Transcribe it from `05-personal/music/cd-purchases-in-flight.md`, which is hand-
 
 ## Gotchas
 
-- **The wantlist read needs the PAT**, not the MCP — `elezea-records`, not `rianvdm`. See [[finding-original-cds]] for the auth details and the listing-lag warning.
+- **The wantlist read needs the PAT**, not the MCP — `elezea-records`, not `rianvdm`. See `finding-original-cds/discogs-api.md` for the auth details and the listing-lag warning.
 - **`gws` takes the request body on the command line**, and macOS caps that at 1 MB. `build_sheet.py` chunks values at 110 rows and `format_sheet.py` batches requests at 22 for this reason. Don't raise them.
 - **Catalog numbers must be written as text.** `USER_ENTERED` turns `0602567565659` into a number and eats the leading zero; the `cell(force_text=…)` path prefixes an apostrophe.
 - **Bound the checkbox data-validation range.** An unbounded range paints checkboxes onto the spare grid rows, so `values.get` reports more rows than exist.

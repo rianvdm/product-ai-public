@@ -16,45 +16,13 @@ Default target is a **US CD** unless the user says otherwise.
 - "Find an original / non-remastered CD of [album]" · "add the original pressing to my wantlist"
 - "Which [album] CD should I get / buy?" · comparing pressings · avoiding remaster/deluxe/anniversary editions
 
-Not for: vinyl-specific hunts (same method, swap the format filter), buying/checkout, or non-Discogs catalogs.
+Not for: vinyl (use `finding-original-vinyl`), buying/checkout, or non-Discogs catalogs.
 
-## Tool reality — what returns what
+## Discogs API mechanics
 
-| Need | Tool | Returns | Missing |
-|------|------|---------|---------|
-| List pressings | `search_discogs(type="release")` | format, label, year, ID | **country, have/want** |
-| Pressing details | `get_release(<id>)` (MCP) | country, catalog #, format, tracklist | **have/want, price** |
-| Have/want + stock | `WebFetch https://api.discogs.com/releases/<id>` | `community.have`/`want`, `num_for_sale`, country, year, catalog | **a trustworthy price** — see below |
-| **The price you quote** | `curl "https://api.discogs.com/marketplace/stats/<id>?curr_abbr=USD"` | live `{num_for_sale, lowest_price, blocked_from_sale}` | — (the only current figure) |
-| Which master is on the disc | same call → `identifiers[]` (`type == "Matrix / Runout"`) + `notes` | matrix runout, SID codes, pressing-plant IDs, manufacturing-window notes | — (the only hard evidence; see matrix section) |
-| Cover/case photos | `curl api.discogs.com/releases/<id>` → `images[].uri`, then download + `Read` | public image URLs (no auth), then view the JPEGs | discogs.com **website** blocks `WebFetch` (403); the **API** doesn't |
-| Add | `add_to_wantlist(release_id)` | confirmation | takes **release_id only** |
+**Before the first Discogs call, read [discogs-api.md](discogs-api.md)**: what each endpoint returns, why the price comes from `/marketplace/stats` and never the release record, the versions-feed tag trap, rate limits, and wantlist writes.
 
-- **Quote price from `/marketplace/stats/<id>`, never from the release record.** The release object's `lowest_price` goes stale and gives no sign of it. Sampled across 10 releases on 2026-08-16, **3 disagreed with the live figure** — *Ziggy Stardust* `12217950` read **$0.20** on the release and **$31.38** on marketplace stats, a 157× error that put a $31 disc on the wantlist as if it were pocket change. The other two were off by ~$1 in both directions. `num_for_sale` matched in all 10, so the release record is fine for stock depth; it's the price field that lies. One extra call per finalist.
-- **No marketplace tools exist.** `lowest_price` is the **global** low, not US-seller-only. You cannot filter by seller location — hand off `https://www.discogs.com/sell/release/<id>?ships_from=United States`.
-- **The wantlist listing lags after writes.** A successful `add_to_wantlist` worked even if `get_wantlist` doesn't show it yet. To confirm a removal, re-issue the DELETE — a `404 "does not exist in the user's wantlist"` proves it's gone.
-- **The `/versions` feed can hide a `Remastered` tag — never filter remasters on it alone.** Its `format` string is not a faithful flattening of the release's `formats[]`; it appears to carry only the *first* format object's descriptions, so a `Remastered` hanging off a second `All Media` entry vanishes. On *Ziggy Stardust* (master `1561`), release `1030082` reads `Album, Reissue` in the versions feed but `CD:Album/Reissue, CD:Compilation, All Media:Remastered` at release level — it's the 2002 30th Anniversary 2CD remaster, and it survived a keyword filter into the shortlist. Same trap on `9599077`. **Use `/versions` for cheap fan-out (country, catalog, have-counts), then confirm every finalist against `/releases/<id>` `formats[]` before ranking it.**
-- **For a big catalogue title, go straight to the versions endpoint — `search_discogs` won't cope.** *Thriller* has 59 US CD versions and *Bad* 37, far past what a 50-result release search surfaces usefully. `curl "https://api.discogs.com/masters/<id>/versions?format=CD&country=US&per_page=100"` returns every pressing **with `stats.community.in_collection` inline**, so one call gives you the country filter and the have-counts together and you only fetch `/releases/<id>` for the handful of finalists. Get the master id from `database/search?type=master`.
-- **Don't retry a 429 more than once, and never in a tight loop.** A `429`/`504` from the MCP means Discogs is throttling a shared egress IP, and repeated attempts extend the penalty (see [[corrections]] → Discogs API Rate Limits). One retry after a window reset is the limit; after that, hand Rian the `discogs.com/release/<id>` pages. Three manual retries are what tripped the circuit breaker on 2026-08-04.
-- **MCP rate-limit fallback.** The discogs MCP has a circuit breaker that trips for ~10 min under load (`"Discogs rate-limit circuit tripped", retryAfterSecs: <n>`) — it takes down `search_discogs`, `get_release`, **and** the wantlist tools at once. The **public API needs no auth for reads**, so you can keep working: `curl "https://api.discogs.com/database/search?q=<Artist>+<Album>&type=master"` returns master IDs, and `/masters/<id>/versions?format=CD&country=US` + `/releases/<id>` already work unauthenticated. **Wantlist writes work over the PAT too** — so a tripped circuit blocks nothing.
-
-```bash
-curl -X PUT    -H "Authorization: Discogs token=$DISCOGS_TOKEN" -A "<UA>" \
-  "https://api.discogs.com/users/elezea-records/wants/<release_id>"   # 201 = added
-curl -X DELETE -H "Authorization: Discogs token=$DISCOGS_TOKEN" -A "<UA>" \
-  "https://api.discogs.com/users/elezea-records/wants/<release_id>"   # 204 = removed
-```
-
-Re-issue the DELETE to confirm a removal — `404 "does not exist in the user's wantlist"` proves it. When the MCP 429s, do the whole add/remove flow over curl rather than stopping; still respect the one-retry rule on the MCP itself.
-
-**Wantlist reads work without the MCP too.** Rian's Discogs username is **`elezea-records`** (not `rianvdm` — that returns nulls). A `DISCOGS_TOKEN` is stored in both `~/git/product-ai/.env` and `~/.config/ebay/credentials.env`; either works for reads, but only the one in `~/.config/ebay/credentials.env` can write (the product-ai token returns 403 on wantlist add/remove), so source that file for the PUT/DELETE above. A read:
-
-```bash
-curl -s -H "Authorization: Discogs token=$DISCOGS_TOKEN" -H "User-Agent: <UA>" \
-  "https://api.discogs.com/users/elezea-records/wants?per_page=100"
-```
-
-A PAT also raises the rate limit to 60/min. Prefer it over burning retries on a throttled MCP.
+For a big catalogue title, go straight to `/masters/<id>/versions?format=CD&country=US&per_page=100`. *Thriller* has 59 US CD versions and *Bad* 37, far more than a 50-result `search_discogs` surfaces usefully, and the versions feed carries have-counts inline.
 
 ## Steps
 
@@ -81,7 +49,7 @@ Originality preference: original-era (release year ≈ album year) > reissue/rep
 - **Reissue / Repress** — format says `Reissue` or `Repress` (or just carries a later/blank year); *nominally* the same master, later run. **OK — this is the common, acceptable case; don't overthink it.** The tag is user-submitted, though, so it's a claim about the run, not a guarantee about the audio — see the matrix section for when to actually check.
 - **Remaster / Deluxe / Anniversary** — format says `Remastered`, or a later year with extra tracks/discs; different sound. **Avoid.** **Catalog-number tell:** a remaster almost always gets a *new* catalog number while plain reissues keep the original's — so same catalog # as the first press is *strong evidence* of the same (non-remastered) master. E.g. SRV *Texas Flood* `EK 38734` (original + all its reissues) vs `EK 65870`/`88697830242` (remasters); Sade *Love Deluxe* `EK 53178` vs `EK 85243` remaster; every non-remaster Pink Floyd DSOTM shares `CDP 7 46001 2`. **It is evidence, not proof** — labels do keep printing the old catalog number on runs pressed after a remaster exists. When it matters, confirm with the matrix runout (next section).
 
-  **Split catalog numbers before comparing them.** The `/masters/<id>/versions` endpoint packs several into one `catno` string — `"16029-2, 299 143"` — while `/releases/<id>` lists them separately under `labels[]`. Strip punctuation off both sides without splitting on the comma first and you compare `160292299143` against `160292`, which never matches, so a genuine same-catalog pressing silently reads as "different catalog." Split on `[,;/]`, normalise each part, then intersect the sets. This is what hid the fact that Rian's 1990 Phil Collins *Face Value* `16029-2` carries the same catalog as the 1985 and 1988 pressings, against the 2016 remaster's `R2 550171` (found 2026-08-05; fixing it moved 7 albums out of the "different catalog" bucket in the collection-wide audit).
+  **Split catalog numbers before comparing them.** The `/masters/<id>/versions` endpoint packs several into one `catno` string — `"16029-2, 299 143"` — while `/releases/<id>` lists them separately under `labels[]`. Strip punctuation off both sides without splitting on the comma first and you compare `160292299143` against `160292`, which never matches, so a genuine same-catalog pressing silently reads as "different catalog." Split on `[,;/]`, normalise each part, then intersect the sets. This is what hid the fact that a 1990 Phil Collins *Face Value* `16029-2` carries the same catalog as the 1985 and 1988 pressings, against the 2016 remaster's `R2 550171` (found 2026-08-05; fixing it moved 7 albums out of the "different catalog" bucket in the collection-wide audit).
 - **Club Edition** — BMG/Columbia House mail-order pressing. Often tagged `Club Edition`, but the tell is a catalog # starting with `D` (e.g. `D 110473`) instead of a normal barcode. Different packaging/quality (and sometimes swaps a digipak for a jewel case, or vice versa). **Avoid.**
 
 ## "Should I replace a remaster I already own?" — check, don't assume
@@ -114,21 +82,14 @@ The rubric above says avoid remasters when *buying*. It does **not** follow that
 
 ## Confirming the master from the matrix runout
 
-The catalog number can lie; the **matrix runout** is the physical evidence. It's in the release API under `identifiers[]` where `type == "Matrix / Runout"` — free, unauthenticated, same `curl` you already made:
-
-```bash
-curl -s -A "<UA>" "https://api.discogs.com/releases/<id>" | python3 -c "
-import sys,json; r=json.load(sys.stdin)
-print((r.get('notes') or '')[:400])
-[print(' ',i.get('type'),'|',i.get('description'),'|',i.get('value')) for i in r.get('identifiers',[])]"
-```
+The catalog number can lie; the **matrix runout** is the physical evidence. It's in the release API under `identifiers[]` where `type == "Matrix / Runout"` — free, unauthenticated, same `curl` you already made (the snippet is in [discogs-api.md](discogs-api.md) → Runouts).
 
 **What to look for:** a matrix that embeds the **mastering catalog code** ties the disc to a known master. `2A EK38112 46 C2` carries `EK38112` — the original *Thriller* master — so every pressing showing `1A/2A EK 38112` is the original regardless of its Discogs year. A matrix with only a **manufacturing part number** and no mastering code (`DIDP-020022 28` — Sony's part ID) identifies the plant run, **not the master**, and proves nothing.
 
 **When to bother.** Not every time — for a cheap 90s reissue with a clean catalog match, skip it. Run the check when:
 - The pressing's manufacturing window **straddles a known remaster date** (Discogs `notes` often state the window, e.g. "manufactured between 1995 and 2003" vs the Oct 2001 Epic remasters). This is the trap.
 - The year is blank *and* the release is a finalist you're about to add.
-- Rian asks about sound quality, or pushes back on a "same master" claim.
+- The user asks about sound quality, or pushes back on a "same master" claim.
 
 **When the matrix can't confirm it, say so plainly** and pick a sibling that can. Don't upgrade "no contrary evidence" into "verified." On 2026-08-04 a *Thriller* repress (`4548499`, `DIDP-020022`, mfg 1995–2003) was recommended as a safe non-remaster on the catalog-number heuristic alone; the matrix carried no mastering code and the window ran past the 2001 Grundman remaster. Swapped for `10343315` (`2A/1A EK 38112`, in stock, same price).
 
